@@ -1,16 +1,15 @@
 // dependencies
-var Statique = require ("statique")
+var Statique = global.Statique = require ("statique")
+  , Config = global.Config = require ("./config.js")
   , Url = require("url")
   , Http = require ("http")
   , Apis = require ("./apis")
-  , Config = require ("./config.js")
-  , Marked = require("marked")
   , port = process.env.PORT || 8080
   ;
 
 // statique config
 Statique
-    .server({root: Config.gitSite.path})
+    .server({root: Config.gitSite.paths.ROOT})
     .setRoutes(Config.gitSite.parsed.roots.pages)
   ;
 
@@ -24,6 +23,12 @@ Http.createServer (function(req, res) {
     if (pathName.slice(-1) !== "/") {
         // if yes, add "/"
         pathName += "/";
+    }
+
+    var route = Statique.getRoute (pathName);
+    if (route) {
+        Apis.handlePage (req, res, pathName, route);
+        return;
     }
 
     // maybe the route is an api url
