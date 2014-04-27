@@ -1,5 +1,108 @@
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:800&subset=latin,latin-ext);
-h1 {
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:800,400&subset=latin,latin-ext);
+body {
     font-family: 'Open Sans', 'sans-serif';
+    padding: 0 2.6em;
+    color: #2c3e50;
+}
+
+a {
+    color: #2980b9;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+h1, h2, h3, h4, h5, h6 {
     font-weight: 900;
+}
+
+h1.social {
+    font-size: 2em !important;
+}
+
+.container {
+    width: 100%;
+    max-width: 990px;
+    margin: 0 auto;
+}
+
+img {
+    max-width: 100%;
+    max-height: 1000%;
+}
+
+img.rounded {
+    border-radius: 100%;
+}
+
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+    text-decoration: none;
+    color: #000000;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.header {
+    border-bottom: 5px solid #dddddd;
+    margin: 0 0 5.8em;
+    padding: 4em 0;
+}
+
+.content {
+    border-bottom: 5px solid #dddddd;
+    padding-bottom: 4em;
+    text-align: justify;
+}
+
+.header img {
+    width: 120px;
+    height: 120px;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 1.2em;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+
+.header h2 {
+    color: #939393;
+    font-size: .8em;
+    text-transform: uppercase;
+}
+
+div.footer {
+    padding: 1.5em 0;
+}
+
+/* Large desktop */
+@media (min-width: 1370px) {
+    .content {
+        font-size: 1.2em;
+    }
+}
+
+/* Portrait tablet to landscape and desktop */
+@media (min-width: 768px) and (max-width: 1370px) {
+    .content {
+        font-size: 1em;
+        padding-bottom: 2em;
+    }
+
+    .header {
+        margin: 0 0 2em;
+        padding: 2em 0;
+    }
+}
+
+/* Landscape phone to portrait tablet */
+@media (max-width: 767px) {
+}
+
+/* Landscape phones and down */
+@media (max-width: 480px) {
+
 }

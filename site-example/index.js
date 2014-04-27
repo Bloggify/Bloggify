@@ -5,7 +5,7 @@ global.SITE_CONFIG = {
   , url: "http://ionicabizau.net"
   , cache: {
         initOnStart: true
-      , ttl: 60 * 1000
+      , ttl: 60 * 1000 * 0
     }
   , paths: {
         roots: {
