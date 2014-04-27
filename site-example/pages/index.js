@@ -1,4 +1,4 @@
 module.exports = {
-    "/": __dirname + "/home.md"
-  , "/contact": __dirname + "/contact.md"
+    "/":        SITE_CONFIG.roots._pages + "/home.md"
+  , "/contact": SITE_CONFIG.roots._pages + "/contact.md"
 };
