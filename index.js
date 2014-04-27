@@ -5,12 +5,10 @@ var JohnnysStatic = require ('johnnys-node-static')
   , Http = require ('http')
   , Apis = require ("./apis")
   , Config = require ("./config.js")
+  , port = process.env.PORT || 8080
   ;
 
-// set webroot
-var port = process.env.PORT || 8080;
 
-// set file variable
 JohnnysStatic.setStaticServer({root: "./public"});
 JohnnysStatic.setRoutes({
     "/": { url: "/html/index.html" }
