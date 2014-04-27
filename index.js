@@ -1,7 +1,6 @@
-var Url = require('url');
-
 // dependencies
-var JohnnysStatic = require ("johnnys-node-static")
+var Statique = require ("statique")
+  , Url = require("url")
   , Http = require ("http")
   , Apis = require ("./apis")
   , Config = require ("./config.js")
@@ -9,9 +8,11 @@ var JohnnysStatic = require ("johnnys-node-static")
   , port = process.env.PORT || 8080
   ;
 
-  debugger;
-JohnnysStatic.setStaticServer({root: Config.gitSite.path});
-JohnnysStatic.setRoutes(Config.gitSite.parsed.roots.pages);
+// statique config
+Statique
+    .server({root: Config.gitSite.path})
+    .setRoutes(Config.gitSite.parsed.roots.pages)
+  ;
 
 // create server
 Http.createServer (function(req, res) {
@@ -19,50 +20,22 @@ Http.createServer (function(req, res) {
     // get the url
     var pathName = Url.parse(req.url, true).pathname;
 
-    // verify if it doesn't end with '/'
+    // verify if it doesn"t end with "/"
     if (pathName.slice(-1) !== "/") {
-        // if yes, add '/'
+        // if yes, add "/"
         pathName += "/";
-    }
-
-    debugger;
-
-    // if it exists
-    if (JohnnysStatic.exists(req, res)) {
-
-        // serve the file
-        JohnnysStatic.serve(req, res, function (err) {
-
-            // not found error
-            if (err.code === "ENOENT") {
-                res.end("404 - Not found.");
-            }
-
-            // other error
-            res.end(err.toString());
-        });
-
-        return;
     }
 
     // maybe the route is an api url
     var api = Apis[pathName];
     if (typeof api === "function") {
-        api (req, res);
-        return;
+        return api (req, res);
     }
 
-    // serve file
-    JohnnysStatic.serveAll(req, res, function(err, result) {
-        // check for error
-        if (err) {
-            res.writeHead(err.status, err.headers);
-            res.end();
-        } else {
-            console.log('%s - %s', req.url, result.message);
-        }
-    });
+    debugger;
+    // serve files
+    Statique.sendRes (req, res);
 }).listen(port);
 
 // print some output
-console.log('node-static running at http://localhost:%d', port);
+console.log("Statique server running at http://localhost:%d", port);
