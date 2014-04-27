@@ -4,7 +4,7 @@
   "description": "Git based CMS/Blog",
   "main": "index.js",
   "dependencies": {
-    "statique": "~0.2.2"
+    "statique": "~0.2.3"
   },
   "devDependencies": {},
   "scripts": {
