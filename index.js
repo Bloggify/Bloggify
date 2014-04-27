@@ -3,7 +3,7 @@ var Url = require('url');
 // require node-static
 var JohnnysStatic = require ('johnnys-node-static')
   , Http = require ('http')
-  , Apis = require ("./apis");
+  , Apis = require ("./apis")
   , Config = require ("./config.js")
   ;
 
