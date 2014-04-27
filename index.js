@@ -33,7 +33,7 @@ Http.createServer (function(req, res) {
     }
 
     // serve files
-    Statique.sendRes (req, res);
+    Statique.serve (req, res);
 }).listen(port);
 
 // print some output
