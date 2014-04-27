@@ -1,19 +1,17 @@
 var Url = require('url');
 
-// require node-static
-var JohnnysStatic = require ('johnnys-node-static')
-  , Http = require ('http')
+// dependencies
+var JohnnysStatic = require ("johnnys-node-static")
+  , Http = require ("http")
   , Apis = require ("./apis")
   , Config = require ("./config.js")
+  , Marked = require("marked")
   , port = process.env.PORT || 8080
   ;
 
-
-JohnnysStatic.setStaticServer({root: "./public"});
-JohnnysStatic.setRoutes({
-    "/": { url: "/html/index.html" }
-});
-
+  debugger;
+JohnnysStatic.setStaticServer({root: Config.gitSite.path});
+JohnnysStatic.setRoutes(Config.gitSite.parsed.roots.pages);
 
 // create server
 Http.createServer (function(req, res) {
@@ -26,6 +24,8 @@ Http.createServer (function(req, res) {
         // if yes, add '/'
         pathName += "/";
     }
+
+    debugger;
 
     // if it exists
     if (JohnnysStatic.exists(req, res)) {
