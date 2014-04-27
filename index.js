@@ -32,7 +32,6 @@ Http.createServer (function(req, res) {
         return api (req, res);
     }
 
-    debugger;
     // serve files
     Statique.sendRes (req, res);
 }).listen(port);
