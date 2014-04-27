@@ -4,6 +4,7 @@ var Url = require('url');
 var JohnnysStatic = require ('johnnys-node-static')
   , Http = require ('http')
   , Apis = require ("./apis");
+  , Config = require ("./config.js")
   ;
 
 // set webroot
