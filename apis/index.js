@@ -42,6 +42,7 @@ function readFile (path, callback) {
 }
 
 module.exports["handlePage"] = function (req, res, pathName, route) {
+    route = SITE_CONFIG.paths.roots.pages + route;
     readFile (route, function (err, fileContent) {
 
         if (err) {
