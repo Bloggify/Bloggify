@@ -42,4 +42,4 @@ Http.createServer (function(req, res) {
 }).listen(port);
 
 // print some output
-console.log("Statique server running at http://localhost:%d", port);
+console.log("Server running at http://localhost:%d", port);
