@@ -95,6 +95,30 @@ module.exports["handlePage:GET"] = function (req, res, pathName, route) {
             return Statique.sendRes (res, 500, "html", "Internal server error");
         }
 
+        // convert page object to array
+        var pageArray = []
+          , pages = SITE_CONFIG.parsed.roots.pages
+          , pageHtml = "";
+          ;
+
+        for (var url in pages) {
+            var cPage = JSON.parse(JSON.stringify(pages[url]));
+            cPage.url = url;
+            pageArray.push (cPage);
+        }
+
+        pageArray.sort (function (a, b) {
+            return a.order > b.order;
+        });
+
+        for (var i = 0; i < pageArray.length; ++i) {
+            var cPageObj = pageArray[i];
+            pageHtml +=
+                "<li class='page'>\n"
+              + "    <a href='" + cPageObj.url + "'>" + cPageObj.label + "</a>\n"
+              + "</li>\n";
+        }
+
         // success response
         Statique.sendRes (res, 200, "text/html",
             SITE_CONFIG.parsed.roots.template.page.replace (
@@ -103,6 +127,9 @@ module.exports["handlePage:GET"] = function (req, res, pathName, route) {
             ).replace(
                 "{{TITLE}}"
               , SITE_CONFIG.title
+            ).replace(
+                "{{PAGES}}"
+              , pageHtml
             )
         );
     });
