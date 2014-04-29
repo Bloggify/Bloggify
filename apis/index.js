@@ -113,6 +113,7 @@ module.exports["handlePage:GET"] = function (req, res, pathName, route) {
 
         for (var i = 0; i < pageArray.length; ++i) {
             var cPageObj = pageArray[i];
+            if (cPageObj.visible === false) { continue; }
             pageHtml +=
                 "<li class='page'>\n"
               + "    <a href='" + cPageObj.url + "'>" + cPageObj.label + "</a>\n"
