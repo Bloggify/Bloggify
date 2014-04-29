@@ -1,3 +1,4 @@
+// dependencies
 var Marked = require("marked")
   , QueryString = require ("querystring")
   , fileCache = {
@@ -9,12 +10,18 @@ var Marked = require("marked")
         }
     };
 
+/**
+ *  This function reads a file from hard disk or from cache
+ *  deleting it after the ttl timeout expires.
+ *
+ */
 function readFile (path, callback) {
 
+    // try to get the file from cache
     var fromCache = fileCache[path];
     if (fromCache) {
 
-        // update ttl
+        // reset timeout
         fromCache.ttl = setTimeout (function () {
             console.log("Deleting " + path);
             delete fileCache[path]
@@ -24,6 +31,7 @@ function readFile (path, callback) {
         return callback (null, fromCache.content);
     }
 
+    // read file using statique
     Statique.readFile (path, function (err, content) {
 
         if (err) {
@@ -42,7 +50,12 @@ function readFile (path, callback) {
     });
 }
 
+/**
+ *  Get form data for POST requests
+ *
+ */
 function getFormData (req, callback) {
+
     var formData = ""
       , error = ""
       ;
@@ -65,8 +78,16 @@ function getFormData (req, callback) {
     });
 }
 
+/**
+ *  Handle GET requests
+ *
+ */
 module.exports["handlePage:GET"] = function (req, res, pathName, route) {
+
+    // build the route
     route = SITE_CONFIG.paths.roots.pages + route;
+
+    // read file
     readFile (route, function (err, fileContent) {
 
         if (err) {
@@ -74,6 +95,7 @@ module.exports["handlePage:GET"] = function (req, res, pathName, route) {
             return Statique.sendRes (res, 500, "html", "Internal server error");
         }
 
+        // success response
         Statique.sendRes (res, 200, "text/html",
             SITE_CONFIG.parsed.roots.template.page.replace (
                 "{{PAGE_CONTENT}}"
@@ -86,7 +108,13 @@ module.exports["handlePage:GET"] = function (req, res, pathName, route) {
     });
 };
 
+/**
+ *  Handle POST requests
+ *
+ */
 module.exports["handlePage:POST"] = function (req, res, pathName, route) {
+
+    // get form data
     getFormData (req, function (err, formData) {
 
         if (err) {
