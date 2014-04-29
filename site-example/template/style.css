@@ -6,9 +6,8 @@ body {
 }
 
 a {
-    color: #2980b9;
+    color: #16a085;
     text-decoration: none;
-    font-weight: bold;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -88,7 +87,8 @@ div.footer {
 }
 
 .page a {
-    color: #2D536D;
+    color: #16a085;
+    font-weight: bold;
 }
 
 /* Large desktop */
@@ -96,6 +96,10 @@ div.footer {
     .content {
         font-size: 1.2em;
     }
+}
+
+a:hover {
+    color: #1abc9c;
 }
 
 /* Portrait tablet to landscape and desktop */
