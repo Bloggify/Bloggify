@@ -25,16 +25,11 @@ Http.createServer (function(req, res) {
         pathName += "/";
     }
 
+    // get route
     var route = Statique.getRoute (pathName);
     if (route) {
-        Apis.handlePage (req, res, pathName, route);
+        Apis["handlePage:" + req.method](req, res, pathName, route);
         return;
-    }
-
-    // maybe the route is an api url
-    var api = Apis[pathName];
-    if (typeof api === "function") {
-        return api (req, res);
     }
 
     // serve files

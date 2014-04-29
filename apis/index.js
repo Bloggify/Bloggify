@@ -1,4 +1,5 @@
 var Marked = require("marked")
+  , QueryString = require ("querystring")
   , fileCache = {
         dummyPath: {
             ttl: setTimeout (function () {
@@ -41,7 +42,30 @@ function readFile (path, callback) {
     });
 }
 
-module.exports["handlePage"] = function (req, res, pathName, route) {
+function getFormData (req, callback) {
+    var formData = ""
+      , error = ""
+      ;
+
+    req.on ("data", function (data) {
+        formData += data;
+    });
+
+    req.on ("error", function (data) {
+        error += data;
+    });
+
+    req.on ("end", function (data) {
+
+        if (error) {
+            return callback (error);
+        }
+
+        callback (null, QueryString.parse (formData));
+    });
+}
+
+module.exports["handlePage:GET"] = function (req, res, pathName, route) {
     route = SITE_CONFIG.paths.roots.pages + route;
     readFile (route, function (err, fileContent) {
 
@@ -59,5 +83,17 @@ module.exports["handlePage"] = function (req, res, pathName, route) {
               , SITE_CONFIG.title
             )
         );
+    });
+};
+
+module.exports["handlePage:POST"] = function (req, res, pathName, route) {
+    getFormData (req, function (err, formData) {
+
+        if (err) {
+            console.error (err);
+            return res.end ("Internal server error");
+        }
+
+        console.log(formData);
     });
 };
