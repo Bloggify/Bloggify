@@ -1,5 +1,1 @@
-module.exports = {
-    "/":        "/home.md"
-  , "/contact": "/contact.md"
-  , "/abl": "/abl.md"
-};
+module.exports = require (__dirname + "/pages.json");
