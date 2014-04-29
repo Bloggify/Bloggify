@@ -8,7 +8,26 @@
     </head>
     <body>
         <div class="container">
-            {{PAGE_CONTENT}}
+            <div class="header">
+                <div class="text-center">
+                    <img src="/pages/avatar.jpg" class="rounded">
+                    <h1>Ionică Bizău</h1>
+                    <h2>Web Developer, <i class="fa fa-linux"></i> Linux geek and <i class="fa fa-music"></i> Musician</h2>
+                    <h1 class="text-center social">
+                        <a href="http://github.com/IonicaBizau" target="blank"><i class="fa fa-github-alt"></i></a>
+                        <a href="http://bitbucket.com/IonicaBizau" target="blank"><i class="fa fa-bitbucket"></i></a>
+                        <a href="http://twitter.com/IonicaBizau" target="blank"><i class="fa fa-twitter"></i></a>
+                        <a href="http://youtube.com/IonicaBizau" target="blank"><i class="fa fa-youtube"></i></a>
+                    </h1>
+                </div>
+            </div>
+            <ul class="pages text-center">
+                <li class="page"><a href="/">Home</a></li>
+                <li class="page"><a href="/contact">Contact</a></li>
+            </ul>
+            <div class="content">
+                {{PAGE_CONTENT}}
+            </div>
             <div class="footer text-center">
                 &copy; 2014 • Ionică Bizău - Created with JavaScript and <i class="fa fa-heart"></i> from Romania.
             </div>

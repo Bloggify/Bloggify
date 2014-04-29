@@ -44,13 +44,10 @@ h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
 }
 
 .header {
-    border-bottom: 5px solid #dddddd;
-    margin: 0 0 5.8em;
-    padding: 4em 0;
+    /* padding: 4em 0; */
 }
 
 .content {
-    border-bottom: 5px solid #dddddd;
     padding-bottom: 4em;
     text-align: justify;
 }
@@ -67,15 +64,31 @@ h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
     text-transform: uppercase;
 }
 
-
 .header h2 {
     color: #939393;
     font-size: .8em;
     text-transform: uppercase;
 }
 
+li.page {
+    display: inline;
+    padding: 0 10px;
+}
+
+ul.pages {
+    list-style-type: none;
+    border-bottom: 5px solid #dddddd;
+    border-top: 5px solid #dddddd;
+    padding: 10px 0;
+}
+
 div.footer {
     padding: 1.5em 0;
+    border-top: 5px solid #dddddd;
+}
+
+.page a {
+    color: #2D536D;
 }
 
 /* Large desktop */
@@ -93,8 +106,7 @@ div.footer {
     }
 
     .header {
-        margin: 0 0 2em;
-        padding: 2em 0;
+        padding-top: 2em;
     }
 }
 

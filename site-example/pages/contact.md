@@ -1,18 +1,24 @@
-### Lorem ipsum dolor
-Dolor sit amet, _consectetur adipisicing elit_, sed do eiusmod **tempor incididunt** ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea **commodo consequat**. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint _occaecat cupidatat non proident_, sunt in culpa qui officia deserunt mollit anim id est laborum.
+If you have any questions, just send me a message. If you just want to say "Hi", that's cool too.
 
-- Some item
-- Some other item
-
-### Lorem ipsum dolor
-Dolor sit amet, _consectetur adipisicing elit_, sed do eiusmod **tempor incididunt** ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea **commodo consequat**. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint _occaecat cupidatat non proident_, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-- Some item
-- Some other item
-
-### Lorem ipsum dolor
-Dolor sit amet, _consectetur adipisicing elit_, sed do eiusmod **tempor incididunt** ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea **commodo consequat**. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint _occaecat cupidatat non proident_, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-- Some item
-- Some other item
-
+<form class="contact-form" action="/contact" method="POST">
+    <table>
+        <tbody>
+            <tr>
+                <td>Name:</td>
+                <td><input type="text" name="name"></td>
+            </tr>
+            <tr>
+                <td>Email Address</td>
+                <td><input type="email" name="email"></td>
+            </tr>
+            <tr>
+                <td>Message</td>
+                <td><textarea name="message"></textarea></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Send"></td>
+            </tr>
+        </tbody>
+    </table>
+</form>
