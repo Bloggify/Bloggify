@@ -7,9 +7,14 @@ var Statique = global.Statique = require ("statique")
   , port = process.env.PORT || 8080
   ;
 
-Config.gitSite.parsed.roots.pages["/admin"] = {
-    url: "/core/html/admin.html"
+Config.gitSite.parsed.roots.pages["/login"] = {
+    url: "/core/html/login.html"
   , visible: false
+};
+
+Config.gitSite.parsed.roots.pages["/blog"] = {
+    url: "/core/html/blog.html"
+  , label: "Blog"
 };
 
 // statique config

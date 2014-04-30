@@ -10,6 +10,37 @@ var Marked = require("marked")
         }
     };
 
+const FORMS = {
+    "contact": function (req, res, formData) {
+        debugger;
+    }
+  , "login": function (req, res, formData) {
+
+        // username
+        if (!formData.username) {
+           return Statique.sendRes (res, 400, "text/html", "Missing username");
+        }
+
+        // password
+        if (!formData.password) {
+            return Statique.sendRes (res, 400, "text/html", "Missing password");
+        }
+
+        // get user
+        var user = SITE_CONFIG.parsed.roots.users[formData.username.toLowerCase()];
+        if (!user) {
+            return Statique.sendRes (res, 400, "text/html", "Invalid username.");
+        }
+
+        // validate password
+        if (user.password !== formData.password) {
+            return Statique.sendRes (res, 403, "text/html", "Invalid password.");
+        }
+
+        Statique.sendRes (res, 200, "text/html", "Successfully logged in");
+    }
+};
+
 /**
  *  This function reads a file from hard disk or from cache
  *  deleting it after the ttl timeout expires.
@@ -84,8 +115,11 @@ function getFormData (req, callback) {
  */
 module.exports["handlePage:GET"] = function (req, res, pathName, route) {
 
-    // build the route
-    route = SITE_CONFIG.paths.roots.pages + route;
+    // handle core pages
+    if (route.indexOf("/core") !== 0) {
+        // build the route
+        route = SITE_CONFIG.paths.roots.pages + route;
+    }
 
     // read file
     readFile (route, function (err, fileContent) {
@@ -150,6 +184,10 @@ module.exports["handlePage:POST"] = function (req, res, pathName, route) {
             return res.end ("Internal server error");
         }
 
-        console.log(formData);
+        if (Object.keys(FORMS).indexOf(formData.formId) !== -1) {
+            return FORMS[formData.formId](req, res, formData);
+        }
+
+        return Statique.sendRes (res, 400, "text/html", "Invalid or missing form id");
     });
 };

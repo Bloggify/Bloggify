@@ -1,6 +1,7 @@
 If you have any questions, just send me a message. If you just want to say "Hi", that's cool too.
 
 <form class="contact-form" action="/contact" method="POST">
+    <input type="hidden" name="formId" value="contact">
     <table>
         <tbody>
             <tr>
