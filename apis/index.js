@@ -142,7 +142,7 @@ module.exports["handlePage:GET"] = function (req, res, pathName, route) {
         }
 
         pageArray.sort (function (a, b) {
-            return a.order > b.order;
+            return (a.order || 0) > (b.order || 0);
         });
 
         for (var i = 0; i < pageArray.length; ++i) {

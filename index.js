@@ -15,6 +15,7 @@ Config.gitSite.parsed.roots.pages["/login"] = {
 Config.gitSite.parsed.roots.pages["/blog"] = {
     url: "/core/html/blog.html"
   , label: "Blog"
+  , order: 19
 };
 
 // statique config
