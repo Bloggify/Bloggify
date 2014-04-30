@@ -9,12 +9,18 @@
         "url": "/contact.md"
       , "label": "Contact"
       , "slug": "contact"
-      , "order": 20
+      , "order": 40
     }
   , "/abl": {
         "url": "/abl.md"
       , "label": "Abl"
       , "slug": "abl"
       , "order": 30
+    }
+  , "/bio": {
+        "url": "/bio.md"
+      , "label": "BIO"
+      , "slug": "Bio"
+      , "order": 20
     }
 }

@@ -1,5 +1,7 @@
+// dependencies
 var JxUtils = require ("jxutils");
 
+// site config
 global.SITE_CONFIG = {
     title: "Ionică Bizău"
   , url: "http://ionicabizau.net"
@@ -18,6 +20,11 @@ global.SITE_CONFIG = {
     }
 };
 
+/**
+ *  This is a recursive function that parses the paths saving them in
+ *  "parsed" field. Then they can be accessed.
+ *
+ */
 function parsePaths (objToIterate, parents) {
 
     for (var path in objToIterate) {
@@ -37,7 +44,11 @@ function parsePaths (objToIterate, parents) {
     }
 }
 
+// start parsing paths
 parsePaths (SITE_CONFIG.paths, ["parsed"]);
-SITE_CONFIG = JxUtils.unflattenObject (SITE_CONFIG);
 
+// set global variable
+global.SITE_CONFIG = JxUtils.unflattenObject (SITE_CONFIG);
+
+// exports the site config
 module.exports = SITE_CONFIG;
