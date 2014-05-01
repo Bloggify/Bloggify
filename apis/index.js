@@ -1,6 +1,7 @@
 // dependencies
 var Marked = require("marked")
   , QueryString = require ("querystring")
+  , Url = require ("url")
   , fileCache = {
         dummyPath: {
             ttl: setTimeout (function () {
@@ -84,21 +85,21 @@ function readFile (path, callback) {
 function getLatestPosts (skip, limit, callback) {
 
      skip = skip || 0;
-     limit = (limit || posts.length) - 1;
+     limit = ((limit || posts.length) + skip) - 1;
 
      var posts = JSON.parse(JSON.stringify(SITE_CONFIG.parsed.roots.posts))
        , result = []
-       , complete = 0
+       , complete = skip
        ;
 
      for (var i = skip; i <= limit; ++i) {
          (function (cPost) {
-            var pathToPost = SITE_CONFIG.paths.roots.posts + cPost.content;
+            var pathToPost = SITE_CONFIG.paths.roots.posts + "/" + cPost.content;
             readFile (pathToPost, function (err, postContent) {
                 if (err) { return callback (err); }
                 cPost.content = postContent;
                 result.push (cPost);
-                if (++complete === limit) {
+                if (++complete >= limit) {
                     callback (null, result);
                 }
             });
@@ -138,12 +139,30 @@ function getFormData (req, callback) {
  *  Handle GET requests
  *
  */
-module.exports["handlePage:GET"] = function (req, res, pathName, route) {
+function handlePageGet (req, res, pathName, route, posts) {
 
     // handle core pages
     if (route.indexOf("/core") !== 0) {
         // build the route
         route = SITE_CONFIG.paths.roots.pages + route;
+    }
+
+    if (pathName.indexOf(SITE_CONFIG.blog.url) === 0 && !posts) {
+        var urlSearch = QueryString.parse((Url.parse(req.url).search || "").substring(1));
+        urlSearch.page = Math.floor(Number(urlSearch.page)) || 0;
+        getLatestPosts (
+            urlSearch.page * SITE_CONFIG.blog.posts.limit
+          , SITE_CONFIG.blog.posts.limit
+          , function (err, data) {
+                if (err) {
+                    console.error (err);
+                    return Statique.sendRes (res, 500, "text/html", "Internal Server Error");
+                }
+
+                handlePageGet (req, res, pathName, route, data);
+            }
+        )
+        return;
     }
 
     // read file
@@ -179,6 +198,18 @@ module.exports["handlePage:GET"] = function (req, res, pathName, route) {
               + "</li>\n";
         }
 
+        var postHtml = "";
+        if (posts) {
+            for (var i = 0; i < posts.length; ++i) {
+                var cPostObj = posts[i];
+                if (cPostObj.visible === false) { continue; }
+                postHtml +=
+                    "<a href='" + SITE_CONFIG.blog.url + "/" + cPostObj.slug + "'><h1>" + cPostObj.title + "</h1></a>\n" +
+                    Marked (cPostObj.content) + "\n" +
+                    "<hr>"
+            }
+        }
+
         // success response
         Statique.sendRes (res, 200, "text/html",
             SITE_CONFIG.parsed.roots.template.page.replace (
@@ -190,6 +221,9 @@ module.exports["handlePage:GET"] = function (req, res, pathName, route) {
             ).replace(
                 "{{PAGES}}"
               , pageHtml
+            ).replace(
+                "{{BLOG_POSTS}}"
+              , postHtml
             )
         );
     });
@@ -216,3 +250,5 @@ module.exports["handlePage:POST"] = function (req, res, pathName, route) {
         return Statique.sendRes (res, 400, "text/html", "Invalid or missing form id");
     });
 };
+
+module.exports["handlePage:GET"] = handlePageGet;
