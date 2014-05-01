@@ -6,7 +6,7 @@ body {
 }
 
 a {
-    color: #16a085;
+    color: #d35400;
     text-decoration: none;
 }
 
@@ -63,9 +63,11 @@ h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
     text-transform: uppercase;
 }
 
-.header h2 {
+.header h2,
+.post .post-bottom span.date {
     color: #939393;
     font-size: .8em;
+    font-weight: 900;
     text-transform: uppercase;
 }
 
@@ -87,7 +89,6 @@ div.footer {
 }
 
 .page a {
-    color: #16a085;
     font-weight: bold;
 }
 
@@ -99,7 +100,7 @@ div.footer {
 }
 
 a:hover {
-    color: #1abc9c;
+    color: #e67e22;
 }
 
 /* Portrait tablet to landscape and desktop */
@@ -121,4 +122,15 @@ a:hover {
 /* Landscape phones and down */
 @media (max-width: 480px) {
 
+}
+
+div.post .post-content {
+    overflow: hidden;
+    max-height: 21em;
+}
+
+div.post {
+    border-bottom: 1px solid rgb(235, 235, 235);
+    padding-bottom: 1em;
+    margin-bottom: 4em;
 }

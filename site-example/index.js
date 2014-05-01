@@ -5,6 +5,12 @@ var JxUtils = require ("jxutils");
 global.SITE_CONFIG = {
     title: "Ionică Bizău"
   , url: "http://ionicabizau.net"
+  , blog: {
+        url: "/blog"
+      , posts: {
+            limit: 7
+        }
+    }
   , cache: {
         initOnStart: true
       , ttl: 100000
@@ -38,7 +44,7 @@ function parsePaths (objToIterate, parents) {
             try {
                 SITE_CONFIG[parents.join(".") + "." + path] = require (SITE_CONFIG.paths.ROOT + cPath);
             } catch (e) {
-                console.warn (e.toString());
+                //console.warn (e.toString());
             }
         }
     }
