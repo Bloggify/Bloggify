@@ -81,6 +81,31 @@ function readFile (path, callback) {
     });
 }
 
+function getLatestPosts (skip, limit, callback) {
+
+     skip = skip || 0;
+     limit = (limit || posts.length) - 1;
+
+     var posts = JSON.parse(JSON.stringify(SITE_CONFIG.parsed.roots.posts))
+       , result = []
+       , complete = 0
+       ;
+
+     for (var i = skip; i <= limit; ++i) {
+         (function (cPost) {
+            var pathToPost = SITE_CONFIG.paths.roots.posts + cPost.content;
+            readFile (pathToPost, function (err, postContent) {
+                if (err) { return callback (err); }
+                cPost.content = postContent;
+                result.push (cPost);
+                if (++complete === limit) {
+                    callback (null, result);
+                }
+            });
+         })(posts[i]);
+     }
+}
+
 /**
  *  Get form data for POST requests
  *
