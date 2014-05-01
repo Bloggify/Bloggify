@@ -151,15 +151,15 @@ function getFormData (req, callback) {
  *  Handle GET requests
  *
  */
-function handlePageGet (req, res, pathName, route, posts) {
+function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
 
     // handle core pages
-    if (route.indexOf("/core") !== 0) {
+    if (route && route.indexOf("/core") !== 0) {
         // build the route
         route = SITE_CONFIG.paths.roots.pages + route;
     }
 
-    if (pathName.indexOf(SITE_CONFIG.blog.url) === 0 && !posts) {
+    if (pathName.indexOf(SITE_CONFIG.blog.url) === 0 && !posts && !isBlogPost) {
         var urlSearch = QueryString.parse((Url.parse(req.url).search || "").substring(1));
         urlSearch.page = (Math.floor(Number(urlSearch.page)) - 1);
         getLatestPosts (
@@ -177,6 +177,29 @@ function handlePageGet (req, res, pathName, route, posts) {
         return;
     }
 
+    // handle blog posts
+    if (isBlogPost) {
+
+        var postName = pathName.split("/")[2]
+          , post = null
+          , allPosts = SITE_CONFIG.parsed.roots.posts;
+          ;
+
+        route = SITE_CONFIG.paths.roots.posts + "/" + postName + ".md";
+
+        for (var i = 0; i < allPosts.length; ++i) {
+            var cPost = allPosts[i];
+            if (postName === cPost.slug) {
+                post = cPost;
+                break;
+            }
+        }
+
+        if (!post || !postName) {
+            return Statique.sendRes (res, 404, "text/html", "Post not found");
+        }
+    }
+
     // read file
     readFile (route, function (err, fileContent) {
 
@@ -190,6 +213,11 @@ function handlePageGet (req, res, pathName, route, posts) {
           , pages = SITE_CONFIG.parsed.roots.pages
           , pageHtml = "";
           ;
+
+        // add title
+        if (isBlogPost) {
+            fileContent = "## " + post.title + "\n\n" + fileContent;
+        }
 
         for (var url in pages) {
             var cPage = JSON.parse(JSON.stringify(pages[url]));
@@ -216,9 +244,9 @@ function handlePageGet (req, res, pathName, route, posts) {
                 var cPostObj = posts[i];
                 if (cPostObj.visible === false) { continue; }
                 postHtml +=
-                    "<a href='" + SITE_CONFIG.blog.url + "/" + cPostObj.slug + "'><h1>" + cPostObj.title + "</h1></a>\n" +
-                    Marked (cPostObj.content) + "\n" +
-                    "<hr>"
+                    "<a href='" + SITE_CONFIG.blog.url + "/" + cPostObj.slug + "'><h1>" + cPostObj.title + "</h1></a>\n"
+                  + Marked (cPostObj.content) + "\n"
+                  + "<hr>";
             }
         }
 
