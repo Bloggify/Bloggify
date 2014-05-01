@@ -1,5 +1,6 @@
 // dependencies
-var Marked = require("marked")
+var Marked = require ("marked")
+  , Moment = require ("moment")
   , QueryString = require ("querystring")
   , Url = require ("url")
   , fileCache = {
@@ -244,9 +245,18 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
                 var cPostObj = posts[i];
                 if (cPostObj.visible === false) { continue; }
                 postHtml +=
-                    "<a href='" + SITE_CONFIG.blog.url + "/" + cPostObj.slug + "'><h1>" + cPostObj.title + "</h1></a>\n"
-                  + Marked (cPostObj.content) + "\n"
-                  + "<hr>";
+                    "<div class='post'>\n"
+                      + "<a href='" + SITE_CONFIG.blog.url + "/" + cPostObj.slug + "'><h1>" + cPostObj.title + "</h1></a>\n"
+                      + "<div class='post-content'>\n"
+                          + Marked (cPostObj.content) + "\n"
+                      + "</div>\n"
+                      + "<div class='post-bottom'>\n"
+                          + "<span class='date'>" + Moment (cPostObj.publishedAt, "DD-MM-YYYY").format("DD MMM YYYY") + "</span>"
+                          + " | <a href='" + SITE_CONFIG.blog.url + "/" + cPostObj.slug + "'>\n"
+                              + "Read more »\n"
+                          + "</a>\n"
+                      + "</div>\n"
+                  + "</div>";
             }
         }
 

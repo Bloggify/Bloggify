@@ -30,9 +30,8 @@ Http.createServer (function(req, res) {
     // get the url
     var pathName = Url.parse(req.url, true).pathname;
 
-    // verify if it doesn"t end with "/"
+    // add "/" at the end of the path name
     if (pathName.slice(-1) !== "/") {
-        // if yes, add "/"
         pathName += "/";
     }
 
