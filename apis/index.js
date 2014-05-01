@@ -92,8 +92,20 @@ function getLatestPosts (skip, limit, callback) {
        , complete = skip
        ;
 
+     if (skip >= limit + 1) {
+        return callback (null, []);
+     }
+
      for (var i = skip; i <= limit; ++i) {
          (function (cPost) {
+
+            if (!cPost) {
+                if (++complete >= limit) {
+                    callback (null, result);
+                }
+                return;
+            }
+
             var pathToPost = SITE_CONFIG.paths.roots.posts + "/" + cPost.content;
             readFile (pathToPost, function (err, postContent) {
                 if (err) { return callback (err); }
@@ -149,7 +161,7 @@ function handlePageGet (req, res, pathName, route, posts) {
 
     if (pathName.indexOf(SITE_CONFIG.blog.url) === 0 && !posts) {
         var urlSearch = QueryString.parse((Url.parse(req.url).search || "").substring(1));
-        urlSearch.page = Math.floor(Number(urlSearch.page)) || 0;
+        urlSearch.page = (Math.floor(Number(urlSearch.page)) - 1);
         getLatestPosts (
             urlSearch.page * SITE_CONFIG.blog.posts.limit
           , SITE_CONFIG.blog.posts.limit
