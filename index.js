@@ -4,7 +4,8 @@ var Statique = global.Statique = require ("statique")
   , Url = require("url")
   , Http = require ("http")
   , Apis = require ("./apis")
-  , port = process.env.PORT || 8080
+  , ipaddress = process.env.OPENSHIFT_NODEJS_IP || "localhost"
+  , port      = process.env.OPENSHIFT_NODEJS_PORT || 8080
   ;
 
 Config.gitSite.parsed.roots.pages["/login"] = {
@@ -47,7 +48,7 @@ Http.createServer (function(req, res) {
 
     // serve files
     Statique.serve (req, res);
-}).listen(port);
+}).listen(port, ipaddress);
 
 // print some output
 console.log("Server running at http://localhost:%d", port);
