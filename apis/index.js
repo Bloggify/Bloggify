@@ -4,6 +4,7 @@ var Marked = require ("marked")
   , QueryString = require ("querystring")
   , Url = require ("url")
   , Mandrill = require('mandrill-api/mandrill')
+  , Validators = require ("./validators");
   ;
 
 // server cache for files
@@ -19,6 +20,24 @@ var fileCache = {
 // Mandrill configuratiou
 var MandrillClient = new Mandrill.Mandrill(Config.mandrillConfig.key);
 
+/**
+ * validateField
+ * This funciton validates the value by
+ * providing the validators
+ *
+ * @param value
+ * @param validators
+ * @return
+ */
+function validateField (value, validators) {
+    validators = validators.split (",");
+    for (var i = 0; i < validators.length; ++i) {
+        if (!Validators[validators[i]] || Validators[validators[i]](value) === false) {
+            return false;
+        }
+    }
+    return true;
+}
 
 /**
  * parseCookies
@@ -41,27 +60,38 @@ function parseCookies (request) {
 }
 
 const FORMS = {
-    "contact": function (req, res, formData) {
+    "contact": {
+        handler: function (req, res, formData) {
 
-        debugger;
-        // TODO Antispam
-        MandrillClient.messages.send({
-            message: {
-                from_email: formData.email
-              , from_name: formData.name
-              , to: [
-                    { email: Config.contact.email, name: Config.contact.name }
-                ]
-              , subject: "ionicabizau.net - " + formData.subject
-              , html: formData.message
-            }
-        }, function(result) {
-            console.error (result);
-            Statique.sendRes (res, 200, "text/html", "Thank you for getting in touch. I will try to reply you as soon as posible.");
-        }, function (error) {
-            console.error (error);
-            Statique.sendRes (res, 400, "text/html", "Sorry, an error ocured.");
-        });
+            // TODO Antispam
+            MandrillClient.messages.send({
+                message: {
+                    from_email: formData.email
+                  , from_name: formData.name
+                  , to: [
+                        { email: Config.contact.email, name: Config.contact.name }
+                    ]
+                  , subject: "ionicabizau.net - " + formData.subject
+                  , html: formData.message
+                }
+            }, function(result) {
+                console.log (result);
+                if (result.reject_reason) {
+                    return Statique.sendRes (res, 400, "text/html", "Sorry, an error ocured: " + result.reject_reason);
+                }
+
+                Statique.sendRes (res, 200, "text/html", "Thank you for getting in touch. I will try to reply you as soon as posible.");
+            }, function (error) {
+                console.error (error);
+                Statique.sendRes (res, 400, "text/html", "Sorry, an error ocured.");
+            });
+        }
+      , validate: {
+            email: "email"
+          , name: "string,non-empty"
+          , subject: "string,non-empty"
+          , message: "string,non-empty"
+        }
     }
   , "login": function (req, res, formData) {
 
@@ -362,7 +392,25 @@ module.exports["handlePage:POST"] = function (req, res, pathName, route) {
         }
 
         if (Object.keys(FORMS).indexOf(formData.formId) !== -1) {
-            return FORMS[formData.formId](req, res, formData);
+            var thisForm = FORMS[formData.formId];
+            if (typeof thisForm === "function") {
+                return thisForm (req, res, formData);
+            }
+
+            debugger;
+            if (thisForm.constructor.name === "Object") {
+                if (thisForm.validate && thisForm.validate.constructor.name === "Object") {
+                    for (var fieldName in thisForm.validate) {
+                        if (!validateField (formData[fieldName], thisForm.validate[fieldName])) {
+                            return Statique.sendRes (res, 400, "text/html", "Invalid data: " + fieldName + " should be " + thisForm.validate[fieldName]);
+                        }
+                    }
+                }
+
+                thisForm.handler (req, res, formData);
+            }
+
+            return;
         }
 
         return Statique.sendRes (res, 400, "text/html", "Invalid or missing form id");
