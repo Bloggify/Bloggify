@@ -98,7 +98,7 @@ function readFile (path, callback) {
 
         // reset timeout
         fromCache.ttl = setTimeout (function () {
-            console.log("Deleting " + path);
+            console.log("Removing file from cache: " + path);
             delete fileCache[path]
         }, Config.gitSite.cache.ttl);
 
