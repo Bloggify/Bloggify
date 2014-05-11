@@ -397,7 +397,6 @@ module.exports["handlePage:POST"] = function (req, res, pathName, route) {
                 return thisForm (req, res, formData);
             }
 
-            debugger;
             if (thisForm.constructor.name === "Object") {
                 if (thisForm.validate && thisForm.validate.constructor.name === "Object") {
                     for (var fieldName in thisForm.validate) {
