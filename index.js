@@ -28,13 +28,7 @@ Statique
 // create server
 Http.createServer (function(req, res) {
 
-    // get the url
     var pathName = Url.parse(req.url, true).pathname;
-
-    // add "/" at the end of the path name
-    if (pathName.slice(-1) !== "/") {
-        pathName += "/";
-    }
 
     // get route
     var route = Statique.getRoute (pathName)
