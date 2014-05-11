@@ -15,6 +15,9 @@ global.SITE_CONFIG = {
         initOnStart: true
       , ttl: 100000
     }
+  , session: {
+        ttl: 10000
+    }
   , paths: {
         roots: {
             pages: "/pages"
