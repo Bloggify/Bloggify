@@ -8,6 +8,10 @@ var Statique = global.Statique = require ("statique")
   , port      = process.env.OPENSHIFT_NODEJS_PORT || 8080
   ;
 
+// sessions
+global.sessions = {};
+
+// attach core pages
 Config.gitSite.parsed.roots.pages["/login"] = {
     url: "/core/html/login.html"
   , visible: false

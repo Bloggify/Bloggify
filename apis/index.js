@@ -12,11 +12,38 @@ var Marked = require ("marked")
         }
     };
 
+
+/**
+ * parseCookies
+ * This function parses the cookies from request
+ *
+ * @param request: the request object
+ * @return: returns an object containing the cookies and their values
+ */
+function parseCookies (request) {
+    var list = {}
+      , rc = request.headers.cookie
+      ;
+
+    rc && rc.split(';').forEach(function( cookie ) {
+        var parts = cookie.split('=');
+        list[parts.shift().trim()] = unescape(parts.join('='));
+    });
+
+    return list;
+}
+
 const FORMS = {
     "contact": function (req, res, formData) {
         debugger;
     }
   , "login": function (req, res, formData) {
+
+        // get cookies
+        var cookies = parseCookies (req);
+        if (sessions[cookies.sid]) {
+            return Statique.sendRes (res, 400, "text/html", "You are logged in already.");
+        }
 
         // username
         if (!formData.username) {
@@ -39,6 +66,21 @@ const FORMS = {
             return Statique.sendRes (res, 403, "text/html", "Invalid password.");
         }
 
+        // valid request
+        var sid = "_" + Math.random().toString(36);
+        sessions[sid] = {
+            id: sid
+          , user: user
+          , ttl: setTimeout (function () {
+                console.log ("Removing session with id: " + sid);
+                delete sessions[sid];
+            }, Config.gitSite.cache.ttl)
+        };
+
+        // set session id cookie
+        res.setHeader ("set-cookie", "sid=" + sid);
+
+        // success response
         Statique.sendRes (res, 200, "text/html", "Successfully logged in");
     }
 };
