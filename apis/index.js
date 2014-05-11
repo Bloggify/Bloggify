@@ -71,7 +71,7 @@ const FORMS = {
                   , to: [
                         { email: Config.contact.email, name: Config.contact.name }
                     ]
-                  , subject: "ionicabizau.net - " + formData.subject
+                  , subject: formData.subject
                   , html: formData.message
                 }
             }, function(result) {
