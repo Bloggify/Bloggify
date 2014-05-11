@@ -7,6 +7,7 @@
     "statique": "~0.2.4",
     "moment": "*",
     "jxutils": "*",
+    "mandrill-api"  : "1.0.39",
     "marked": "*"
   },
   "devDependencies": {},

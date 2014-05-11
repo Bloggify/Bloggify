@@ -3,14 +3,21 @@ var Marked = require ("marked")
   , Moment = require ("moment")
   , QueryString = require ("querystring")
   , Url = require ("url")
-  , fileCache = {
-        dummyPath: {
-            ttl: setTimeout (function () {
-                delete fileCache["dummyPath"];
-            }, Config.gitSite.cache.ttl)
-          , content: "Dummy"
-        }
-    };
+  , Mandrill = require('mandrill-api/mandrill')
+  ;
+
+// server cache for files
+var fileCache = {
+    dummyPath: {
+        ttl: setTimeout (function () {
+            delete fileCache["dummyPath"];
+        }, Config.gitSite.cache.ttl)
+      , content: "Dummy"
+    }
+};
+
+// Mandrill configuratiou
+var MandrillClient = new Mandrill.Mandrill(Config.mandrillConfig.key);
 
 
 /**
@@ -35,7 +42,26 @@ function parseCookies (request) {
 
 const FORMS = {
     "contact": function (req, res, formData) {
+
         debugger;
+        // TODO Antispam
+        MandrillClient.messages.send({
+            message: {
+                from_email: formData.email
+              , from_name: formData.name
+              , to: [
+                    { email: Config.contact.email, name: Config.contact.name }
+                ]
+              , subject: "ionicabizau.net - " + formData.subject
+              , html: formData.message
+            }
+        }, function(result) {
+            console.error (result);
+            Statique.sendRes (res, 200, "text/html", "Thank you for getting in touch. I will try to reply you as soon as posible.");
+        }, function (error) {
+            console.error (error);
+            Statique.sendRes (res, 400, "text/html", "Sorry, an error ocured.");
+        });
     }
   , "login": function (req, res, formData) {
 
