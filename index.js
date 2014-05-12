@@ -52,5 +52,5 @@ Http.createServer (function(req, res) {
 console.log("Server running at http://localhost:%d", port);
 
 process.on("uncaughtException", function (err) {
-    console.log (err);
+    console.error (err);
 });
