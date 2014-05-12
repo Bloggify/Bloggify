@@ -139,6 +139,9 @@ const FORMS = {
         // success response
         Statique.sendRes (res, 200, "text/html", "Successfully logged in");
     }
+  , "reinitCache": function (req, res, formData) {
+
+    }
 };
 
 /**
@@ -247,14 +250,22 @@ function getFormData (req, callback) {
 }
 
 /**
- *  Handle GET requests
+ * handlePageGet
+ * This function handles the GET requests.
  *
+ * @param req: request object
+ * @param res: response object
+ * @param pathName: the pathname
+ * @param route: the Statique route
+ * @param posts: the posts (if undefined and @isBlogPost is true the function
+ * will be called again with the fetches posts)
+ * @param isBlogPost: boolean that shows if the route is to a blog post
+ * @return
  */
 function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
 
-    // handle core pages
+    // handle core pages, build the route
     if (route && route.indexOf("/core") !== 0) {
-        // build the route
         route = SITE_CONFIG.paths.roots.pages + route;
     }
 
@@ -330,6 +341,9 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
 
         for (var i = 0; i < pageArray.length; ++i) {
             var cPageObj = pageArray[i];
+            if (cPageObj.loggedIn && !sessions[parseCookies(req).sid]) {
+                cPageObj.visible = false;
+            }
             if (cPageObj.visible === false) { continue; }
             pageHtml +=
                 "<li class='page'>\n"
@@ -375,13 +389,19 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
             )
         );
     });
-};
+}
 
 /**
- *  Handle POST requests
+ * handlePagePost
+ * This function handles the post requests
  *
+ * @param req: request object
+ * @param res: response object
+ * @param pathName: the pathname
+ * @param route: the Statique route
+ * @return
  */
-module.exports["handlePage:POST"] = function (req, res, pathName, route) {
+function handlePagePost (req, res, pathName, route) {
 
     // get form data
     getFormData (req, function (err, formData) {
@@ -414,6 +434,8 @@ module.exports["handlePage:POST"] = function (req, res, pathName, route) {
 
         return Statique.sendRes (res, 400, "text/html", "Invalid or missing form id");
     });
-};
+}
 
+// public methods
 module.exports["handlePage:GET"] = handlePageGet;
+module.exports["handlePage:POST"] = handlePagePost;
