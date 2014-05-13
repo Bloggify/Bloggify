@@ -141,6 +141,14 @@ const FORMS = {
     }
   , "reinitCache": function (req, res, formData) {
 
+        // not logged in
+        if (!sessions[parseCookies(req).sid]) {
+            return Statique.sendRes (res, 403, "text/html", "You should be logged in to reinit the cache.");
+        }
+
+        // parse paths
+        SITE_CONFIG.parsePaths ();
+        Statique.sendRes (res, 200, "text/html", "Successfully reinited cache.");
     }
 };
 

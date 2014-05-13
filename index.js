@@ -1,5 +1,10 @@
+process.on("uncaughtException", function (err) {
+    console.error (err);
+});
+
 // dependencies
 var Statique = global.Statique = require ("statique")
+  , Utils = require ("./utils")
   , Config = global.Config = require ("./config.js")
   , Url = require("url")
   , Http = require ("http")
@@ -21,6 +26,13 @@ Config.gitSite.parsed.roots.pages["/blog"] = {
     url: "/core/html/blog.html"
   , label: "Blog"
   , order: 19
+};
+
+Config.gitSite.parsed.roots.pages["/admin"] = {
+    url: "/core/html/admin.html"
+  , label: "Admin"
+  , order: 21
+  , loggedIn: true
 };
 
 // statique config
@@ -50,7 +62,3 @@ Http.createServer (function(req, res) {
 
 // print some output
 console.log("Server running at http://localhost:%d", port);
-
-process.on("uncaughtException", function (err) {
-    console.error (err);
-});
