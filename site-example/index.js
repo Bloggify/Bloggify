@@ -1,5 +1,16 @@
 // dependencies
-var JxUtils = require ("jxutils");
+var JxUtils = require ("jxutils")
+  , Fs = require ("fs")
+  ;
+
+global.requireNoCache = function (path) {
+    // TODO
+    // DIRECTORY -> index.js
+    // js --------> +.js
+    // json ------> +.json
+    //return eval(Fs.readFileSync(path).toString())
+    return require (path);
+};
 
 // site config
 global.SITE_CONFIG = {
@@ -45,9 +56,10 @@ function parsePaths (objToIterate, parents) {
             parsePaths (cPath, parents);
         } else {
             try {
-                SITE_CONFIG[parents.join(".") + "." + path] = require (SITE_CONFIG.paths.ROOT + cPath);
+                var modulePath = SITE_CONFIG.paths.ROOT + cPath;
+                SITE_CONFIG[parents.join(".") + "." + path] = requireNoCache (modulePath);
             } catch (e) {
-                //console.warn (e.toString());
+                console.warn (e.toString());
             }
         }
     }
@@ -58,6 +70,9 @@ parsePaths (SITE_CONFIG.paths, ["parsed"]);
 
 // set global variable
 global.SITE_CONFIG = JxUtils.unflattenObject (SITE_CONFIG);
+SITE_CONFIG.parsePaths = function () {
+    parsePaths (SITE_CONFIG.paths, ["parsed"]);
+};
 
 // exports the site config
 module.exports = SITE_CONFIG;

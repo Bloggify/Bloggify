@@ -1,1 +1,1 @@
-module.exports = require (__dirname + "/pages.json");
+module.exports = requireNoCache (__dirname + "/pages.json");
