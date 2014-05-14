@@ -9,8 +9,8 @@ var Statique = global.Statique = require ("statique")
   , Url = require("url")
   , Http = require ("http")
   , Apis = require ("./apis")
-  , ipaddress = process.env.OPENSHIFT_NODEJS_IP || "localhost"
-  , port      = process.env.OPENSHIFT_NODEJS_PORT || 8080
+  , ipaddress = Config.ipaddress
+  , port      = Config.port
   ;
 
 // sessions
