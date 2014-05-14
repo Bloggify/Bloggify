@@ -61,4 +61,4 @@ Http.createServer (function(req, res) {
 }).listen(port, ipaddress);
 
 // print some output
-console.log("Server running at http://localhost:%d", port);
+console.log("Server running at http://%d:%d", ipaddress, port);
