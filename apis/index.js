@@ -4,8 +4,17 @@ var Marked = require ("marked")
   , QueryString = require ("querystring")
   , Url = require ("url")
   , Mandrill = require('mandrill-api/mandrill')
-  , Validators = require ("./validators");
+  , Validators = require ("./validators")
+  , Highlight = require ("highlight.js")
   ;
+
+// Highlight config
+Highlight.configure({classPrefix: ''});
+Marked.setOptions({
+    highlight: function (code) {
+        return Highlight.highlightAuto(code).value;
+    }
+});
 
 // server cache for files
 var fileCache = {
