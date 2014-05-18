@@ -354,7 +354,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
 
         // add title
         if (isBlogPost) {
-            fileContent = "## " + post.title + "\n\n" + fileContent;
+            fileContent = "# " + post.title + "\n\n" + fileContent;
         }
 
         for (var url in pages) {
