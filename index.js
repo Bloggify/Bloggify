@@ -1,18 +1,18 @@
-// dependencies
-var Statique = global.Statique = require ("statique")
-  , Utils = require ("./utils")
-  , Config = global.Config = require ("./config.js")
+// Dependencies
+var Statique = global.Statique = require("statique")
+  , Utils = require("./utils")
+  , Config = global.Config = require("./config.js")
   , Url = require("url")
-  , Http = require ("http")
-  , Apis = require ("./apis")
+  , Http = require("http")
+  , Apis = require("./apis")
   , ipaddress = Config.ipaddress || "localhost"
-  , port      = Config.port
+  , port = Config.port
   ;
 
-// sessions
+// Dessions
 global.sessions = {};
 
-// attach core pages
+// Attach core pages
 Config.gitSite.parsed.roots.pages["/login"] = {
     url: "/core/html/login.html"
   , visible: false
@@ -33,23 +33,23 @@ Config.gitSite.parsed.roots.pages["/admin"] = {
 
 // Handle uncaught exceptions
 process.on("uncaughtException", function (err) {
-    console.error (err);
+    console.error(err);
 });
 
 // statique config
 Statique
-    .server({root: Config.gitSite.paths.ROOT})
+    .server({ root: Config.gitSite.paths.ROOT })
     .setRoutes(Config.gitSite.parsed.roots.pages)
   ;
 
 // create server
-Http.createServer (function(req, res) {
+Http.createServer(function(req, res) {
 
     var pathName = Url.parse(req.url, true).pathname;
 
     // get route
-    var route = Statique.getRoute (pathName)
-      , isBlogPost =  (new RegExp (SITE_CONFIG.blog.url + "\/([a-z]|[0-9])")).test (pathName)
+    var route = Statique.getRoute(pathName)
+      , isBlogPost = (new RegExp(SITE_CONFIG.blog.url + "\/([a-z]|[0-9])")).test(pathName)
       ;
 
     if (route || isBlogPost) {
@@ -58,7 +58,7 @@ Http.createServer (function(req, res) {
     }
 
     // serve files
-    Statique.serve (req, res);
+    Statique.serve(req, res);
 }).listen(port, ipaddress);
 
 // print some output

@@ -1,15 +1,15 @@
 // dependencies
-var Marked = require ("marked")
-  , Moment = require ("moment")
-  , QueryString = require ("querystring")
-  , Url = require ("url")
+var Marked = require("marked")
+  , Moment = require("moment")
+  , QueryString = require("querystring")
+  , Url = require("url")
   , Mandrill = require('mandrill-api/mandrill')
-  , Validators = require ("./validators")
-  , Highlight = require ("highlight.js")
+  , Validators = require("./validators")
+  , Highlight = require("highlight.js")
   ;
 
 // Highlight config
-Highlight.configure({classPrefix: ''});
+Highlight.configure({ classPrefix: '' });
 Marked.setOptions({
     highlight: function (code) {
         return Highlight.highlightAuto(code).value;
@@ -39,7 +39,7 @@ var MandrillClient = new Mandrill.Mandrill(Config.mandrillConfig.key);
  * @return
  */
 function validateField (value, validators) {
-    validators = validators.split (",");
+    validators = validators.split(",");
     for (var i = 0; i < validators.length; ++i) {
         if (!Validators[validators[i]] || Validators[validators[i]](value) === false) {
             return false;
@@ -84,15 +84,15 @@ const FORMS = {
                   , html: formData.message
                 }
             }, function(result) {
-                console.log (result);
+                console.log(result);
                 if (result.reject_reason) {
-                    return Statique.sendRes (res, 400, "text/html", "Sorry, an error ocured: " + result.reject_reason);
+                    return Statique.sendRes(res, 400, "text/html", "Sorry, an error ocured: " + result.reject_reason);
                 }
 
-                Statique.sendRes (res, 200, "text/html", "Thank you for getting in touch. I will try to reply you as soon as posible.");
+                Statique.sendRes(res, 200, "text/html", "Thank you for getting in touch. I will try to reply you as soon as posible.");
             }, function (error) {
-                console.error (error);
-                Statique.sendRes (res, 400, "text/html", "Sorry, an error ocured.");
+                console.error(error);
+                Statique.sendRes(res, 400, "text/html", "Sorry, an error ocured.");
             });
         }
       , validate: {
@@ -105,30 +105,30 @@ const FORMS = {
   , "login": function (req, res, formData) {
 
         // get cookies
-        var cookies = parseCookies (req);
+        var cookies = parseCookies(req);
         if (sessions[cookies.sid]) {
-            return Statique.sendRes (res, 400, "text/html", "You are logged in already.");
+            return Statique.sendRes(res, 400, "text/html", "You are logged in already.");
         }
 
         // username
         if (!formData.username) {
-           return Statique.sendRes (res, 400, "text/html", "Missing username");
+           return Statique.sendRes(res, 400, "text/html", "Missing username");
         }
 
         // password
         if (!formData.password) {
-            return Statique.sendRes (res, 400, "text/html", "Missing password");
+            return Statique.sendRes(res, 400, "text/html", "Missing password");
         }
 
         // get user
         var user = SITE_CONFIG.parsed.roots.users[formData.username.toLowerCase()];
         if (!user) {
-            return Statique.sendRes (res, 400, "text/html", "Invalid username.");
+            return Statique.sendRes(res, 400, "text/html", "Invalid username.");
         }
 
         // validate password
         if (user.password !== formData.password) {
-            return Statique.sendRes (res, 403, "text/html", "Invalid password.");
+            return Statique.sendRes(res, 403, "text/html", "Invalid password.");
         }
 
         // valid request
@@ -136,39 +136,39 @@ const FORMS = {
         sessions[sid] = {
             id: sid
           , user: user
-          , ttl: setTimeout (function () {
-                console.log ("Removing session with id: " + sid);
+          , ttl: setTimeout(function () {
+                console.log("Removing session with id: " + sid);
                 delete sessions[sid];
             }, Config.gitSite.cache.ttl)
         };
 
         // set session id cookie
-        res.setHeader ("set-cookie", "sid=" + sid);
+        res.setHeader("set-cookie", "sid=" + sid);
 
         // success response
-        Statique.sendRes (res, 200, "text/html", "Successfully logged in");
+        Statique.sendRes(res, 200, "text/html", "Successfully logged in");
     }
   , "reinitCache": function (req, res, formData) {
 
         // not logged in
         if (!sessions[parseCookies(req).sid]) {
-            return Statique.sendRes (res, 403, "text/html", "You should be logged in to reinit the cache.");
+            return Statique.sendRes(res, 403, "text/html", "You should be logged in to reinit the cache.");
         }
 
         // parse paths
-        SITE_CONFIG.parsePaths ();
-        Statique.sendRes (res, 200, "text/html", "Successfully reinited cache.");
+        SITE_CONFIG.parsePaths();
+        Statique.sendRes(res, 200, "text/html", "Successfully reinited cache.");
     }
   , "exportAsHtml": function (req, res, formData) {
 
         // not logged in
         if (!sessions[parseCookies(req).sid]) {
-            return Statique.sendRes (res, 403, "text/html", "You should be logged in to reinit the cache.");
+            return Statique.sendRes(res, 403, "text/html", "You should be logged in to reinit the cache.");
         }
 
         // TODO The magic
 
-        Statique.sendRes (res, 200, "text/html", "Successfully reinited cache.");
+        Statique.sendRes(res, 200, "text/html", "Successfully reinited cache.");
     }
 };
 
@@ -184,31 +184,28 @@ function readFile (path, callback) {
     if (fromCache) {
 
         // reset timeout
-        fromCache.ttl = setTimeout (function () {
+        fromCache.ttl = setTimeout(function () {
             console.log("Removing file from cache: " + path);
             delete fileCache[path]
         }, Config.gitSite.cache.ttl);
 
         // callback content
-        return callback (null, fromCache.content);
+        return callback(null, fromCache.content);
     }
 
     // read file using statique
-    Statique.readFile (path, function (err, content) {
-
-        if (err) {
-            return callback (err);
-        }
+    Statique.readFile(path, function (err, content) {
+        if (err) { return callback(err); }
 
         fileCache[path] = {
-            ttl: setTimeout (function () {
+            ttl: setTimeout(function () {
                 console.log("Deleting " + path);
                 delete fileCache[path];
             }, Config.gitSite.cache.ttl)
           , content: content
         };
 
-        callback (null, content.toString());
+        callback(null, content.toString());
     });
 }
 
@@ -223,7 +220,7 @@ function getLatestPosts (skip, limit, callback) {
        ;
 
      if (skip >= limit + 1) {
-        return callback (null, []);
+        return callback(null, []);
      }
 
      for (var i = skip; i <= limit; ++i) {
@@ -231,18 +228,18 @@ function getLatestPosts (skip, limit, callback) {
 
             if (!cPost) {
                 if (++complete >= limit) {
-                    callback (null, result);
+                    callback(null, result);
                 }
                 return;
             }
 
             var pathToPost = SITE_CONFIG.paths.roots.posts + "/" + cPost.content;
-            readFile (pathToPost, function (err, postContent) {
-                if (err) { return callback (err); }
+            readFile(pathToPost, function (err, postContent) {
+                if (err) { return callback(err); }
                 cPost.content = postContent;
-                result.push (cPost);
+                result.push(cPost);
                 if (++complete >= limit) {
-                    callback (null, result);
+                    callback(null, result);
                 }
             });
          })(posts[i]);
@@ -259,21 +256,17 @@ function getFormData (req, callback) {
       , error = ""
       ;
 
-    req.on ("data", function (data) {
+    req.on("data", function (data) {
         formData += data;
     });
 
-    req.on ("error", function (data) {
+    req.on("error", function (data) {
         error += data;
     });
 
-    req.on ("end", function (data) {
-
-        if (error) {
-            return callback (error);
-        }
-
-        callback (null, QueryString.parse (formData));
+    req.on("end", function (data) {
+        if (error) { return callback(error); }
+        callback(null, QueryString.parse(formData));
     });
 }
 
@@ -299,17 +292,17 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
 
     if (pathName.indexOf(SITE_CONFIG.blog.url) === 0 && !posts && !isBlogPost) {
         var urlSearch = QueryString.parse((Url.parse(req.url).search || "").substring(1));
-        urlSearch.page = (Math.floor(Number(urlSearch.page)) - 1);
-        getLatestPosts (
+        urlSearch.page = Math.floor(Number(urlSearch.page)) - 1;
+        getLatestPosts(
             urlSearch.page * SITE_CONFIG.blog.posts.limit
           , SITE_CONFIG.blog.posts.limit
           , function (err, data) {
                 if (err) {
                     console.error (err);
-                    return Statique.sendRes (res, 500, "text/html", "Internal Server Error");
+                    return Statique.sendRes(res, 500, "text/html", "Internal Server Error");
                 }
 
-                handlePageGet (req, res, pathName, route, data);
+                handlePageGet(req, res, pathName, route, data);
             }
         )
         return;
@@ -334,16 +327,16 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
         }
 
         if (!post || !postName) {
-            return Statique.sendRes (res, 404, "text/html", "Post not found");
+            return Statique.sendRes(res, 404, "text/html", "Post not found");
         }
     }
 
     // read file
-    readFile (route, function (err, fileContent) {
+    readFile(route, function (err, fileContent) {
 
         if (err) {
-            console.error (err);
-            return Statique.sendRes (res, 500, "html", "Internal server error");
+            console.error(err);
+            return Statique.sendRes(res, 500, "html", "Internal server error");
         }
 
         // convert page object to array
@@ -360,10 +353,10 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
         for (var url in pages) {
             var cPage = JSON.parse(JSON.stringify(pages[url]));
             cPage.url = url;
-            pageArray.push (cPage);
+            pageArray.push(cPage);
         }
 
-        pageArray.sort (function (a, b) {
+        pageArray.sort(function (a, b) {
             return (a.order || 0) > (b.order || 0);
         });
 
@@ -388,10 +381,10 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
                     "<div class='post'>\n"
                       + "<a href='" + SITE_CONFIG.blog.url + "/" + cPostObj.slug + "'><h1>" + cPostObj.title + "</h1></a>\n"
                       + "<div class='post-content'>\n"
-                          + Marked (cPostObj.content) + "\n"
+                          + Marked(cPostObj.content) + "\n"
                       + "</div>\n"
                       + "<div class='post-bottom'>\n"
-                          + "<span class='date'>" + Moment (cPostObj.publishedAt, "DD-MM-YYYY").format("DD MMM YYYY") + "</span>"
+                          + "<span class='date'>" + Momen (cPostObj.publishedAt, "DD-MM-YYYY").format("DD MMM YYYY") + "</span>"
                           + " | <a href='" + SITE_CONFIG.blog.url + "/" + cPostObj.slug + "'>\n"
                               + "Read more »\n"
                           + "</a>\n"
@@ -401,10 +394,10 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
         }
 
         // success response
-        Statique.sendRes (res, 200, "text/html",
-            SITE_CONFIG.parsed.roots.template.page.replace (
+        Statique.sendRes(res, 200, "text/html",
+            SITE_CONFIG.parsed.roots.template.page.replac (
                 "{{PAGE_CONTENT}}"
-              , Marked (fileContent)
+              , Marked(fileContent)
             ).replace(
                 "{{TITLE}}"
               , SITE_CONFIG.title
@@ -432,7 +425,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
 function handlePagePost (req, res, pathName, route) {
 
     // get form data
-    getFormData (req, function (err, formData) {
+    getFormData(req, function (err, formData) {
 
         if (err) {
             console.error (err);
@@ -442,25 +435,25 @@ function handlePagePost (req, res, pathName, route) {
         if (Object.keys(FORMS).indexOf(formData.formId) !== -1) {
             var thisForm = FORMS[formData.formId];
             if (typeof thisForm === "function") {
-                return thisForm (req, res, formData);
+                return thisForm(req, res, formData);
             }
 
             if (thisForm.constructor.name === "Object") {
                 if (thisForm.validate && thisForm.validate.constructor.name === "Object") {
                     for (var fieldName in thisForm.validate) {
-                        if (!validateField (formData[fieldName], thisForm.validate[fieldName])) {
-                            return Statique.sendRes (res, 400, "text/html", "Invalid data: " + fieldName + " should be " + thisForm.validate[fieldName]);
+                        if (!validateField(formData[fieldName], thisForm.validate[fieldName])) {
+                            return Statique.sendRes(res, 400, "text/html", "Invalid data: " + fieldName + " should be " + thisForm.validate[fieldName]);
                         }
                     }
                 }
 
-                thisForm.handler (req, res, formData);
+                thisForm.handler(req, res, formData);
             }
 
             return;
         }
 
-        return Statique.sendRes (res, 400, "text/html", "Invalid or missing form id");
+        return Statique.sendRes(res, 400, "text/html", "Invalid or missing form id");
     });
 }
 
