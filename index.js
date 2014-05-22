@@ -1,7 +1,3 @@
-process.on("uncaughtException", function (err) {
-    console.error (err);
-});
-
 // dependencies
 var Statique = global.Statique = require ("statique")
   , Utils = require ("./utils")
@@ -34,6 +30,11 @@ Config.gitSite.parsed.roots.pages["/admin"] = {
   , order: 21
   , loggedIn: true
 };
+
+// Handle uncaught exceptions
+process.on("uncaughtException", function (err) {
+    console.error (err);
+});
 
 // statique config
 Statique
