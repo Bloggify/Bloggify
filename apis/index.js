@@ -384,7 +384,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
                           + Marked(cPostObj.content) + "\n"
                       + "</div>\n"
                       + "<div class='post-bottom'>\n"
-                          + "<span class='date'>" + Momen (cPostObj.publishedAt, "DD-MM-YYYY").format("DD MMM YYYY") + "</span>"
+                          + "<span class='date'>" + Moment(cPostObj.publishedAt, "DD-MM-YYYY").format("DD MMM YYYY") + "</span>"
                           + " | <a href='" + SITE_CONFIG.blog.url + "/" + cPostObj.slug + "'>\n"
                               + "Read more »\n"
                           + "</a>\n"
@@ -395,7 +395,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
 
         // success response
         Statique.sendRes(res, 200, "text/html",
-            SITE_CONFIG.parsed.roots.template.page.replac (
+            SITE_CONFIG.parsed.roots.template.page.replace(
                 "{{PAGE_CONTENT}}"
               , Marked(fileContent)
             ).replace(
