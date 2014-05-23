@@ -383,6 +383,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
                       + "<div class='post-content'>\n"
                           + Marked(cPostObj.content) + "\n"
                       + "</div>\n"
+                      + "<div class='post-bottom-shadow'></div>\n"
                       + "<div class='post-bottom'>\n"
                           + "<span class='date'>" + Moment(cPostObj.publishedAt, "DD-MM-YYYY").format("DD MMM YYYY") + "</span>"
                           + " | <a href='" + SITE_CONFIG.blog.url + "/" + cPostObj.slug + "'>\n"
