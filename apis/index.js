@@ -1,4 +1,4 @@
-// dependencies
+// Dependencies
 var Marked = require("marked")
   , Moment = require("moment")
   , QueryString = require("querystring")
@@ -16,7 +16,7 @@ Marked.setOptions({
     }
 });
 
-// server cache for files
+// Server cache for files
 var fileCache = {
     dummyPath: {
         ttl: setTimeout (function () {
@@ -34,9 +34,11 @@ var MandrillClient = new Mandrill.Mandrill(Config.mandrillConfig.key);
  * This funciton validates the value by
  * providing the validators
  *
- * @param value
- * @param validators
- * @return
+ * @name validateField
+ * @function
+ * @param {Anything} value the value that should be validated
+ * @param {String} validators comma separated validators in this format: "valitator1,validator2", e.g.: "string,non-empty"
+ * @return {Boolean} if the value is valid, the function will return true. If not, false will be returned
  */
 function validateField (value, validators) {
     validators = validators.split(",");
@@ -52,8 +54,10 @@ function validateField (value, validators) {
  * parseCookies
  * This function parses the cookies from request
  *
- * @param request: the request object
- * @return: returns an object containing the cookies and their values
+ * @name parseCookies
+ * @function
+ * @param {Object} request the request object
+ * @return {Object} the parsed cookies into an object
  */
 function parseCookies (request) {
     var list = {}
@@ -68,6 +72,7 @@ function parseCookies (request) {
     return list;
 }
 
+// Form handlers and data validators
 const FORMS = {
     "contact": {
         handler: function (req, res, formData) {
@@ -173,9 +178,15 @@ const FORMS = {
 };
 
 /**
- *  This function reads a file from hard disk or from cache
- *  deleting it after the ttl timeout expires.
+ * readFile
+ * This function reads a file from hard disk or from cache
+ * deleting it after the ttl timeout expires.
  *
+ * @name readFile
+ * @function
+ * @param {String} path path that will be passed to Statique
+ * @param {Function} callback the callback function
+ * @return
  */
 function readFile (path, callback) {
 
@@ -209,7 +220,18 @@ function readFile (path, callback) {
     });
 }
 
-function getLatestPosts (skip, limit, callback) {
+/**
+ * fetchPosts
+ * This function returns the posts via callback
+ *
+ * @name fetchPosts
+ * @function
+ * @param {Number} skip How many posts should be skipped
+ * @param {Number} limit How many posts to return
+ * @param {Function} callback The callback function that will be called with an error and the posts array
+ * @return {undefined} Returns undefined
+ */
+function fetchPosts (skip, limit, callback) {
 
      skip = skip || 0;
      limit = ((limit || posts.length) + skip) - 1;
@@ -247,8 +269,14 @@ function getLatestPosts (skip, limit, callback) {
 }
 
 /**
- *  Get form data for POST requests
+ * getFormData
+ * Gets the form data sent via POST requests
  *
+ * @name getFormData
+ * @function
+ * @param {Object} req The request object
+ * @param {Function} callback the callback function
+ * @return
  */
 function getFormData (req, callback) {
 
@@ -274,13 +302,15 @@ function getFormData (req, callback) {
  * handlePageGet
  * This function handles the GET requests.
  *
- * @param req: request object
- * @param res: response object
- * @param pathName: the pathname
- * @param route: the Statique route
- * @param posts: the posts (if undefined and @isBlogPost is true the function
+ * @name handlePageGet
+ * @function
+ * @param {Object} req the request object
+ * @param {Object} res the response object
+ * @param {String} pathName the path name
+ * @param {String} route the Statique route
+ * @param {Array} the posts (if undefined and @isBlogPost is true the function
  * will be called again with the fetches posts)
- * @param isBlogPost: boolean that shows if the route is to a blog post
+ * @param {Boolean} isBlogPost shows if the route is to a blog post
  * @return
  */
 function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
@@ -293,7 +323,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
     if (pathName.indexOf(SITE_CONFIG.blog.url) === 0 && !posts && !isBlogPost) {
         var urlSearch = QueryString.parse((Url.parse(req.url).search || "").substring(1));
         urlSearch.page = Math.floor(Number(urlSearch.page)) - 1;
-        getLatestPosts(
+        fetchPosts(
             urlSearch.page * SITE_CONFIG.blog.posts.limit
           , SITE_CONFIG.blog.posts.limit
           , function (err, data) {
@@ -417,10 +447,12 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
  * handlePagePost
  * This function handles the post requests
  *
- * @param req: request object
- * @param res: response object
- * @param pathName: the pathname
- * @param route: the Statique route
+ * @name handlePagePost
+ * @function
+ * @param {Object} req the request object
+ * @param {Object} res the response object
+ * @param {String} pathName the pathname
+ * @param {Object} route the Statique route
  * @return
  */
 function handlePagePost (req, res, pathName, route) {
