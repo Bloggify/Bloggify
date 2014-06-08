@@ -5,7 +5,7 @@ var Statique = global.Statique = require("statique")
   , Url = require("url")
   , Http = require("http")
   , Apis = require("./apis")
-  , ipaddress = Config.ipaddress || "localhost"
+  , ipaddress = Config.ipaddress
   , port = Config.port
   ;
 
@@ -62,4 +62,4 @@ Http.createServer(function(req, res) {
 }).listen(port, ipaddress);
 
 // print some output
-console.log("Server running at http://%s:%d", ipaddress, port);
+console.log("Server running at http://%s:%d", ipaddress || "localhost", port);
