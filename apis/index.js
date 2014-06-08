@@ -2,6 +2,7 @@
 var Marked = require("marked")
   , Moment = require("moment")
   , QueryString = require("querystring")
+  , JxUtils = require("jxutils")
   , Url = require("url")
   , Mandrill = require('mandrill-api/mandrill')
   , Validators = require("./validators")
@@ -237,7 +238,7 @@ function fetchPosts (skip, limit, callback) {
      skip = skip || 0;
      limit = ((limit || posts.length) + skip) - 1;
 
-     var posts = JSON.parse(JSON.stringify(SITE_CONFIG.parsed.roots.posts))
+     var posts = JxUtils.cloneObject(SITE_CONFIG.parsed.roots.posts)
        , result = []
        , complete = skip
        ;
@@ -382,7 +383,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
         }
 
         for (var url in pages) {
-            var cPage = JSON.parse(JSON.stringify(pages[url]));
+            var cPage = JxUtils.cloneObject(pages[url]);
             cPage.url = url;
             pageArray.push(cPage);
         }
