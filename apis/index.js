@@ -257,7 +257,7 @@ function fetchPosts (skip, limit, callback) {
                 return;
             }
 
-            var pathToPost = SITE_CONFIG.paths.roots.posts + "/" + cPost.content;
+            var pathToPost = SITE_CONFIG.paths.roots.posts + "/" + cPost.path;
             readFile(pathToPost, function (err, postContent) {
                 if (err) { return callback(err); }
                 cPost.content = postContent;
