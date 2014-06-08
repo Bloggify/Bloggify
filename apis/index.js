@@ -87,10 +87,7 @@ const FORMS = {
                         { email: Config.contact.email, name: Config.contact.name }
                     ]
                   , subject: formData.subject
-                  , text: "From: " + formData.email + "\n"
-                        + "Subject: " + formData.subject + "\n"
-                        + "Message: " + formData.message + "\n\n"
-                        + "Headers: " + JSON.stringify(req.headers, null, 4)
+                  , text: formData.message
                 }
             }, function(result) {
                 console.log(result);
