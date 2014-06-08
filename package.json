@@ -4,7 +4,7 @@
   "description": "Git based CMS/Blog",
   "main": "index.js",
   "dependencies": {
-    "statique": "~0.2.4",
+    "statique": "~0.3.0",
     "moment": "*",
     "jxutils": "*",
     "mandrill-api"  : "1.0.39",
