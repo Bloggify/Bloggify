@@ -39,13 +39,18 @@ var MandrillClient = new Mandrill.Mandrill(Config.mandrillConfig.key);
  * @name validateField
  * @function
  * @param {Anything} value the value that should be validated
- * @param {String} validators comma separated validators in this format: "valitator1,validator2", e.g.: "string,non-empty"
- * @return {Boolean} if the value is valid, the function will return true. If not, false will be returned
+ * @param {String} validators comma separated validators in this format:
+ * "valitator1,validator2", e.g.: "string,non-empty"
+ * @return {Boolean} if the value is valid, the function will return true. If
+ * not, false will be returned
  */
 function validateField (value, validators) {
     validators = validators.split(",");
     for (var i = 0; i < validators.length; ++i) {
-        if (!Validators[validators[i]] || Validators[validators[i]](value) === false) {
+        if (
+            !Validators[validators[i]]
+            || Validators[validators[i]](value) === false
+        ) {
             return false;
         }
     }
@@ -85,7 +90,10 @@ const FORMS = {
                     from_email: formData.email
                   , from_name: formData.name
                   , to: [
-                        { email: Config.contact.email, name: Config.contact.name }
+                        {
+                            email: Config.contact.email
+                          , name: Config.contact.name
+                        }
                     ]
                   , subject: formData.subject
                   , text: formData.message
@@ -93,13 +101,32 @@ const FORMS = {
             }, function(result) {
                 console.log(result);
                 if (result.reject_reason) {
-                    return Statique.sendRes(res, 400, "text/html", "Sorry, an error ocured: " + result.reject_reason);
+                    return Statique.sendRes(
+                        res, 400, "text/html",
+                        JSON.stringify({ message: "Sorry, an error ocured. "
+                          + "Try again. If the "
+                          + "problem persists, open an issue. We log such "
+                          + "errors, so hopefully we will fix them."
+                        })
+                    );
                 }
 
-                Statique.sendRes(res, 200, "text/html", "Thank you for getting in touch. I will try to reply you as soon as posible.");
+                Statique.sendRes(
+                    res, 200, "text/html",
+                    JSON.stringify({ message: "Thank you for getting in touch. "
+                       + "I will try to reply you as soon as posible."
+                    })
+                );
             }, function (error) {
                 console.error(error);
-                Statique.sendRes(res, 400, "text/html", "Sorry, an error ocured.");
+                return Statique.sendRes(
+                    res, 400, "text/html",
+                    JSON.stringify({ message: "Sorry, an error ocured. "
+                      + "Try again. If the "
+                      + "problem persists, open an issue. We log such "
+                      + "errors, so hopefully we will fix them."
+                    })
+                );
             });
         }
       , validate: {
@@ -114,28 +141,41 @@ const FORMS = {
         // get cookies
         var cookies = parseCookies(req);
         if (sessions[cookies.sid]) {
-            return Statique.sendRes(res, 400, "text/html", "You are logged in already.");
+            return Statique.sendRes(res, 400, "text/html", JSON.stringify({
+                message: "You are logged in already."
+            }));
         }
 
         // username
         if (!formData.username) {
-           return Statique.sendRes(res, 400, "text/html", "Missing username");
+           return Statique.sendRes(res, 400, "text/html", JSON.stringify({
+               message: "Missing username"
+           }));
         }
 
         // password
         if (!formData.password) {
-            return Statique.sendRes(res, 400, "text/html", "Missing password");
+            return Statique.sendRes(res, 400, "text/html", JSON.stringify({
+                message: "Missing password"
+            }));
         }
 
         // get user
-        var user = SITE_CONFIG.parsed.roots.users[formData.username.toLowerCase()];
+        var user = SITE_CONFIG.parsed.roots.users[
+            formData.username.toLowerCase()
+        ];
+
         if (!user) {
-            return Statique.sendRes(res, 400, "text/html", "Invalid username.");
+            return Statique.sendRes(res, 400, "text/html", JSON.stringify({
+                message: "Invalid username."
+            }));
         }
 
         // validate password
         if (user.password !== formData.password) {
-            return Statique.sendRes(res, 403, "text/html", "Invalid password.");
+            return Statique.sendRes(res, 403, "text/html", JSON.stringify({
+                message: "Invalid password."
+            }));
         }
 
         // valid request
@@ -153,29 +193,39 @@ const FORMS = {
         res.setHeader("set-cookie", "sid=" + sid);
 
         // success response
-        Statique.sendRes(res, 200, "text/html", "Successfully logged in");
+        Statique.sendRes(res, 200, "text/html", JSON.stringify({
+            message: "Successfully logged in"
+        }));
     }
   , "reinitCache": function (req, res, formData) {
 
         // not logged in
         if (!sessions[parseCookies(req).sid]) {
-            return Statique.sendRes(res, 403, "text/html", "You should be logged in to reinit the cache.");
+            return Statique.sendRes(res, 403, "text/html", JSON.stringify({
+                message: "You should be logged in to reinit the cache."
+            }));
         }
 
         // parse paths
         SITE_CONFIG.parsePaths();
-        Statique.sendRes(res, 200, "text/html", "Successfully reinited cache.");
+        Statique.sendRes(res, 200, "text/html", JSON.stringify({
+            message: "Successfully reinited cache."
+        }));
     }
   , "exportAsHtml": function (req, res, formData) {
 
         // not logged in
         if (!sessions[parseCookies(req).sid]) {
-            return Statique.sendRes(res, 403, "text/html", "You should be logged in to reinit the cache.");
+            return Statique.sendRes(res, 403, "text/html", JSON.stringify({
+                message: "You should be logged to be able to export this site."
+            }));
         }
 
         // TODO The magic
 
-        Statique.sendRes(res, 200, "text/html", "Successfully reinited cache.");
+        Statique.sendRes(res, 200, "text/html", JSON.stringify({
+            message: "Successfully reinited cache."
+        }));
     }
 };
 
@@ -230,7 +280,8 @@ function readFile (path, callback) {
  * @function
  * @param {Number} skip How many posts should be skipped
  * @param {Number} limit How many posts to return
- * @param {Function} callback The callback function that will be called with an error and the posts array
+ * @param {Function} callback The callback function that will be called with an
+ * error and the posts array
  * @return {undefined} Returns undefined
  */
 function fetchPosts (skip, limit, callback) {
@@ -323,7 +374,9 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
     }
 
     if (pathName.indexOf(SITE_CONFIG.blog.url) === 0 && !posts && !isBlogPost) {
-        var urlSearch = QueryString.parse((Url.parse(req.url).search || "").substring(1));
+        var urlSearch = QueryString.parse(
+            (Url.parse(req.url).search || "").substring(1)
+        );
         urlSearch.page = Math.floor(Number(urlSearch.page)) - 1;
         fetchPosts(
             urlSearch.page * SITE_CONFIG.blog.posts.limit
@@ -331,7 +384,11 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
           , function (err, data) {
                 if (err) {
                     console.error (err);
-                    return Statique.sendRes(res, 500, "text/html", "Internal Server Error");
+                    return Statique.sendRes(res, 500, "text/html",
+                        JSON.stringify({
+                            message: "Internal Server Error"
+                        })
+                    );
                 }
 
                 handlePageGet(req, res, pathName, route, data);
@@ -474,10 +531,21 @@ function handlePagePost (req, res, pathName, route) {
             }
 
             if (thisForm.constructor.name === "Object") {
-                if (thisForm.validate && thisForm.validate.constructor.name === "Object") {
+                if (
+                    thisForm.validate
+                    && thisForm.validate.constructor.name === "Object"
+                ) {
                     for (var fieldName in thisForm.validate) {
-                        if (!validateField(formData[fieldName], thisForm.validate[fieldName])) {
-                            return Statique.sendRes(res, 400, "text/html", "Invalid data: " + fieldName + " should be " + thisForm.validate[fieldName]);
+                        if (!validateField(
+                            formData[fieldName], thisForm.validate[fieldName])
+                           ) {
+                            return Statique.sendRes(
+                                res, 400, "text/html", JSON.stringify({
+                                    message: fieldName[0].toUpperCase()
+                                           + fieldName.substring(1)
+                                           + " is invalid."
+                                })
+                            );
                         }
                     }
                 }
@@ -488,7 +556,9 @@ function handlePagePost (req, res, pathName, route) {
             return;
         }
 
-        return Statique.sendRes(res, 400, "text/html", "Invalid or missing form id");
+        return Statique.sendRes(res, 400, "text/html", JSON.stringify({
+            message: "Invalid or missing form id"
+        }));
     });
 }
 
