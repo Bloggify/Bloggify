@@ -485,9 +485,16 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
             }
         }
 
+        var htmlTemplate = SITE_CONFIG.parsed.roots.template.page;
+
+        // add title
+        if (isBlogPost) {
+            htmlTemplate = SITE_CONFIG.parsed.roots.template.post;
+        }
+
         // success response
         Statique.sendRes(res, 200, "text/html",
-            SITE_CONFIG.parsed.roots.template.page.replace(
+            htmlTemplate.replace(
                 "{{PAGE_CONTENT}}"
               , Marked(fileContent)
             ).replace(
