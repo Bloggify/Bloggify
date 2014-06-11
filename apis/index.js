@@ -468,7 +468,9 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
                 if (cPostObj.visible === false) { continue; }
                 postHtml +=
                     "<div class='post'>\n"
-                      + "<a href='" + SITE_CONFIG.blog.url + "/" + cPostObj.slug + "'><h1>" + cPostObj.title + "</h1></a>\n"
+                      + "<a href='" + SITE_CONFIG.blog.url + "/" + cPostObj.slug + "'>"
+                          + "<h1>" + cPostObj.title + "</h1>"
+                      + "</a>\n"
                       + "<div class='post-content'>\n"
                           + Marked(cPostObj.content) + "\n"
                       + "</div>\n"
