@@ -498,7 +498,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
                 + "related=ionicabizau&url=http://" + encodeURIComponent(req.headers.host + req.url) + "' target='blank'>@IonicaBizau</a> know on Twitter."
                 + "</p>"
                 + "<p class='blog-feedback-description'>"
-                + "Need help or found a bug? [Contact me](/contact)."
+                + "Have any questions or suggestions? [Contact me](/contact). Found a bug? [Report it now](https://github.com/IonicaBizau/gitcms/issues/new)"
                 + "</p>"
                 + "</div>"
         }
