@@ -490,6 +490,17 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
         // add title
         if (isBlogPost) {
             htmlTemplate = SITE_CONFIG.parsed.roots.template.post;
+            fileContent +=
+                  "<div class='blog-feedback'>"
+                + "<h2 class='blog-feedback-header with-twitter'>"
+                + "Have feedback on this post? Let"
+                + "<a href='https://twitter.com/intent/tweet?text=@IonicaBizau%20&amp;"
+                + "related=ionicabizau&url=http://" + encodeURIComponent(req.headers.host + req.url) + "' target='blank'>@IonicaBizau</a> know on Twitter."
+                + "</h2>"
+                + "<p class='blog-feedback-description'>"
+                + "Need help or found a bug? [Contact me](/contact)."
+                + "</p>"
+                + "</div>"
         }
 
         // success response
