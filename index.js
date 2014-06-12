@@ -1,6 +1,7 @@
 // Dependencies
 var Statique = global.Statique = require("statique")
   , Utils = require("./utils")
+  , JxUtils = require("jxutils")
   , Config = global.Config = require("./config.js")
   , Url = require("url")
   , Http = require("http")
@@ -47,9 +48,11 @@ Http.createServer(function(req, res) {
 
     var pathName = Url.parse(req.url, true).pathname;
 
-    // get route
-    var route = Statique.getRoute(pathName)
-      , isBlogPost = (new RegExp(SITE_CONFIG.blog.url + "\/([a-z]|[0-9])")).test(pathName)
+
+    var route = Statique.getRoute(pathName).url
+      , isBlogPost = (new RegExp(
+            SITE_CONFIG.blog.url + "\/([a-z]|[0-9])")
+        ).test(pathName)
       ;
 
     if (route || isBlogPost) {
