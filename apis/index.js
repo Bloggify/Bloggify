@@ -102,7 +102,7 @@ const FORMS = {
                 console.log(result);
                 if (result.reject_reason) {
                     return Statique.sendRes(
-                        res, 400, "text/html",
+                        res, 400, "text",
                         JSON.stringify({ message: "Sorry, an error ocured. "
                           + "Try again. If the "
                           + "problem persists, open an issue. We log such "
@@ -112,7 +112,7 @@ const FORMS = {
                 }
 
                 Statique.sendRes(
-                    res, 200, "text/html",
+                    res, 200, "text",
                     JSON.stringify({ message: "Thank you for getting in touch. "
                        + "I will try to reply you as soon as posible."
                     })
@@ -120,7 +120,7 @@ const FORMS = {
             }, function (error) {
                 console.error(error);
                 return Statique.sendRes(
-                    res, 400, "text/html",
+                    res, 400, "text",
                     JSON.stringify({ message: "Sorry, an error ocured. "
                       + "Try again. If the "
                       + "problem persists, open an issue. We log such "
@@ -141,21 +141,21 @@ const FORMS = {
         // get cookies
         var cookies = parseCookies(req);
         if (sessions[cookies.sid]) {
-            return Statique.sendRes(res, 400, "text/html", JSON.stringify({
+            return Statique.sendRes(res, 400, "text", JSON.stringify({
                 message: "You are logged in already."
             }));
         }
 
         // username
         if (!formData.username) {
-           return Statique.sendRes(res, 400, "text/html", JSON.stringify({
+           return Statique.sendRes(res, 400, "text", JSON.stringify({
                message: "Missing username"
            }));
         }
 
         // password
         if (!formData.password) {
-            return Statique.sendRes(res, 400, "text/html", JSON.stringify({
+            return Statique.sendRes(res, 400, "text", JSON.stringify({
                 message: "Missing password"
             }));
         }
@@ -166,14 +166,14 @@ const FORMS = {
         ];
 
         if (!user) {
-            return Statique.sendRes(res, 400, "text/html", JSON.stringify({
+            return Statique.sendRes(res, 400, "text", JSON.stringify({
                 message: "Invalid username."
             }));
         }
 
         // validate password
         if (user.password !== formData.password) {
-            return Statique.sendRes(res, 403, "text/html", JSON.stringify({
+            return Statique.sendRes(res, 403, "text", JSON.stringify({
                 message: "Invalid password."
             }));
         }
@@ -193,7 +193,7 @@ const FORMS = {
         res.setHeader("set-cookie", "sid=" + sid);
 
         // success response
-        Statique.sendRes(res, 200, "text/html", JSON.stringify({
+        Statique.sendRes(res, 200, "text", JSON.stringify({
             message: "Successfully logged in"
         }));
     }
@@ -201,14 +201,14 @@ const FORMS = {
 
         // not logged in
         if (!sessions[parseCookies(req).sid]) {
-            return Statique.sendRes(res, 403, "text/html", JSON.stringify({
+            return Statique.sendRes(res, 403, "text", JSON.stringify({
                 message: "You should be logged in to reinit the cache."
             }));
         }
 
         // parse paths
         SITE_CONFIG.parsePaths();
-        Statique.sendRes(res, 200, "text/html", JSON.stringify({
+        Statique.sendRes(res, 200, "text", JSON.stringify({
             message: "Successfully reinited cache."
         }));
     }
@@ -216,14 +216,14 @@ const FORMS = {
 
         // not logged in
         if (!sessions[parseCookies(req).sid]) {
-            return Statique.sendRes(res, 403, "text/html", JSON.stringify({
+            return Statique.sendRes(res, 403, "text", JSON.stringify({
                 message: "You should be logged to be able to export this site."
             }));
         }
 
         // TODO The magic
 
-        Statique.sendRes(res, 200, "text/html", JSON.stringify({
+        Statique.sendRes(res, 200, "text", JSON.stringify({
             message: "Successfully reinited cache."
         }));
     }
@@ -384,7 +384,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
           , function (err, data) {
                 if (err) {
                     console.error (err);
-                    return Statique.sendRes(res, 500, "text/html",
+                    return Statique.sendRes(res, 500, "text",
                         JSON.stringify({
                             message: "Internal Server Error"
                         })
@@ -416,7 +416,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
         }
 
         if (!post || !postName) {
-            return Statique.sendRes(res, 404, "text/html", "Post not found");
+            return Statique.sendRes(res, 404, "text", "Post not found");
         }
     }
 
@@ -504,7 +504,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
         }
 
         // success response
-        Statique.sendRes(res, 200, "text/html",
+        Statique.sendRes(res, 200, "text",
             htmlTemplate.replace(
                 "{{PAGE_CONTENT}}"
               , Marked(fileContent)
@@ -560,7 +560,7 @@ function handlePagePost (req, res, pathName, route) {
                             formData[fieldName], thisForm.validate[fieldName])
                            ) {
                             return Statique.sendRes(
-                                res, 400, "text/html", JSON.stringify({
+                                res, 400, "text", JSON.stringify({
                                     message: fieldName[0].toUpperCase()
                                            + fieldName.substring(1)
                                            + " is invalid."
@@ -576,7 +576,7 @@ function handlePagePost (req, res, pathName, route) {
             return;
         }
 
-        return Statique.sendRes(res, 400, "text/html", JSON.stringify({
+        return Statique.sendRes(res, 400, "text", JSON.stringify({
             message: "Invalid or missing form id"
         }));
     });
