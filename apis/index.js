@@ -1,6 +1,7 @@
 // Dependencies
 var Marked = require("marked")
   , Moment = require("moment")
+  , Mustache = require("mustache")
   , QueryString = require("querystring")
   , JxUtils = require("jxutils")
   , Url = require("url")
@@ -311,7 +312,9 @@ function fetchPosts (skip, limit, callback) {
             var pathToPost = SITE_CONFIG.paths.roots.posts + "/" + cPost.path;
             readFile(pathToPost, function (err, postContent) {
                 if (err) { return callback(err); }
-                cPost.content = postContent;
+                cPost.content = Marked(postContent);
+                cPost.publishedAt = Moment(cPost.publishedAt, "DD-MM-YYYY").format("DD MMM YYYY");
+                cPost.url = SITE_CONFIG.blog.url + "/" + cPost.slug;
                 result.push(cPost);
                 if (++complete >= limit) {
                     callback(null, result);
@@ -455,10 +458,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
                 cPageObj.visible = false;
             }
             if (cPageObj.visible === false) { continue; }
-            pageHtml +=
-                "<li class='page'>\n"
-              + "    <a href='" + cPageObj.url + "'>" + cPageObj.label + "</a>\n"
-              + "</li>\n";
+            pageHtml += Mustache.render(SITE_CONFIG.parsed.roots.template.blocks.page, cPageObj);
         }
 
         var postHtml = "";
@@ -466,41 +466,20 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
             for (var i = 0; i < posts.length; ++i) {
                 var cPostObj = posts[i];
                 if (cPostObj.visible === false) { continue; }
-                postHtml +=
-                    "<div class='post'>\n"
-                      + "<a href='" + SITE_CONFIG.blog.url + "/" + cPostObj.slug + "'>"
-                          + "<h1>" + cPostObj.title + "</h1>"
-                      + "</a>\n"
-                      + "<div class='post-content'>\n"
-                          + Marked(cPostObj.content) + "\n"
-                      + "</div>\n"
-                      + "<div class='post-bottom-shadow'></div>\n"
-                      + "<div class='post-bottom'>\n"
-                          + "<span class='date'>" + Moment(cPostObj.publishedAt, "DD-MM-YYYY").format("DD MMM YYYY") + "</span>"
-                          + " | <a href='" + SITE_CONFIG.blog.url + "/" + cPostObj.slug + "'>\n"
-                              + "Read more »\n"
-                          + "</a>\n"
-                      + "</div>\n"
-                  + "</div>";
+                postHtml += Mustache.render(SITE_CONFIG.parsed.roots.template.blocks.post, cPostObj);
             }
         }
 
-        var htmlTemplate = SITE_CONFIG.parsed.roots.template.page;
+        var htmlTemplate = SITE_CONFIG.parsed.roots.template.pages;
 
         // add title
         if (isBlogPost) {
-            htmlTemplate = SITE_CONFIG.parsed.roots.template.post;
-            fileContent +=
-                  "<div class='blog-feedback'>"
-                + "<p class='blog-feedback-header with-twitter'>"
-                + "Have feedback on this post? Let "
-                + "<a href='https://twitter.com/intent/tweet?text=@IonicaBizau%20&amp;"
-                + "related=ionicabizau&url=http://" + encodeURIComponent(req.headers.host + req.url) + "' target='blank'>@IonicaBizau</a> know on Twitter."
-                + "</p>"
-                + "<p class='blog-feedback-description'>"
-                + "Have any questions or suggestions? [Contact me](/contact). Found a bug? [Report it now](https://github.com/IonicaBizau/gitcms/issues/new)"
-                + "</p>"
-                + "</div>"
+            htmlTemplate = SITE_CONFIG.parsed.roots.template.posts;
+
+            // TODO Send full data about the current post
+            fileContent += Mustache.render(SITE_CONFIG.parsed.roots.template.blocks.postContentEnd, {
+                fullUrl: req.headers.host + req.url
+            });
         }
 
         // success response
