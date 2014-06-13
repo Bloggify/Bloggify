@@ -8,7 +8,6 @@ var Marked = require("marked")
   , Mandrill = require('mandrill-api/mandrill')
   , Validators = require("./validators")
   , Highlight = require("highlight.js")
-  , HandleError = require("./errors")
   ;
 
 // Highlight config
