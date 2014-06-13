@@ -58,6 +58,46 @@ function validateField (value, validators) {
 }
 
 /**
+ * getPost
+ * Searches the post in the parsed resources and returns it
+ *
+ * @name getPost
+ * @function
+ * @param {Object|String} req The request object or the slug
+ * @return {Object} The post object that comes from the parsed resources
+ */
+function getPost (req) {
+
+    var posts = SITE_CONFIG.parsed.roots.posts
+      , slug = req.url.substring(SITE_CONFIG.blog.url.length + 1)
+      ;
+
+    for (var i = 0, cPost; i < posts.length; ++i) {
+        cPost = posts[i];
+        if (slug === cPost.slug) {
+            return cPost;
+        }
+    }
+
+    return null;
+}
+
+/**
+ * handlePost
+ *
+ *
+ * @name handlePost
+ * @function
+ * @param {Object} cPost The post object from parsed resources
+ * @return
+ */
+function handlePost (cPost) {
+    cPost.content = Marked(postContent);
+    cPost.date = Moment(cPost.publishedAt, "DD-MM-YYYY").format("DD MMM YYYY");
+    cPost.url = SITE_CONFIG.blog.url + "/" + cPost.slug;
+}
+
+/**
  * parseCookies
  * This function parses the cookies from request
  *
@@ -312,7 +352,7 @@ function fetchPosts (skip, limit, callback) {
             readFile(pathToPost, function (err, postContent) {
                 if (err) { return callback(err); }
                 cPost.content = Marked(postContent);
-                cPost.publishedAt = Moment(cPost.publishedAt, "DD-MM-YYYY").format("DD MMM YYYY");
+                cPost.date = Moment(cPost.publishedAt, "DD-MM-YYYY").format("DD MMM YYYY");
                 cPost.url = SITE_CONFIG.blog.url + "/" + cPost.slug;
                 result.push(cPost);
                 if (++complete >= limit) {
@@ -473,17 +513,18 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
             }
         }
 
-        var htmlTemplate = SITE_CONFIG.parsed.roots.template.pages;
+        var htmlTemplate = SITE_CONFIG.parsed.roots.template.pages
+          , tPost = getPost(req)
+          ;
 
         // add title
         if (isBlogPost) {
             htmlTemplate = SITE_CONFIG.parsed.roots.template.posts;
 
-            // TODO Send full data about the current post
+            debugger;
             fileContent += Mustache.render(
-                SITE_CONFIG.parsed.roots.template.blocks.postContentEnd, {
-                fullUrl: req.headers.host + req.url
-            });
+                SITE_CONFIG.parsed.roots.template.blocks.postContentEnd, tPost
+            );
         }
 
         // success response
