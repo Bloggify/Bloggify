@@ -9,7 +9,8 @@
     "jxutils": "*",
     "mandrill-api"  : "1.0.39",
     "highlight.js"  : "*",
-    "marked": "*"
+    "marked": "*",
+    "mustache": "0.8.2"
   },
   "devDependencies": {},
   "scripts": {
