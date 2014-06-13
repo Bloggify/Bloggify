@@ -457,7 +457,9 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
                 cPageObj.visible = false;
             }
             if (cPageObj.visible === false) { continue; }
-            pageHtml += Mustache.render(SITE_CONFIG.parsed.roots.template.blocks.page, cPageObj);
+            pageHtml += Mustache.render(
+                SITE_CONFIG.parsed.roots.template.blocks.page, cPageObj
+            );
         }
 
         var postHtml = "";
@@ -465,7 +467,9 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
             for (var i = 0; i < posts.length; ++i) {
                 var cPostObj = posts[i];
                 if (cPostObj.visible === false) { continue; }
-                postHtml += Mustache.render(SITE_CONFIG.parsed.roots.template.blocks.post, cPostObj);
+                postHtml += Mustache.render(
+                    SITE_CONFIG.parsed.roots.template.blocks.post, cPostObj
+                );
             }
         }
 
@@ -476,7 +480,8 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
             htmlTemplate = SITE_CONFIG.parsed.roots.template.posts;
 
             // TODO Send full data about the current post
-            fileContent += Mustache.render(SITE_CONFIG.parsed.roots.template.blocks.postContentEnd, {
+            fileContent += Mustache.render(
+                SITE_CONFIG.parsed.roots.template.blocks.postContentEnd, {
                 fullUrl: req.headers.host + req.url
             });
         }
