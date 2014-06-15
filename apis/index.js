@@ -71,12 +71,14 @@ function validateField (value, validators) {
 function getPost (req, fileContent) {
 
     var posts = SITE_CONFIG.parsed.roots.posts
-      , slug = req.url.substring(SITE_CONFIG.blog.url.length + 1)
+      , postId = req.url.match(/[0-9]+/)[0] || req
       ;
+
+    if (!postId) { return null; }
 
     for (var i = 0, cPost; i < posts.length; ++i) {
         cPost = posts[i];
-        if (slug === cPost.slug) {
+        if (postId === cPost.id) {
             return handlePost(req, cPost, fileContent);
         }
     }
@@ -102,9 +104,8 @@ function handlePost (req, cPost, postContent) {
         cPost.content = Marked(postContent);
     }
     cPost.date = Moment(cPost.publishedAt, "DD-MM-YYYY").format("DD MMM YYYY");
-    cPost.url = SITE_CONFIG.blog.url + "/" + cPost.slug;
-    cPost.fullUrl =
-        "http://" + req.headers.host + SITE_CONFIG.blog.url + "/" + cPost.slug;
+    cPost.url = SITE_CONFIG.blog.url + "/" + cPost.id + "-" + cPost.slug;
+    cPost.fullUrl = "http://" + req.headers.host + cPost.url;
     return cPost;
 }
 
@@ -453,22 +454,20 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
     if (isBlogPost) {
 
         var postName = pathName.split("/")[2]
-          , post = null
-          , allPosts = SITE_CONFIG.parsed.roots.posts;
+          , allPosts = SITE_CONFIG.parsed.roots.posts
+          , post = getPost(req)
           ;
 
-        route = SITE_CONFIG.paths.roots.posts + "/" + postName + ".md";
-
-        for (var i = 0; i < allPosts.length; ++i) {
-            var cPost = allPosts[i];
-            if (postName === cPost.slug) {
-                post = cPost;
-                break;
-            }
-        }
+        route = SITE_CONFIG.paths.roots.posts + "/" + post.path;
 
         if (!post || !postName) {
             return Statique.sendRes(res, 404, "text", "Post not found");
+        }
+
+        if (req.url !== post.url) {
+            return Statique.sendRes(res, 301, "text", "Redirecting", {
+                "location": post.url
+            });
         }
     }
 
@@ -519,12 +518,13 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
         }
 
         var htmlTemplate = SITE_CONFIG.parsed.roots.template.pages
-          , tPost = getPost(req, fileContent)
+          , tPost = null
           ;
 
         // add title
         if (isBlogPost) {
             htmlTemplate = SITE_CONFIG.parsed.roots.template.posts;
+            tPost = getPost(req, fileContent)
 
             tPost.content += Mustache.render(
                 Marked(SITE_CONFIG.parsed.roots.template.blocks.postContentEnd)
