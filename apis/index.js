@@ -532,13 +532,13 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
             );
 
             // success response
-            return Statique.sendRes(res, 200, "text",
+            return Statique.sendRes(res, 200, "text/html",
                 Mustache.render(htmlTemplate, tPost)
             );
         }
 
         // success response
-        Statique.sendRes(res, 200, "text",
+        Statique.sendRes(res, 200, "text/html",
             htmlTemplate.replace(
                 "{{PAGE_CONTENT}}"
               , Marked(fileContent)
