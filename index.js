@@ -50,10 +50,11 @@ Http.createServer(function(req, res) {
 
 
     var route = Statique.getRoute(pathName).url
-      , isBlogPost = (new RegExp(
-            SITE_CONFIG.blog.url + "\/([a-z]|[0-9])")
+      , isBlogPost = (
+            new RegExp(SITE_CONFIG.blog.url + "\/[0-9]+.*")
         ).test(pathName)
       ;
+
 
     if (route || isBlogPost) {
         Apis["handlePage:" + req.method](req, res, pathName, route, null, isBlogPost);
