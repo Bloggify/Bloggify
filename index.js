@@ -17,12 +17,14 @@ global.sessions = {};
 Config.gitSite.parsed.roots.pages["/login"] = {
     url: "/core/html/login.html"
   , visible: false
+  , slug: "login"
 };
 
 Config.gitSite.parsed.roots.pages["/blog"] = {
     url: "/core/html/blog.html"
   , label: "Blog"
   , order: 19
+  , slug: "blog"
 };
 
 Config.gitSite.parsed.roots.pages["/admin"] = {
@@ -30,6 +32,7 @@ Config.gitSite.parsed.roots.pages["/admin"] = {
   , label: "Admin"
   , order: 21
   , loggedIn: true
+  , slug: "admin"
 };
 
 // Handle uncaught exceptions
@@ -47,6 +50,11 @@ Statique
 Http.createServer(function(req, res) {
 
     var pathName = Url.parse(req.url, true).pathname;
+
+    // normalize path name
+    if (pathName.substr(-1) !== "/") {
+        pathName += "/";
+    }
 
 
     var route = Statique.getRoute(pathName)

@@ -503,6 +503,13 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
                 cPageObj.visible = false;
             }
             if (cPageObj.visible === false) { continue; }
+            cPageObj.additionalClasses = "";
+            if ("/" + cPageObj.slug + "/" === pathName
+                || cPageObj.url + "/" === pathName
+                || cPageObj.url === pathName) {
+                cPageObj.additionalClasses = " current-page";
+            }
+
             pageHtml += Mustache.render(
                 SITE_CONFIG.parsed.roots.template.blocks.page, cPageObj
             );
