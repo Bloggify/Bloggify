@@ -486,11 +486,6 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
           , pageHtml = "";
           ;
 
-        // add title
-        if (isBlogPost) {
-            fileContent = "# " + post.title + "\n\n" + fileContent;
-        }
-
         for (var url in pages) {
             var cPage = JxUtils.cloneObject(pages[url]);
             cPage.url = url;
@@ -534,6 +529,11 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
             fileContent += Mustache.render(
                 SITE_CONFIG.parsed.roots.template.blocks.postContentEnd
               , tPost
+            );
+
+            // success response
+            return Statique.sendRes(res, 200, "text",
+                Mustache.render(htmlTemplate, tPost)
             );
         }
 
