@@ -527,7 +527,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
             htmlTemplate = SITE_CONFIG.parsed.roots.template.posts;
 
             tPost.content += Mustache.render(
-                SITE_CONFIG.parsed.roots.template.blocks.postContentEnd
+                Marked(SITE_CONFIG.parsed.roots.template.blocks.postContentEnd)
               , tPost
             );
 
