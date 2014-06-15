@@ -64,9 +64,11 @@ function validateField (value, validators) {
  * @name getPost
  * @function
  * @param {Object|String} req The request object or the slug
+ * @param {String|undefined} fileContent The file content that is passed to
+ * handlePost function
  * @return {Object} The post object that comes from the parsed resources
  */
-function getPost (req) {
+function getPost (req, fileContent) {
 
     var posts = SITE_CONFIG.parsed.roots.posts
       , slug = req.url.substring(SITE_CONFIG.blog.url.length + 1)
@@ -75,7 +77,7 @@ function getPost (req) {
     for (var i = 0, cPost; i < posts.length; ++i) {
         cPost = posts[i];
         if (slug === cPost.slug) {
-            return cPost;
+            return handlePost(req, cPost, fileContent);
         }
     }
 
@@ -84,17 +86,26 @@ function getPost (req) {
 
 /**
  * handlePost
- *
+ * Attaches the additional fields that are used in the system.
  *
  * @name handlePost
  * @function
+ * @param {Object} req The request object
  * @param {Object} cPost The post object from parsed resources
- * @return
+ * @param {String|undefined} postContent If it's a string, the content field
+ * will be attached to the post object, being parsed by Marked module.
+ * @return {Object} The post object that contains content, date and url fields
+ * in addition to the other fields
  */
-function handlePost (cPost) {
-    cPost.content = Marked(postContent);
+function handlePost (req, cPost, postContent) {
+    if (typeof postContent === "string") {
+        cPost.content = Marked(postContent);
+    }
     cPost.date = Moment(cPost.publishedAt, "DD-MM-YYYY").format("DD MMM YYYY");
     cPost.url = SITE_CONFIG.blog.url + "/" + cPost.slug;
+    cPost.fullUrl =
+        "http://" + req.headers.host + SITE_CONFIG.blog.url + "/" + cPost.slug;
+    return cPost;
 }
 
 /**
@@ -318,13 +329,14 @@ function readFile (path, callback) {
  *
  * @name fetchPosts
  * @function
+ * @param {Object} req The request object
  * @param {Number} skip How many posts should be skipped
  * @param {Number} limit How many posts to return
  * @param {Function} callback The callback function that will be called with an
  * error and the posts array
  * @return {undefined} Returns undefined
  */
-function fetchPosts (skip, limit, callback) {
+function fetchPosts (req, skip, limit, callback) {
 
      skip = skip || 0;
      limit = ((limit || posts.length) + skip) - 1;
@@ -351,10 +363,7 @@ function fetchPosts (skip, limit, callback) {
             var pathToPost = SITE_CONFIG.paths.roots.posts + "/" + cPost.path;
             readFile(pathToPost, function (err, postContent) {
                 if (err) { return callback(err); }
-                cPost.content = Marked(postContent);
-                cPost.date = Moment(cPost.publishedAt, "DD-MM-YYYY").format("DD MMM YYYY");
-                cPost.url = SITE_CONFIG.blog.url + "/" + cPost.slug;
-                result.push(cPost);
+                result.push(handlePost(req, cPost, postContent));
                 if (++complete >= limit) {
                     callback(null, result);
                 }
@@ -421,7 +430,8 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
         );
         urlSearch.page = Math.floor(Number(urlSearch.page)) - 1;
         fetchPosts(
-            urlSearch.page * SITE_CONFIG.blog.posts.limit
+            req
+          , urlSearch.page * SITE_CONFIG.blog.posts.limit
           , SITE_CONFIG.blog.posts.limit
           , function (err, data) {
                 if (err) {
@@ -514,16 +524,16 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
         }
 
         var htmlTemplate = SITE_CONFIG.parsed.roots.template.pages
-          , tPost = getPost(req)
+          , tPost = getPost(req, fileContent)
           ;
 
         // add title
         if (isBlogPost) {
             htmlTemplate = SITE_CONFIG.parsed.roots.template.posts;
 
-            debugger;
             fileContent += Mustache.render(
-                SITE_CONFIG.parsed.roots.template.blocks.postContentEnd, tPost
+                SITE_CONFIG.parsed.roots.template.blocks.postContentEnd
+              , tPost
             );
         }
 
