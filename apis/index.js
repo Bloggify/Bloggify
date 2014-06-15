@@ -420,9 +420,11 @@ function getFormData (req, callback) {
  */
 function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
 
+    var pageRoute = route.url;
+
     // handle core pages, build the route
-    if (route && route.indexOf("/core") !== 0) {
-        route = SITE_CONFIG.paths.roots.pages + route;
+    if (pageRoute && pageRoute.indexOf("/core") !== 0) {
+        pageRoute = SITE_CONFIG.paths.roots.pages + pageRoute;
     }
 
     if (pathName.indexOf(SITE_CONFIG.blog.url) === 0 && !posts && !isBlogPost) {
@@ -458,7 +460,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
           , post = getPost(req)
           ;
 
-        route = SITE_CONFIG.paths.roots.posts + "/" + post.path;
+        pageRoute = SITE_CONFIG.paths.roots.posts + "/" + post.path;
 
         if (!post || !postName) {
             return Statique.sendRes(res, 404, "text", "Post not found");
@@ -472,7 +474,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
     }
 
     // read file
-    readFile(route, function (err, fileContent) {
+    readFile(pageRoute, function (err, fileContent) {
 
         if (err) {
             console.error(err);

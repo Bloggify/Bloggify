@@ -49,14 +49,14 @@ Http.createServer(function(req, res) {
     var pathName = Url.parse(req.url, true).pathname;
 
 
-    var route = Statique.getRoute(pathName).url
+    var route = Statique.getRoute(pathName)
       , isBlogPost = (
             new RegExp(SITE_CONFIG.blog.url + "\/[0-9]+.*")
         ).test(pathName)
       ;
 
 
-    if (route || isBlogPost) {
+    if (route && route.url || isBlogPost) {
         Apis["handlePage:" + req.method](req, res, pathName, route, null, isBlogPost);
         return;
     }
