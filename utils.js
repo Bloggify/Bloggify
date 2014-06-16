@@ -30,7 +30,6 @@ Utils.requireNoCache = function (path) {
  */
 Utils.parsePaths = function (objToIterate, parents) {
 
-    debugger;
     for (var path in objToIterate) {
         var cPath = objToIterate[path];
 
