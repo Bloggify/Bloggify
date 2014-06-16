@@ -1,7 +1,7 @@
 /**
  * The util functions
  */
-var Utils = require("jxutils");
+var Utils = module.exports = require("jxutils");
 
 /**
  * requireNoCache
