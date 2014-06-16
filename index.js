@@ -1,13 +1,19 @@
 // Dependencies
-var Statique = global.Statique = require("statique")
-  , Utils = require("./utils")
-  , JxUtils = require("jxutils")
-  , Config = global.Config = require("./config.js")
-  , Url = require("url")
-  , Http = require("http")
-  , Apis = require("./apis")
-  , ipaddress = Config.ipaddress
-  , port = Config.port
+var G = global
+  , Statique    = G.Statique    = require("statique")
+  , Utils       = G.Utils       = require("./utils")
+  , Fs          = G.Fs          = require("fs");
+  , Url         = G.Url         = require("url")
+  , Http        = G.Http        = require("http")
+  , Config      = G.Config      = require("./config.js")
+  , Apis        = G.Apis        = require("./apis")
+  , Marked      = G.Marked      = require("marked")
+  , Moment      = G.Moment      = require("moment")
+  , Mustache    = G.Mustache    = require("mustache")
+  , QueryString = G.QueryString = require("querystring")
+  , Mandrill    = G.Mandrill    = require('mandrill-api/mandrill')
+  , Validators  = G.Validators  = require("./apis/validators")
+  , Highlight   = G.Highlight   = require("highlight.js")
   ;
 
 // Dessions
@@ -71,7 +77,7 @@ Http.createServer(function(req, res) {
 
     // serve files
     Statique.serve(req, res);
-}).listen(port, ipaddress);
+}).listen(Config.port, Config.ipaddress);
 
 // print some output
-console.log("Server running at http://%s:%d", ipaddress || "localhost", port);
+console.log("Server running at http://%s:%d", Config.ipaddress || "localhost", Config.port);
