@@ -1,15 +1,3 @@
-// Dependencies
-var Marked = require("marked")
-  , Moment = require("moment")
-  , Mustache = require("mustache")
-  , QueryString = require("querystring")
-  , JxUtils = require("jxutils")
-  , Url = require("url")
-  , Mandrill = require('mandrill-api/mandrill')
-  , Validators = require("./validators")
-  , Highlight = require("highlight.js")
-  ;
-
 // Highlight config
 Highlight.configure({ classPrefix: '' });
 Marked.setOptions({
