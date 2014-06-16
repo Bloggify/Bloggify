@@ -2,7 +2,7 @@
 var G = global
   , Statique    = G.Statique    = require("statique")
   , Utils       = G.Utils       = require("./utils")
-  , Fs          = G.Fs          = require("fs");
+  , Fs          = G.Fs          = require("fs")
   , Url         = G.Url         = require("url")
   , Http        = G.Http        = require("http")
   , Apis        = G.Apis        = require("./apis")
