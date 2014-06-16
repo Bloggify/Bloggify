@@ -34,18 +34,18 @@ Utils.parsePaths = function (objToIterate, parents) {
         var cPath = objToIterate[path];
 
         if (cPath.constructor.name === "Object") {
-            parents = JSON.parse (JSON.stringify (parents));
-            parents.push (path);
-            parsePaths (cPath, parents);
+            parents = JSON.parse(JSON.stringify(parents));
+            parents.push(path);
+            parsePaths(cPath, parents);
         } else {
             try {
-                var modulePath = SITE_CONFIG.paths.ROOT + cPath;
-                SITE_CONFIG[parents.join(".") + "." + path] = requireNoCache (modulePath);
+                var modulePath = Config.gitSite.paths.ROOT + cPath;
+                Config.gitSite[parents.join(".") + "." + path] = requireNoCache(modulePath);
             } catch (e) {
-                console.warn (e.toString());
+                console.warn(e.toString());
             }
         }
     }
 
-    SITE_CONFIG = JxUtils.unflattenObject (SITE_CONFIG);
+    Config.gitSite = JxUtils.unflattenObject(Config.gitSite);
 };
