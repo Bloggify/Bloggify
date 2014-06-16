@@ -236,7 +236,7 @@ const FORMS = {
           , ttl: setTimeout(function () {
                 console.log("Removing session with id: " + sid);
                 delete sessions[sid];
-            }, Config.gitSite.cache.ttl)
+            }, Config.gitSite.session.ttl)
         };
 
         // set session id cookie
