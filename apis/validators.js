@@ -12,7 +12,7 @@ var Validators = module.exports = {
             return Boolean(value.length);
         }
 
-        console.warn("Cannot handle non-empty for: ", value);
+        Debug.log("Cannot handle non-empty for: " + value, "warn");
         return undefined;
     }
 };

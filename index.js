@@ -9,7 +9,8 @@ var G = global
   , Moment      = G.Moment      = require("moment")
   , Mustache    = G.Mustache    = require("mustache")
   , QueryString = G.QueryString = require("querystring")
-  , Mandrill    = G.Mandrill    = require('mandrill-api/mandrill')
+  , Mandrill    = G.Mandrill    = require("mandrill-api/mandrill")
+  , Debug       = G.Debug       = require("bug-killer")
   , Validators  = G.Validators  = require("./apis/validators")
   , Highlight   = G.Highlight   = require("highlight.js")
   , Bloggify    = G.Bloggify    = require("./lib")
@@ -28,7 +29,7 @@ Bloggify.apis = require("./apis")
 
 // Handle uncaught exceptions
 process.on("uncaughtException", function (err) {
-    console.error(err);
+    Debug.log(err, "error");
 });
 
 // Create server
@@ -58,4 +59,8 @@ Http.createServer(function(req, res) {
 }).listen(Config.port, Config.ipaddress);
 
 // Print some output
-console.log("Server running at http://%s:%d", Config.ipaddress || "localhost", Config.port);
+Debug.log(
+    "Server running at http://" + (Config.ipaddress || "localhost")
+  + ":" + Config.port
+  , "info"
+);

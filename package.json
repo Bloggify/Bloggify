@@ -10,7 +10,8 @@
     "mandrill-api"  : "1.0.39",
     "highlight.js"  : "*",
     "marked": "*",
-    "mustache": "0.8.2"
+    "mustache": "0.8.2",
+    "bug-killer": "0.1.0"
   },
   "devDependencies": {},
   "scripts": {

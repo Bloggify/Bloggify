@@ -8,7 +8,11 @@ Marked.setOptions({
 
 // Server cache for files
 var fileCache = {
-    dummyPath: {
+    _removePath: function (path) {
+        Debug.log("Removing file from cache: " + path, "info");
+        delete fileCache[path]
+    }
+  , dummyPath: {
         ttl: setTimeout (function () {
             delete fileCache["dummyPath"];
         }, Config.gitSite.cache.ttl)
@@ -139,7 +143,7 @@ const FORMS = {
                   , text: formData.message
                 }
             }, function(result) {
-                console.log(result);
+                Debug.log(result, "info");
                 if (result.reject_reason) {
                     return Statique.sendRes(
                         res, 400, "text",
@@ -158,7 +162,7 @@ const FORMS = {
                     })
                 );
             }, function (error) {
-                console.error(error);
+                Debug.log(error, "error");
                 return Statique.sendRes(
                     res, 400, "text",
                     JSON.stringify({ message: "Sorry, an error ocured. "
@@ -221,10 +225,7 @@ const FORMS = {
         sessions[sid] = {
             id: sid
           , user: user
-          , ttl: setTimeout(function () {
-                console.log("Removing session with id: " + sid);
-                delete sessions[sid];
-            }, Config.gitSite.session.ttl)
+          , ttl: setTimeout(fileCache._removePath, Config.gitSite.session.ttl)
         };
 
         // set session id cookie
@@ -280,27 +281,26 @@ const FORMS = {
  */
 function readFile (path, callback) {
 
-    // try to get the file from cache
+    // Try to get the file from cache
     var fromCache = fileCache[path];
     if (fromCache) {
 
         // reset timeout
-        fromCache.ttl = setTimeout(function () {
-            console.log("Removing file from cache: " + path);
-            delete fileCache[path]
-        }, Config.gitSite.cache.ttl);
+        fromCache.ttl = setTimeout(
+            fileCache._removePath
+          , Config.gitSite.cache.ttl
+        );
 
         // callback content
         return callback(null, fromCache.content);
     }
 
-    // read file using statique
+    // Read file using statique
     Statique.readFile(path, function (err, content) {
         if (err) { return callback(err); }
 
         fileCache[path] = {
             ttl: setTimeout(function () {
-                console.log("Deleting " + path);
                 delete fileCache[path];
             }, Config.gitSite.cache.ttl)
           , content: content
@@ -425,7 +425,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
           , Config.gitSite.blog.posts.limit
           , function (err, data) {
                 if (err) {
-                    console.error (err);
+                    Debug.log(err, "error");
                     return Statique.sendRes(res, 500, "text",
                         JSON.stringify({
                             message: "Internal Server Error"
@@ -464,7 +464,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
     readFile(pageRoute, function (err, fileContent) {
 
         if (err) {
-            console.error(err);
+            Debug.log(err, "error");
             return Statique.sendRes(res, 500, "html", "Internal server error");
         }
 
@@ -570,7 +570,7 @@ function handlePagePost (req, res, pathName, route) {
     getFormData(req, function (err, formData) {
 
         if (err) {
-            console.error (err);
+            Debug.log(err, "error");
             return res.end ("Internal server error");
         }
 
