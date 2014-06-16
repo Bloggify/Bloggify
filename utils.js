@@ -30,6 +30,7 @@ Utils.requireNoCache = function (path) {
  */
 Utils.parsePaths = function (objToIterate, parents) {
 
+    debugger;
     for (var path in objToIterate) {
         var cPath = objToIterate[path];
 
@@ -40,7 +41,7 @@ Utils.parsePaths = function (objToIterate, parents) {
         } else {
             try {
                 var modulePath = Config.gitSite.paths.ROOT + cPath;
-                Config.gitSite[parents.join(".") + "." + path] = requireNoCache(modulePath);
+                Config.gitSite[parents.join(".") + "." + path] = Utils.requireNoCache(modulePath);
             } catch (e) {
                 console.warn(e.toString());
             }
