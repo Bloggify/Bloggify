@@ -447,11 +447,11 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
           , post = getPost(req)
           ;
 
-        pageRoute = Config.gitSite.paths.roots.posts + "/" + post.path;
-
         if (!post || !postName) {
             return Statique.sendRes(res, 404, "text", "Post not found");
         }
+
+        pageRoute = Config.gitSite.paths.roots.posts + "/" + post.path;
 
         if (req.url !== post.url) {
             return Statique.redirect(res, post.url);
