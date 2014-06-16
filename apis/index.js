@@ -328,7 +328,7 @@ function fetchPosts (req, skip, limit, callback) {
      skip = skip || 0;
      limit = ((limit || posts.length) + skip) - 1;
 
-     var posts = JxUtils.cloneObject(SITE_CONFIG.parsed.roots.posts)
+     var posts = Utils.cloneObject(SITE_CONFIG.parsed.roots.posts)
        , result = []
        , complete = skip
        ;
@@ -474,7 +474,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
           ;
 
         for (var url in pages) {
-            var cPage = JxUtils.cloneObject(pages[url]);
+            var cPage = Utils.cloneObject(pages[url]);
             cPage.url = url;
             pageArray.push(cPage);
         }
