@@ -36,7 +36,7 @@ Utils.parsePaths = function (objToIterate, parents) {
         if (cPath.constructor.name === "Object") {
             parents = JSON.parse(JSON.stringify(parents));
             parents.push(path);
-            parsePaths(cPath, parents);
+            Utils.parsePaths(cPath, parents);
         } else {
             try {
                 var modulePath = Config.gitSite.paths.ROOT + cPath;
