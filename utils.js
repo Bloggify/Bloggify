@@ -40,7 +40,7 @@ Utils.parsePaths = function (objToIterate, parents) {
             Utils.parsePaths(cPath, parents);
         } else {
             try {
-                var modulePath = Config.gitSite.paths.ROOT + cPath;
+                var modulePath = Config.gitSite.paths.ROOT + Config.gitSite.url + cPath;
                 Config.gitSite[parents.join(".") + "." + path] = Utils.requireNoCache(modulePath);
             } catch (e) {
                 console.warn(e.toString());
