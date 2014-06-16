@@ -47,5 +47,5 @@ Utils.parsePaths = function (objToIterate, parents) {
         }
     }
 
-    Config.gitSite = JxUtils.unflattenObject(Config.gitSite);
+    Config.gitSite = Utils.unflattenObject(Config.gitSite);
 };
