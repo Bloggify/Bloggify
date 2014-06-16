@@ -213,18 +213,16 @@ const FORMS = {
         }
 
         // get user
-        var user = SITE_CONFIG.parsed.roots.users[
-            formData.username.toLowerCase()
-        ];
+        var user = Config.user;
 
-        if (!user) {
+        if (user.name !== formData.username) {
             return Statique.sendRes(res, 400, "text", JSON.stringify({
                 message: "Invalid username."
             }));
         }
 
         // validate password
-        if (user.password !== formData.password) {
+        if ((user.pass || user.password) !== formData.password) {
             return Statique.sendRes(res, 403, "text", JSON.stringify({
                 message: "Invalid password."
             }));
