@@ -5,7 +5,6 @@ var G = global
   , Fs          = G.Fs          = require("fs");
   , Url         = G.Url         = require("url")
   , Http        = G.Http        = require("http")
-  , Config      = G.Config      = require("./config.js")
   , Apis        = G.Apis        = require("./apis")
   , Marked      = G.Marked      = require("marked")
   , Moment      = G.Moment      = require("moment")
@@ -14,58 +13,33 @@ var G = global
   , Mandrill    = G.Mandrill    = require('mandrill-api/mandrill')
   , Validators  = G.Validators  = require("./apis/validators")
   , Highlight   = G.Highlight   = require("highlight.js")
+  , Bloggify    = G.Bloggify    = require("./lib")
   ;
 
 // Dessions
 global.sessions = {};
 
-// Attach core pages
-Config.gitSite.parsed.roots.pages["/login"] = {
-    url: "/core/html/login.html"
-  , visible: false
-  , slug: "login"
-};
-
-Config.gitSite.parsed.roots.pages["/blog"] = {
-    url: "/core/html/blog.html"
-  , label: "Blog"
-  , order: 19
-  , slug: "blog"
-};
-
-Config.gitSite.parsed.roots.pages["/admin"] = {
-    url: "/core/html/admin.html"
-  , label: "Admin"
-  , order: 21
-  , loggedIn: true
-  , slug: "admin"
-};
+// Start core
+Bloggify.start();
 
 // Handle uncaught exceptions
 process.on("uncaughtException", function (err) {
     console.error(err);
 });
 
-// statique config
-Statique
-    .server({ root: Config.gitSite.paths.ROOT })
-    .setRoutes(Config.gitSite.parsed.roots.pages)
-  ;
-
-// create server
+// Create server
 Http.createServer(function(req, res) {
 
     var pathName = Url.parse(req.url, true).pathname;
 
-    // normalize path name
+    // Normalize path name
     if (pathName.substr(-1) !== "/") {
         pathName += "/";
     }
 
-
     var route = Statique.getRoute(pathName)
       , isBlogPost = (
-            new RegExp(SITE_CONFIG.blog.url + "\/[0-9]+.*")
+            new RegExp(Config.gitSite.blog.url + "\/[0-9]+.*")
         ).test(pathName)
       ;
 
@@ -75,9 +49,9 @@ Http.createServer(function(req, res) {
         return;
     }
 
-    // serve files
+    // Serve files
     Statique.serve(req, res);
 }).listen(Config.port, Config.ipaddress);
 
-// print some output
+// Print some output
 console.log("Server running at http://%s:%d", Config.ipaddress || "localhost", Config.port);
