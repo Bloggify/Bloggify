@@ -28,9 +28,11 @@ Bloggify.start({
 Bloggify.apis = require("./apis")
 
 // Handle uncaught exceptions
-process.on("uncaughtException", function (err) {
-    Debug.log(err, "error");
-});
+if (Config.logLevel < 4) {
+    process.on("uncaughtException", function (err) {
+        Debug.log(err, "error");
+    });
+}
 
 // Create server
 Http.createServer(function(req, res) {
