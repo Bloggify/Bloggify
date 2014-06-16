@@ -5,7 +5,6 @@ var G = global
   , Fs          = G.Fs          = require("fs")
   , Url         = G.Url         = require("url")
   , Http        = G.Http        = require("http")
-  , Apis        = G.Apis        = require("./apis")
   , Marked      = G.Marked      = require("marked")
   , Moment      = G.Moment      = require("moment")
   , Mustache    = G.Mustache    = require("mustache")
@@ -13,6 +12,7 @@ var G = global
   , Mandrill    = G.Mandrill    = require('mandrill-api/mandrill')
   , Validators  = G.Validators  = require("./apis/validators")
   , Highlight   = G.Highlight   = require("highlight.js")
+  , Apis        = G.Apis        = require("./apis")
   , Bloggify    = G.Bloggify    = require("./lib")
   ;
 
