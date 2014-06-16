@@ -58,7 +58,7 @@ function validateField (value, validators) {
  */
 function getPost (req, fileContent) {
 
-    var posts = SITE_CONFIG.parsed.roots.posts
+    var posts = Config.gitSite.parsed.roots.posts
       , postId = req.url.match(/[0-9]+/)[0] || req
       ;
 
@@ -92,7 +92,7 @@ function handlePost (req, cPost, postContent) {
         cPost.content = Marked(postContent);
     }
     cPost.date = Moment(cPost.publishedAt, "DD-MM-YYYY").format("DD MMM YYYY");
-    cPost.url = SITE_CONFIG.blog.url + "/" + cPost.id + "-" + cPost.slug;
+    cPost.url = Config.gitSite.blog.url + "/" + cPost.id + "-" + cPost.slug;
     cPost.fullUrl = "http://" + req.headers.host + cPost.url;
     return cPost;
 }
@@ -245,7 +245,7 @@ const FORMS = {
         }
 
         // parse paths
-        SITE_CONFIG.parsePaths();
+        Config.gitSite.parsePaths();
         Statique.sendRes(res, 200, "text", JSON.stringify({
             message: "Successfully reinited cache."
         }));
@@ -328,7 +328,7 @@ function fetchPosts (req, skip, limit, callback) {
      skip = skip || 0;
      limit = ((limit || posts.length) + skip) - 1;
 
-     var posts = Utils.cloneObject(SITE_CONFIG.parsed.roots.posts)
+     var posts = Utils.cloneObject(Config.gitSite.parsed.roots.posts)
        , result = []
        , complete = skip
        ;
@@ -347,7 +347,7 @@ function fetchPosts (req, skip, limit, callback) {
                 return;
             }
 
-            var pathToPost = SITE_CONFIG.paths.roots.posts + "/" + cPost.path;
+            var pathToPost = Config.gitSite.paths.roots.posts + "/" + cPost.path;
             readFile(pathToPost, function (err, postContent) {
                 if (err) { return callback(err); }
                 result.push(handlePost(req, cPost, postContent));
@@ -410,18 +410,18 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
 
     // handle core pages, build the route
     if (pageRoute && pageRoute.indexOf("/core") !== 0) {
-        pageRoute = SITE_CONFIG.paths.roots.pages + pageRoute;
+        pageRoute = Config.gitSite.paths.roots.pages + pageRoute;
     }
 
-    if (pathName.indexOf(SITE_CONFIG.blog.url) === 0 && !posts && !isBlogPost) {
+    if (pathName.indexOf(Config.gitSite.blog.url) === 0 && !posts && !isBlogPost) {
         var urlSearch = QueryString.parse(
             (Url.parse(req.url).search || "").substring(1)
         );
         urlSearch.page = Math.floor(Number(urlSearch.page)) - 1;
         fetchPosts(
             req
-          , urlSearch.page * SITE_CONFIG.blog.posts.limit
-          , SITE_CONFIG.blog.posts.limit
+          , urlSearch.page * Config.gitSite.blog.posts.limit
+          , Config.gitSite.blog.posts.limit
           , function (err, data) {
                 if (err) {
                     console.error (err);
@@ -442,11 +442,11 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
     if (isBlogPost) {
 
         var postName = pathName.split("/")[2]
-          , allPosts = SITE_CONFIG.parsed.roots.posts
+          , allPosts = Config.gitSite.parsed.roots.posts
           , post = getPost(req)
           ;
 
-        pageRoute = SITE_CONFIG.paths.roots.posts + "/" + post.path;
+        pageRoute = Config.gitSite.paths.roots.posts + "/" + post.path;
 
         if (!post || !postName) {
             return Statique.sendRes(res, 404, "text", "Post not found");
@@ -469,7 +469,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
 
         // convert page object to array
         var pageArray = []
-          , pages = SITE_CONFIG.parsed.roots.pages
+          , pages = Config.gitSite.parsed.roots.pages
           , pageHtml = "";
           ;
 
@@ -497,7 +497,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
             }
 
             pageHtml += Mustache.render(
-                SITE_CONFIG.parsed.roots.template.blocks.page, cPageObj
+                Config.gitSite.parsed.roots.template.blocks.page, cPageObj
             );
         }
 
@@ -507,22 +507,22 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
                 var cPostObj = posts[i];
                 if (cPostObj.visible === false) { continue; }
                 postHtml += Mustache.render(
-                    SITE_CONFIG.parsed.roots.template.blocks.post, cPostObj
+                    Config.gitSite.parsed.roots.template.blocks.post, cPostObj
                 );
             }
         }
 
-        var htmlTemplate = SITE_CONFIG.parsed.roots.template.pages
+        var htmlTemplate = Config.gitSite.parsed.roots.template.pages
           , tPost = null
           ;
 
         // add title
         if (isBlogPost) {
-            htmlTemplate = SITE_CONFIG.parsed.roots.template.posts;
+            htmlTemplate = Config.gitSite.parsed.roots.template.posts;
             tPost = getPost(req, fileContent)
 
             tPost.content += Mustache.render(
-                Marked(SITE_CONFIG.parsed.roots.template.blocks.postContentEnd)
+                Marked(Config.gitSite.parsed.roots.template.blocks.postContentEnd)
               , tPost
             );
 
@@ -539,7 +539,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
               , Marked(fileContent)
             ).replace(
                 "{{TITLE}}"
-              , SITE_CONFIG.title
+              , Config.gitSite.title
             ).replace(
                 "{{PAGES}}"
               , pageHtml
