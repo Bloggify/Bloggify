@@ -406,6 +406,7 @@ function getFormData (req, callback) {
  */
 function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
 
+    debugger;
     var pageRoute = route.url;
 
     // handle core pages, build the route
