@@ -347,7 +347,10 @@ function fetchPosts (req, skip, limit, callback) {
                 return;
             }
 
-            var pathToPost = Config.gitSite.paths.roots.posts + "/" + cPost.path;
+            var pathToPost =
+                Config.gitSite.paths.roots.posts + "/" + cPost.path
+            ;
+
             readFile(pathToPost, function (err, postContent) {
                 if (err) { return callback(err); }
                 result.push(handlePost(req, cPost, postContent));
@@ -414,7 +417,9 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
         pageRoute = Config.gitSite.paths.roots.pages + pageRoute;
     }
 
-    if (pathName.indexOf(Config.gitSite.blog.url) === 0 && !posts && !isBlogPost) {
+    if (pathName.indexOf(
+        Config.gitSite.blog.url
+    ) === 0 && !posts && !isBlogPost) {
         var urlSearch = QueryString.parse(
             (Url.parse(req.url).search || "").substring(1)
         );
@@ -521,7 +526,9 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
             tPost = getPost(req, fileContent)
 
             tPost.content += Mustache.render(
-                Marked(Config.gitSite.parsed.roots.template.blocks.postContentEnd)
+                Marked(
+                    Config.gitSite.parsed.roots.template.blocks.postContentEnd
+                )
               , tPost
             );
 

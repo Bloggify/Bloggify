@@ -52,7 +52,9 @@ Http.createServer(function(req, res) {
 
 
     if (route && route.url || isBlogPost) {
-        Bloggify.apis["handlePage:" + req.method](req, res, pathName, route, null, isBlogPost);
+        Bloggify.apis["handlePage:" + req.method](
+            req, res, pathName, route, null, isBlogPost
+        );
         return;
     }
 
