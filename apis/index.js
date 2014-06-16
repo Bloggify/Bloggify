@@ -454,9 +454,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
         }
 
         if (req.url !== post.url) {
-            return Statique.sendRes(res, 301, "text", "Redirecting", {
-                "location": post.url
-            });
+            return Statique.redirect(res, post.url);
         }
     }
 
