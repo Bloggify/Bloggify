@@ -12,7 +12,6 @@ var G = global
   , Mandrill    = G.Mandrill    = require('mandrill-api/mandrill')
   , Validators  = G.Validators  = require("./apis/validators")
   , Highlight   = G.Highlight   = require("highlight.js")
-  , Apis        = G.Apis        = require("./apis")
   , Bloggify    = G.Bloggify    = require("./lib")
   ;
 
@@ -21,6 +20,9 @@ global.sessions = {};
 
 // Start core
 Bloggify.start();
+
+// Require apis after Config was inited
+Bloggify.apis = require("./apis")
 
 // Handle uncaught exceptions
 process.on("uncaughtException", function (err) {
@@ -45,7 +47,7 @@ Http.createServer(function(req, res) {
 
 
     if (route && route.url || isBlogPost) {
-        Apis["handlePage:" + req.method](req, res, pathName, route, null, isBlogPost);
+        Bloggify.apis["handlePage:" + req.method](req, res, pathName, route, null, isBlogPost);
         return;
     }
 
