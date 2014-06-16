@@ -19,7 +19,9 @@ var G = global
 global.sessions = {};
 
 // Start core
-Bloggify.start();
+Bloggify.start({
+    root: __dirname
+});
 
 // Require apis after Config was inited
 Bloggify.apis = require("./apis")
