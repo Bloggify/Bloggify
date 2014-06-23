@@ -246,7 +246,7 @@ const FORMS = {
         }
 
         // parse paths
-        Config.gitSite.parsePaths();
+        Bloggify.clearCache();
         Statique.sendRes(res, 200, "text", JSON.stringify({
             message: "Successfully reinited cache."
         }));
