@@ -473,7 +473,8 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
         // convert page object to array
         var pageArray = []
           , pages = Config.site.parsed.roots.pages
-          , pageHtml = "";
+          , pageHtml = ""
+          , currentPage = pages[pathName.slice(0, -1)] || pages[pathName]
           ;
 
         for (var url in pages) {
@@ -515,43 +516,47 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
             }
         }
 
-        var htmlTemplate = Config.site.parsed.roots.template.pages
+        var htmlTemplate = Config.site.parsed.roots.template.single.page
           , tPost = null
           ;
 
         // add title
         if (isBlogPost) {
-            htmlTemplate = Config.site.parsed.roots.template.posts;
+            htmlTemplate = Config.site.parsed.roots.template.single.post
             tPost = getPost(req, fileContent)
 
             tPost.content += Mustache.render(
                 Marked(
-                    Config.site.parsed.roots.template.blocks.postContentEnd
+                    Config.site.parsed.roots.template.blocks.postEnd
                 )
               , tPost
             );
 
             // success response
             return Statique.sendRes(res, 200, "text/html",
-                Mustache.render(htmlTemplate, tPost)
+                Mustache.render(htmlTemplate, {
+                    data: {
+                        post: tPost
+                      , title: tPost.title
+                    }
+                  , config: Config
+                })
             );
         }
 
         // success response
         Statique.sendRes(res, 200, "text/html",
-            htmlTemplate.replace(
-                "{{PAGE_CONTENT}}"
-              , Marked(fileContent)
-            ).replace(
-                "{{TITLE}}"
-              , Config.site.title
-            ).replace(
-                "{{PAGES}}"
-              , pageHtml
-            ).replace(
-                "{{BLOG_POSTS}}"
-              , postHtml
-            )
+            Mustache.render(htmlTemplate, {
+                data: {
+                    pages: pageHtml
+                  , title: currentPage.label
+                  , page: {
+                        content: Marked(fileContent)
+                    }
+                  , posts: postHtml
+                }
+              , config: Config
+            })
         );
     });
 }
