@@ -412,7 +412,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
     var pageRoute = route.url;
 
     // handle core pages, build the route
-    if (pageRoute && pageRoute.indexOf("/core") !== 0) {
+    if (pageRoute && pageRoute.indexOf(Config.site.paths.template + "/core") !== 0) {
         pageRoute = Config.site.paths.roots.pages + pageRoute;
     }
 
@@ -544,9 +544,9 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
             );
         }
 
-        // success response
+        // Success response
         Statique.sendRes(res, 200, "text/html",
-            Mustache.render(htmlTemplate, {
+            Utils.mRender(htmlTemplate, {
                 data: {
                     pages: pageHtml
                   , title: currentPage.label
@@ -556,7 +556,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
                   , posts: postHtml
                 }
               , config: Config
-            })
+            }, { repeat: 2 })
         );
     });
 }

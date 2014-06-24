@@ -58,3 +58,11 @@ Utils.parsePaths = function (objToIterate, parents) {
 Utils.readFileSync = function (path) {
     return Fs.readFileSync(path).toString();
 };
+
+Utils.mRender = function (str, data, options) {
+    options.repeat = options.repeat || 1;
+    for (var i = 0; i < options.repeat; ++i) {
+        str = Mustache.render(str, data, options.renderOptions);
+    }
+    return str;
+};
