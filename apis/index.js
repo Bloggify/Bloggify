@@ -15,7 +15,7 @@ var fileCache = {
   , dummyPath: {
         ttl: setTimeout (function () {
             delete fileCache["dummyPath"];
-        }, Config.gitSite.cache.ttl)
+        }, Config.site.cache.ttl)
       , content: "Dummy"
     }
 };
@@ -62,7 +62,7 @@ function validateField (value, validators) {
  */
 function getPost (req, fileContent) {
 
-    var posts = Config.gitSite.parsed.roots.posts
+    var posts = Config.site.parsed.roots.posts
       , postId = req.url.match(/[0-9]+/)[0] || req
       ;
 
@@ -96,7 +96,7 @@ function handlePost (req, cPost, postContent) {
         cPost.content = Marked(postContent);
     }
     cPost.date = Moment(cPost.publishedAt, "DD-MM-YYYY").format("DD MMM YYYY");
-    cPost.url = Config.gitSite.blog.url + "/" + cPost.id + "-" + cPost.slug;
+    cPost.url = Config.site.blog.url + "/" + cPost.id + "-" + cPost.slug;
     cPost.fullUrl = "http://" + req.headers.host + cPost.url;
     return cPost;
 }
@@ -225,7 +225,7 @@ const FORMS = {
         sessions[sid] = {
             id: sid
           , user: user
-          , ttl: setTimeout(fileCache._removePath, Config.gitSite.session.ttl)
+          , ttl: setTimeout(fileCache._removePath, Config.site.session.ttl)
         };
 
         // set session id cookie
@@ -288,7 +288,7 @@ function readFile (path, callback) {
         // reset timeout
         fromCache.ttl = setTimeout(
             fileCache._removePath
-          , Config.gitSite.cache.ttl
+          , Config.site.cache.ttl
         );
 
         // callback content
@@ -302,7 +302,7 @@ function readFile (path, callback) {
         fileCache[path] = {
             ttl: setTimeout(function () {
                 delete fileCache[path];
-            }, Config.gitSite.cache.ttl)
+            }, Config.site.cache.ttl)
           , content: content
         };
 
@@ -328,7 +328,7 @@ function fetchPosts (req, skip, limit, callback) {
      skip = skip || 0;
      limit = ((limit || posts.length) + skip) - 1;
 
-     var posts = Utils.cloneObject(Config.gitSite.parsed.roots.posts)
+     var posts = Utils.cloneObject(Config.site.parsed.roots.posts)
        , result = []
        , complete = skip
        ;
@@ -348,7 +348,7 @@ function fetchPosts (req, skip, limit, callback) {
             }
 
             var pathToPost =
-                Config.gitSite.paths.roots.posts + "/" + cPost.path
+                Config.site.paths.roots.posts + "/" + cPost.path
             ;
 
             readFile(pathToPost, function (err, postContent) {
@@ -414,11 +414,11 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
 
     // handle core pages, build the route
     if (pageRoute && pageRoute.indexOf("/core") !== 0) {
-        pageRoute = Config.gitSite.paths.roots.pages + pageRoute;
+        pageRoute = Config.site.paths.roots.pages + pageRoute;
     }
 
     if (pathName.indexOf(
-        Config.gitSite.blog.url
+        Config.site.blog.url
     ) === 0 && !posts && !isBlogPost) {
         var urlSearch = QueryString.parse(
             (Url.parse(req.url).search || "").substring(1)
@@ -426,8 +426,8 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
         urlSearch.page = Math.floor(Number(urlSearch.page)) - 1;
         fetchPosts(
             req
-          , urlSearch.page * Config.gitSite.blog.posts.limit
-          , Config.gitSite.blog.posts.limit
+          , urlSearch.page * Config.site.blog.posts.limit
+          , Config.site.blog.posts.limit
           , function (err, data) {
                 if (err) {
                     Debug.log(err, "error");
@@ -448,7 +448,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
     if (isBlogPost) {
 
         var postName = pathName.split("/")[2]
-          , allPosts = Config.gitSite.parsed.roots.posts
+          , allPosts = Config.site.parsed.roots.posts
           , post = getPost(req)
           ;
 
@@ -456,7 +456,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
             return Statique.sendRes(res, 404, "text", "Post not found");
         }
 
-        pageRoute = Config.gitSite.paths.roots.posts + "/" + post.path;
+        pageRoute = Config.site.paths.roots.posts + "/" + post.path;
 
         if (req.url !== post.url) {
             return Statique.redirect(res, post.url);
@@ -473,7 +473,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
 
         // convert page object to array
         var pageArray = []
-          , pages = Config.gitSite.parsed.roots.pages
+          , pages = Config.site.parsed.roots.pages
           , pageHtml = "";
           ;
 
@@ -501,7 +501,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
             }
 
             pageHtml += Mustache.render(
-                Config.gitSite.parsed.roots.template.blocks.page, cPageObj
+                Config.site.parsed.roots.template.blocks.page, cPageObj
             );
         }
 
@@ -511,23 +511,23 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
                 var cPostObj = posts[i];
                 if (cPostObj.visible === false) { continue; }
                 postHtml += Mustache.render(
-                    Config.gitSite.parsed.roots.template.blocks.post, cPostObj
+                    Config.site.parsed.roots.template.blocks.post, cPostObj
                 );
             }
         }
 
-        var htmlTemplate = Config.gitSite.parsed.roots.template.pages
+        var htmlTemplate = Config.site.parsed.roots.template.pages
           , tPost = null
           ;
 
         // add title
         if (isBlogPost) {
-            htmlTemplate = Config.gitSite.parsed.roots.template.posts;
+            htmlTemplate = Config.site.parsed.roots.template.posts;
             tPost = getPost(req, fileContent)
 
             tPost.content += Mustache.render(
                 Marked(
-                    Config.gitSite.parsed.roots.template.blocks.postContentEnd
+                    Config.site.parsed.roots.template.blocks.postContentEnd
                 )
               , tPost
             );
@@ -545,7 +545,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
               , Marked(fileContent)
             ).replace(
                 "{{TITLE}}"
-              , Config.gitSite.title
+              , Config.site.title
             ).replace(
                 "{{PAGES}}"
               , pageHtml
