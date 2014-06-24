@@ -55,6 +55,15 @@ Utils.parsePaths = function (objToIterate, parents) {
     Config.site = Utils.unflattenObject(Config.site);
 };
 
+/**
+ * readFileSync
+ * Returns the file content
+ *
+ * @name readFileSync
+ * @function
+ * @param {String} path The path to the file that should be read
+ * @return {String} The content of the file
+ */
 Utils.readFileSync = function (path) {
     return Fs.readFileSync(path).toString();
 };
