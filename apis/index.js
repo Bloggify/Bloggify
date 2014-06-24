@@ -463,7 +463,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
 
         if (err) {
             Debug.log(err, "error");
-            return Statique.error(res, 500);
+            return Statique.error(res, 404);
         }
 
         // convert page object to array
