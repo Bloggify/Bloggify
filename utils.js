@@ -54,3 +54,7 @@ Utils.parsePaths = function (objToIterate, parents) {
 
     Config.site = Utils.unflattenObject(Config.site);
 };
+
+Utils.readFileSync = function (path) {
+    return Fs.readFileSync(path).toString();
+};
