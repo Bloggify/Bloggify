@@ -59,7 +59,19 @@ Utils.readFileSync = function (path) {
     return Fs.readFileSync(path).toString();
 };
 
+/**
+ * mRender
+ * Renders a string using Mustache
+ *
+ * @name mRender
+ * @function
+ * @param {String} str The input string contaning curlies
+ * @param {Object} data The data object
+ * @param {Object|undefined} options An object containing the options
+ * @return {String} The rendered string
+ */
 Utils.mRender = function (str, data, options) {
+    options = Object(options);
     options.repeat = options.repeat || 1;
     for (var i = 0; i < options.repeat; ++i) {
         str = Mustache.render(str, data, options.renderOptions);
