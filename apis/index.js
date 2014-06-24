@@ -430,11 +430,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
           , function (err, data) {
                 if (err) {
                     Debug.log(err, "error");
-                    return Statique.sendRes(res, 500, "text",
-                        JSON.stringify({
-                            message: "Internal Server Error"
-                        })
-                    );
+                    return Statique.error(res, 500);
                 }
 
                 handlePageGet(req, res, pathName, route, data);
@@ -452,7 +448,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
           ;
 
         if (!post || !postName) {
-            return Statique.sendRes(res, 404, "text", "Post not found");
+            return Statique.error(res, 404);
         }
 
         pageRoute = Config.site.paths.roots.posts + "/" + post.path;
@@ -467,7 +463,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
 
         if (err) {
             Debug.log(err, "error");
-            return Statique.sendRes(res, 500, "html", "Internal server error");
+            return Statique.error(res, 500);
         }
 
         // convert page object to array
