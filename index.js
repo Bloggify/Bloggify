@@ -37,6 +37,11 @@ Http.createServer(function(req, res) {
         pathName += "/";
     }
 
+    // Error pages
+    if (/\/[4-9][0-9][0-9]\//.test(pathName)) {
+        return Statique.serve(req, res);
+    }
+
     var route = Statique.getRoute(pathName)
       , isBlogPost = (
             new RegExp(Config.site.blog.url + "\/[0-9]+.*")
