@@ -39,7 +39,7 @@ Utils.parsePaths = function (objToIterate, parents) {
             Utils.parsePaths(cPath, parents);
         } else {
             try {
-                var modulePath = __dirname + Config.site.url + cPath;
+                var modulePath = __dirname + Config.site.path + cPath;
                 Config.site[
                     parents.join(".") + "." + path
                 ] = Utils.requireNoCache(modulePath);
