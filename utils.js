@@ -39,8 +39,8 @@ Utils.parsePaths = function (objToIterate, parents) {
             Utils.parsePaths(cPath, parents);
         } else {
             try {
-                var modulePath = __dirname + Config.gitSite.url + cPath;
-                Config.gitSite[
+                var modulePath = __dirname + Config.site.url + cPath;
+                Config.site[
                     parents.join(".") + "." + path
                 ] = Utils.requireNoCache(modulePath);
             } catch (e) {
@@ -52,5 +52,5 @@ Utils.parsePaths = function (objToIterate, parents) {
         }
     }
 
-    Config.gitSite = Utils.unflattenObject(Config.gitSite);
+    Config.site = Utils.unflattenObject(Config.site);
 };

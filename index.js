@@ -39,7 +39,7 @@ Http.createServer(function(req, res) {
 
     var route = Statique.getRoute(pathName)
       , isBlogPost = (
-            new RegExp(Config.gitSite.blog.url + "\/[0-9]+.*")
+            new RegExp(Config.site.blog.url + "\/[0-9]+.*")
         ).test(pathName)
       ;
 
