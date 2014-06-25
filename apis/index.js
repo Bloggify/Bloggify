@@ -510,7 +510,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage
             if (cPageObj.loggedIn && !sessions[parseCookies(req).sid]) {
                 cPageObj.visible = false;
             }
-            if (cPageObj.visible === false) { continue; }
+            if (!cPageObj.label || cPageObj.visible === false) { continue; }
             cPageObj.additionalClasses = "";
             if ("/" + cPageObj.slug + "/" === pathName
                 || cPageObj.url + "/" === pathName
@@ -518,7 +518,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage
                 cPageObj.additionalClasses = " current-page";
             }
 
-            pageHtml += Mustache.render(
+            pageHtml += Utils.mRender(
                 Config.site.parsed.roots.template.blocks.page, cPageObj
             );
         }
@@ -528,7 +528,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage
             for (var i = 0; i < posts.length; ++i) {
                 var cPostObj = posts[i];
                 if (cPostObj.visible === false) { continue; }
-                postHtml += Mustache.render(
+                postHtml += Utils.mRender(
                     Config.site.parsed.roots.template.blocks.post, cPostObj
                 );
             }
@@ -543,7 +543,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage
             htmlTemplate = Config.site.parsed.roots.template.single.post
             tPost = getPost(req, fileContent)
 
-            tPost.content += Mustache.render(
+            tPost.content += Utils.mRender(
                 Marked(
                     Config.site.parsed.roots.template.blocks.postEnd
                 )
@@ -552,7 +552,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage
 
             // success response
             return Statique.sendRes(res, 200, "text/html",
-                Mustache.render(htmlTemplate, {
+                Utils.mRender(htmlTemplate, {
                     data: {
                         post: tPost
                       , title: tPost.title
