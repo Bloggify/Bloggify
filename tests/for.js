@@ -1,4 +1,4 @@
-var r = require("ractive");
+var r = require("./ractive");
 var html = '<!DOCTYPE html>'
 + '\n<html lang="en">'
 + '\n<head>'
