@@ -489,6 +489,14 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage
           , currentPage = pages[pathName.slice(0, -1)] || pages[pathName]
           ;
 
+        if (currentPage.wrap === false) {
+            return Statique.sendRes(res, 200, "text/html",
+                Utils.mRender(fileContent, {
+                    config: Config
+                })
+            );
+        }
+
         if (isBlogPage) {
             currentPage = pages[
                 Config.site.blog.url
