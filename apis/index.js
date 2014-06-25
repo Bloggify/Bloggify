@@ -410,7 +410,14 @@ function getFormData (req, callback) {
  */
 function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage) {
 
-    var pageRoute = route.url;
+    var pageRoute = route.url
+      , pages = Config.site.parsed.roots.pages
+      , currentPage = pages[pathName.slice(0, -1)] || pages[pathName]
+      ;
+
+    if (currentPage.loggedIn && !sessions[parseCookies(req).sid]) {
+        return Statique.error(res, 403);
+    }
 
     // handle core pages, build the route
     if (pageRoute && pageRoute.indexOf(Config.site.paths.template + "/core") !== 0) {
@@ -484,9 +491,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage
 
         // convert page object to array
         var pageArray = []
-          , pages = Config.site.parsed.roots.pages
           , pageHtml = ""
-          , currentPage = pages[pathName.slice(0, -1)] || pages[pathName]
           ;
 
         if (currentPage.wrap === false) {
