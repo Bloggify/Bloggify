@@ -70,7 +70,7 @@ function getPost (req, fileContent) {
 
     for (var i = 0, cPost; i < posts.length; ++i) {
         cPost = posts[i];
-        if (postId === cPost.id) {
+        if (postId === cPost.id.toString()) {
             return handlePost(req, cPost, fileContent);
         }
     }
@@ -265,6 +265,42 @@ const FORMS = {
         Statique.sendRes(res, 200, "text", JSON.stringify({
             message: "Successfully reinited cache."
         }));
+    }
+  , "new-post": {
+        handler: function (req, res, formData) {
+
+            // not logged in
+            //if (!sessions[parseCookies(req).sid]) {
+            //    return Statique.sendRes(res, 403, "text", JSON.stringify({
+            //        message: "Sign in to post something here."
+            //    }));
+            //}
+
+            var newPost = {
+                title: formData.title
+              , slug: Utils.slug(formData.title)
+              , publishedAt: new Moment().format("DD-MM-YYYY")
+              , path: Utils.slug(formData.title) + ".md"
+              , by: Config.contact.name
+              , id: Config.site.parsed.roots.posts.length + 1
+              , content: formData.content
+            };
+
+            Bloggify.post.publish(newPost, function (err, data) {
+                if (err) {
+                    return Statique.sendRes(res, 400, "text/html", JSON.stringify({
+                        message: err
+                    }));
+                }
+                Statique.sendRes(res, 200, "text/html", JSON.stringify({
+                    message: "Post published"
+                }));
+            });
+        }
+      , validate: {
+            title: "string,non-empty"
+          , content: "string,non-empty"
+        }
     }
 };
 

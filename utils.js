@@ -87,3 +87,16 @@ Utils.mRender = function (str, data, options) {
     }
     return str;
 };
+
+/**
+ * slug
+ * Converts a string to slug
+ *
+ * @name slug
+ * @function
+ * @param {String} input The input string that should be converted to slug
+ * @return {String} The slug that was generated
+ */
+Utils.slug = function (input) {
+    return input.replace(/[^A-Za-z0-9-]+/g, '-').toLowerCase();
+}
