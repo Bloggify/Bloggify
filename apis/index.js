@@ -415,7 +415,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage
       , currentPage = pages[pathName.slice(0, -1)] || pages[pathName]
       ;
 
-    if (currentPage.loggedIn && !sessions[parseCookies(req).sid]) {
+    if (currentPage && currentPage.loggedIn && !sessions[parseCookies(req).sid]) {
         return Statique.error(res, 403);
     }
 
@@ -494,7 +494,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage
           , pageHtml = ""
           ;
 
-        if (currentPage.wrap === false) {
+        if (currentPage && currentPage.wrap === false) {
             return Statique.sendRes(res, 200, "text/html",
                 Utils.mRender(fileContent, {
                     config: Config
