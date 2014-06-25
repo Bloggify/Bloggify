@@ -562,24 +562,38 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage
             );
         }
 
+        var data = {
+            data: {
+                pages: pageHtml
+              , title: currentPage.label
+              , page: {
+                    content: Marked(fileContent)
+                  , number: Math.ceil(
+                        Config.site.parsed.roots.posts.length
+                        / Config.site.blog.posts.limit
+                    )
+                  , next: pageNumber + 1
+                  , active: pageNumber
+                  , previous: pageNumber - 1
+                }
+              , posts: postHtml
+            }
+          , config: Config
+        };
+
+        var page = data.data.page;
+
+        if (page.next > page.number) {
+            delete page.next;
+        }
+
+        if (page.previous <= 0) {
+            delete page.previous;
+        }
+
         // Success response
         Statique.sendRes(res, 200, "text/html",
-            Utils.mRender(htmlTemplate, {
-                data: {
-                    pages: pageHtml
-                  , title: currentPage.label
-                  , page: {
-                        content: Marked(fileContent)
-                      , number: Math.ceil(
-                            Config.site.parsed.roots.posts
-                            / Config.site.blog.posts.limit
-                        )
-                      , active: pageNumber
-                    }
-                  , posts: postHtml
-                }
-              , config: Config
-            }, { repeat: 2 })
+            Utils.mRender(htmlTemplate, data, { repeat: 2 })
         );
     });
 }
