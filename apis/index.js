@@ -405,9 +405,10 @@ function getFormData (req, callback) {
  * @param {Array} the posts (if undefined and @isBlogPost is true the function
  * will be called again with the fetches posts)
  * @param {Boolean} isBlogPost shows if the route is to a blog post
+ * @param {Boolean} isBlogPpage it's true if the page is a blog one
  * @return
  */
-function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
+function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage) {
 
     var pageRoute = route.url;
 
@@ -416,24 +417,30 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
         pageRoute = Config.site.paths.roots.pages + pageRoute;
     }
 
-    if (pathName.indexOf(
-        Config.site.blog.url
-    ) === 0 && !posts && !isBlogPost) {
-        var urlSearch = QueryString.parse(
-            (Url.parse(req.url).search || "").substring(1)
-        );
-        urlSearch.page = Math.floor(Number(urlSearch.page)) - 1;
+    if (isBlogPage && !posts && !isBlogPost) {
+        var pageNumber = parseInt((pathName.match(/[1-9]([0-9]*)/) || [])[0]);
+
+        if (isNaN(pageNumber)) {
+            pageNumber = 1;
+        }
+
         fetchPosts(
             req
-          , urlSearch.page * Config.site.blog.posts.limit
+          , (pageNumber - 1) * Config.site.blog.posts.limit
           , Config.site.blog.posts.limit
           , function (err, data) {
+
                 if (err) {
                     Debug.log(err, "error");
                     return Statique.error(res, 500);
                 }
 
-                handlePageGet(req, res, pathName, route, data);
+                // no posts found
+                if (!data || !data.length) {
+                    return Statique.error(res, 404);
+                }
+
+                handlePageGet(req, res, pathName, route, data, isBlogPost, isBlogPage);
             }
         )
         return;
@@ -458,6 +465,12 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
         }
     }
 
+    if (isBlogPage) {
+        pageRoute = Config.site.parsed.roots.pages[
+            Config.site.blog.url
+        ].url;
+    }
+
     // read file
     readFile(pageRoute, function (err, fileContent) {
 
@@ -472,6 +485,12 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost) {
           , pageHtml = ""
           , currentPage = pages[pathName.slice(0, -1)] || pages[pathName]
           ;
+
+        if (isBlogPage) {
+            currentPage = pages[
+                Config.site.blog.url
+            ];
+        }
 
         for (var url in pages) {
             var cPage = Utils.cloneObject(pages[url]);
