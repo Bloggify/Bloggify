@@ -1,4 +1,4 @@
-var h = require("handlebars");
+var r = require("ractive");
 var html = '<!DOCTYPE html>'
 + '\n<html lang="en">'
 + '\n<head>'
@@ -6,10 +6,22 @@ var html = '<!DOCTYPE html>'
 + '\n    <title>{{title}}</title>'
 + '\n</head>'
 + '\n<body>'
-+ '\n{{round (multiply 2)}} World!'
++ '\n{{hello}} World!'
 + '\n</body>'
 + '\n</html>'
 
 console.log(
-    h.compile(html)({hello: 2, title: "hi"})
-)
+    new r({
+        template: new r({
+                template: html
+              , data: {
+                    hello: "Hello"
+                }
+              , preserveWhitespace: true
+            }).toHTML(),
+        data: {
+            title: "hi"
+        }
+      , preserveWhitespace: true
+    }).toHTML()
+);
