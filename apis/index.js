@@ -417,12 +417,15 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage
         pageRoute = Config.site.paths.roots.pages + pageRoute;
     }
 
-    if (isBlogPage && !posts && !isBlogPost) {
+    if (isBlogPage) {
         var pageNumber = parseInt((pathName.match(/[1-9]([0-9]*)/) || [])[0]);
 
         if (isNaN(pageNumber)) {
             pageNumber = 1;
         }
+    }
+
+    if (isBlogPage && !posts && !isBlogPost) {
 
         fetchPosts(
             req
@@ -567,6 +570,11 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage
                   , title: currentPage.label
                   , page: {
                         content: Marked(fileContent)
+                      , number: Math.ceil(
+                            Config.site.parsed.roots.posts
+                            / Config.site.blog.posts.limit
+                        )
+                      , active: pageNumber
                     }
                   , posts: postHtml
                 }
