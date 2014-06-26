@@ -62,7 +62,7 @@ function validateField (value, validators) {
  */
 function getPost (req, fileContent) {
 
-    var posts = Config.site.parsed.roots.posts
+    var posts = Utils.clone(Config.site.parsed.roots.posts)
       , postId = req.url.match(/[0-9]+/)[0] || req
       ;
 
@@ -95,8 +95,8 @@ function handlePost (req, cPost, postContent) {
     if (typeof postContent === "string") {
         cPost.content = Marked(postContent);
     }
-    cPost.date = Moment(cPost.publishedAt, "DD-MM-YYYY").format("DD MMM YYYY");
-    cPost.url = Config.site.blog.url + "/" + cPost.id + "-" + cPost.slug;
+    cPost.date = Moment(cPost.publishedAt, "DD-MM-YYYY HH:mm").format("dddd, MMMM D YYYY");
+    cPost.url = Config.site.blog.url + "/" + cPost.id + "-" + cPost.elug;
     cPost.fullUrl = "http://" + req.headers.host + cPost.url;
     return cPost;
 }
@@ -361,22 +361,32 @@ function readFile (path, callback) {
  */
 function fetchPosts (req, skip, limit, callback) {
 
-     skip = skip || 0;
-     limit = ((limit || posts.length) + skip) - 1;
+     //skip = skip || 0;
+     //limit = ((limit || posts.length) + skip);
 
-     var posts = Utils.cloneObject(Config.site.parsed.roots.posts)
-       , result = []
-       , complete = skip
+     var from = skip
+       , to   = skip + limit - 1
        ;
 
-     if (skip >= limit + 1) {
-        return callback(null, []);
-     }
+     var posts = Utils.clone(Config.site.parsed.roots.posts)
+       , result = []
+       , complete = skip - 1
+       ;
 
-     for (var i = skip; i <= limit; ++i) {
-         (function (cPost) {
+    if (to >= posts.length) {
+        to = posts.length - 1;
+    }
+
+    if (from > to) {
+        return callback(null, []);
+    }
+
+    debugger;
+     for (var i = from, k = 0; i <= to; ++i, ++k) {
+         (function (cPost, k) {
 
             if (!cPost) {
+                debugger;
                 if (++complete >= limit) {
                     callback(null, result);
                 }
@@ -389,12 +399,13 @@ function fetchPosts (req, skip, limit, callback) {
 
             readFile(pathToPost, function (err, postContent) {
                 if (err) { return callback(err); }
-                result.push(handlePost(req, cPost, postContent));
-                if (++complete >= limit) {
+                result[k] = handlePost(req, cPost, postContent);
+                debugger;
+                if (++complete >= to) {
                     callback(null, result);
                 }
             });
-         })(posts[i]);
+         })(posts[i], k);
      }
 }
 
@@ -447,7 +458,7 @@ function getFormData (req, callback) {
 function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage) {
 
     var pageRoute = route.url
-      , pages = Config.site.parsed.roots.pages
+      , pages = Utils.clone(Config.site.parsed.roots.pages)
       , currentPage = pages[pathName.slice(0, -1)] || pages[pathName]
       ;
 
@@ -496,7 +507,6 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage
     if (isBlogPost) {
 
         var postName = pathName.split("/")[2]
-          , allPosts = Config.site.parsed.roots.posts
           , post = getPost(req)
           ;
 
@@ -512,7 +522,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage
     }
 
     if (isBlogPage) {
-        pageRoute = Config.site.parsed.roots.pages[
+        pageRoute = pages[
             Config.site.blog.url
         ].url;
     }
@@ -545,7 +555,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage
         }
 
         for (var url in pages) {
-            var cPage = Utils.cloneObject(pages[url]);
+            var cPage = Utils.clone(pages[url]);
             cPage.url = url;
             pageArray.push(cPage);
         }
@@ -573,7 +583,6 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage
         }
 
         var postHtml = "";
-        debugger;
         if (posts) {
             for (var i = 0; i < posts.length; ++i) {
                 var cPostObj = posts[i];
