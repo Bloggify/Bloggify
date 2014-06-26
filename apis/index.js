@@ -381,12 +381,10 @@ function fetchPosts (req, skip, limit, callback) {
         return callback(null, []);
     }
 
-    debugger;
      for (var i = from, k = 0; i <= to; ++i, ++k) {
          (function (cPost, k) {
 
             if (!cPost) {
-                debugger;
                 if (++complete >= limit) {
                     callback(null, result);
                 }
@@ -400,7 +398,6 @@ function fetchPosts (req, skip, limit, callback) {
             readFile(pathToPost, function (err, postContent) {
                 if (err) { return callback(err); }
                 result[k] = handlePost(req, cPost, postContent);
-                debugger;
                 if (++complete >= to) {
                     callback(null, result);
                 }
