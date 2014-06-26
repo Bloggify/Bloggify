@@ -96,7 +96,7 @@ function handlePost (req, cPost, postContent) {
         cPost.content = Marked(postContent);
     }
     cPost.date = Moment(cPost.publishedAt, "DD-MM-YYYY HH:mm").format("dddd, MMMM D YYYY");
-    cPost.url = Config.site.blog.url + "/" + cPost.id + "-" + cPost.elug;
+    cPost.url = Config.site.blog.url + "/" + cPost.id + "-" + cPost.slug;
     cPost.fullUrl = "http://" + req.headers.host + cPost.url;
     return cPost;
 }
