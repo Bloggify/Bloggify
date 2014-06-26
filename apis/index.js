@@ -281,7 +281,7 @@ const FORMS = {
               , slug: Utils.slug(formData.title)
               , publishedAt: new Moment().format("DD-MM-YYYY")
               , path: Utils.slug(formData.title) + ".md"
-              , by: Config.contact.name
+              , by: Config.user.nickname
               , id: Config.site.parsed.roots.posts.length + 1
               , content: formData.content
             };
