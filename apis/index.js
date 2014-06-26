@@ -573,6 +573,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage
         }
 
         var postHtml = "";
+        debugger;
         if (posts) {
             for (var i = 0; i < posts.length; ++i) {
                 var cPostObj = posts[i];
