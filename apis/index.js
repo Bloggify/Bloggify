@@ -452,7 +452,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage
       ;
 
     if (currentPage && currentPage.loggedIn && !sessions[parseCookies(req).sid]) {
-        return Statique.error(res, 403);
+        return Statique.error(req, res, 403);
     }
 
     // handle core pages, build the route
@@ -478,12 +478,12 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage
 
                 if (err) {
                     Debug.log(err, "error");
-                    return Statique.error(res, 500);
+                    return Statique.error(req, res, 500);
                 }
 
                 // no posts found
                 if (!data || !data.length) {
-                    return Statique.error(res, 404);
+                    return Statique.error(req, res, 404);
                 }
 
                 handlePageGet(req, res, pathName, route, data, isBlogPost, isBlogPage);
@@ -501,7 +501,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage
           ;
 
         if (!post || !postName) {
-            return Statique.error(res, 404);
+            return Statique.error(req, res, 404);
         }
 
         pageRoute = Config.site.paths.roots.posts + "/" + post.path;
@@ -522,7 +522,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage
 
         if (err) {
             Debug.log(err, "error");
-            return Statique.error(res, 404);
+            return Statique.error(req, res, 404);
         }
 
         // convert page object to array
