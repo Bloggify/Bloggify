@@ -6,20 +6,6 @@ Marked.setOptions({
     }
 });
 
-// Server cache for files
-var fileCache = {
-    _removePath: function (path) {
-        Debug.log("Removing file from cache: " + path, "info");
-        delete fileCache[path]
-    }
-  , dummyPath: {
-        ttl: setTimeout (function () {
-            delete fileCache["dummyPath"];
-        }, Config.site.cache.ttl)
-      , content: "Dummy"
-    }
-};
-
 // Mandrill configuratiou
 var MandrillClient = new Mandrill.Mandrill(Config.mandrillConfig.key);
 
@@ -60,23 +46,7 @@ function validateField (value, validators) {
  * handlePost function
  * @return {Object} The post object that comes from the parsed resources
  */
-function getPost (req, fileContent) {
-
-    var posts = Utils.clone(Config.site.parsed.roots.posts)
-      , postId = req.url.match(/[0-9]+/)[0] || req
-      ;
-
-    if (!postId) { return null; }
-
-    for (var i = 0, cPost; i < posts.length; ++i) {
-        cPost = posts[i];
-        if (postId === cPost.id.toString()) {
-            return handlePost(req, cPost, fileContent);
-        }
-    }
-
-    return null;
-}
+var getPost = Bloggify.post.fetch;
 
 /**
  * handlePost
@@ -91,15 +61,7 @@ function getPost (req, fileContent) {
  * @return {Object} The post object that contains content, date and url fields
  * in addition to the other fields
  */
-function handlePost (req, cPost, postContent) {
-    if (typeof postContent === "string") {
-        cPost.content = Marked(postContent);
-    }
-    cPost.date = Moment(cPost.publishedAt, "DD-MM-YYYY HH:mm").format("dddd, MMMM D YYYY");
-    cPost.url = Config.site.blog.url + "/" + cPost.id + "-" + cPost.slug;
-    cPost.fullUrl = "http://" + req.headers.host + cPost.url;
-    return cPost;
-}
+var handlePost = Bloggify.post.handle;
 
 /**
  * parseCookies
@@ -225,7 +187,10 @@ const FORMS = {
         sessions[sid] = {
             id: sid
           , user: user
-          , ttl: setTimeout(fileCache._removePath, Config.site.session.ttl)
+          , ttl: setTimeout(function () {
+                Debug.log("Removing session from cache: " + sid, "info");
+                delete sessions[sid]
+            }, Config.site.session.ttl)
         };
 
         // set session id cookie
@@ -304,47 +269,6 @@ const FORMS = {
     }
 };
 
-/**
- * readFile
- * This function reads a file from hard disk or from cache
- * deleting it after the ttl timeout expires.
- *
- * @name readFile
- * @function
- * @param {String} path path that will be passed to Statique
- * @param {Function} callback the callback function
- * @return
- */
-function readFile (path, callback) {
-
-    // Try to get the file from cache
-    var fromCache = fileCache[path];
-    if (fromCache) {
-
-        // reset timeout
-        fromCache.ttl = setTimeout(
-            fileCache._removePath
-          , Config.site.cache.ttl
-        );
-
-        // callback content
-        return callback(null, fromCache.content);
-    }
-
-    // Read file using statique
-    Statique.readFile(path, function (err, content) {
-        if (err) { return callback(err); }
-
-        fileCache[path] = {
-            ttl: setTimeout(function () {
-                delete fileCache[path];
-            }, Config.site.cache.ttl)
-          , content: content
-        };
-
-        callback(null, content.toString());
-    });
-}
 
 /**
  * fetchPosts
@@ -395,7 +319,7 @@ function fetchPosts (req, skip, limit, callback) {
                 Config.site.paths.roots.posts + "/" + cPost.path
             ;
 
-            readFile(pathToPost, function (err, postContent) {
+            Bloggify.file.read(pathToPost, function (err, postContent) {
                 if (err) { return callback(err); }
                 result[k] = handlePost(req, cPost, postContent);
                 if (++complete >= to) {
@@ -504,7 +428,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage
     if (isBlogPost) {
 
         var postName = pathName.split("/")[2]
-          , post = getPost(req)
+          , post = getPost(req, null, null, null, true)
           ;
 
         if (!post || !postName) {
@@ -525,7 +449,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage
     }
 
     // read file
-    readFile(pageRoute, function (err, fileContent) {
+    Bloggify.file.read(pageRoute, function (err, fileContent) {
 
         if (err) {
             Debug.log(err, "error");
@@ -597,7 +521,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage
         // add title
         if (isBlogPost) {
             htmlTemplate = Config.site.parsed.roots.template.single.post
-            tPost = getPost(req, fileContent)
+            tPost = getPost(req, null, fileContent)
 
             tPost.content += Utils.mRender(
                 Marked(
