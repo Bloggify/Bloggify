@@ -235,23 +235,55 @@ const FORMS = {
         handler: function (req, res, formData) {
 
             // not logged in
-            //if (!sessions[parseCookies(req).sid]) {
-            //    return Statique.sendRes(res, 403, "text", JSON.stringify({
-            //        message: "Sign in to post something here."
-            //    }));
-            //}
+            if (!sessions[parseCookies(req).sid]) {
+                return Statique.sendRes(res, 403, "text", JSON.stringify({
+                    message: "Sign in to post something here."
+                }));
+            }
 
             var newPost = {
                 title: formData.title
               , slug: Utils.slug(formData.title)
               , publishedAt: new Moment().format("DD-MM-YYYY")
-              , path: Utils.slug(formData.title) + ".md"
               , by: Config.user.nickname
               , id: Config.site.parsed.roots.posts.length + 1
               , content: formData.content
             };
 
             Bloggify.post.publish(newPost, function (err, data) {
+                if (err) {
+                    return Statique.sendRes(res, 400, "text/html", JSON.stringify({
+                        message: err
+                    }));
+                }
+                Statique.sendRes(res, 200, "text/html", JSON.stringify({
+                    message: "Post published"
+                }));
+            });
+        }
+      , validate: {
+            title: "string,non-empty"
+          , content: "string,non-empty"
+        }
+    }
+  , "edit-post": {
+        handler: function (req, res, formData) {
+
+            // not logged in
+            if (!sessions[parseCookies(req).sid]) {
+                return Statique.sendRes(res, 403, "text", JSON.stringify({
+                    message: "Sign in to post something here."
+                }));
+            }
+
+            var postId = parseInt(formData.postId);
+            var editedPost = {
+                title: formData.title
+              , slug: Utils.slug(formData.title)
+              , content: formData.content
+            };
+
+            Bloggify.post.edit({id: postId}, editedPost, function (err, data) {
                 if (err) {
                     return Statique.sendRes(res, 400, "text/html", JSON.stringify({
                         message: err
