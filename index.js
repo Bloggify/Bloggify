@@ -56,6 +56,9 @@ Http.createServer(function(req, res) {
     }
 
     if (route && route.url || isBlogPost || isBlogPage) {
+        if (typeof Bloggify.apis["handlePage:" + req.method] !== "function") {
+            return Statique.serve(req, res);
+        }
         Bloggify.apis["handlePage:" + req.method](
             req, res, pathName, route, null, isBlogPost, isBlogPage
         );
