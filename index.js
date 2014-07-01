@@ -1,21 +1,22 @@
 // Dependencies
 var G = global
-  , Statique    = G.Statique    = require("statique")
-  , Utils       = G.Utils       = require("./utils")
-  , Fs          = G.Fs          = require("fs")
-  , Url         = G.Url         = require("url")
-  , Http        = G.Http        = require("http")
-  , Marked      = G.Marked      = require("marked")
-  , Moment      = G.Moment      = require("moment")
-  , Mustache    = G.Mustache    = require("mustache")
-  , QueryString = G.QueryString = require("querystring")
-  , Mandrill    = G.Mandrill    = require("mandrill-api/mandrill")
-  , Debug       = G.Debug       = require("bug-killer")
-  , Validators  = G.Validators  = require("./apis/validators")
-  , Highlight   = G.Highlight   = require("highlight.js")
-  , JsonDB      = G.JsonDB      = require("mongo-sync-files")
-  , Bloggify    = G.Bloggify    = require("./lib")
-  , Git         = G.Git         = require("git-tools")
+  , Statique     = G.Statique     = require("statique")
+  , Utils        = G.Utils        = require("./utils")
+  , Fs           = G.Fs           = require("fs")
+  , Url          = G.Url          = require("url")
+  , Http         = G.Http         = require("http")
+  , Marked       = G.Marked       = require("marked")
+  , Moment       = G.Moment       = require("moment")
+  , Mustache     = G.Mustache     = require("mustache")
+  , QueryString  = G.QueryString  = require("querystring")
+  , Mandrill     = G.Mandrill     = require("mandrill-api/mandrill")
+  , Debug        = G.Debug        = require("bug-killer")
+  , Validators   = G.Validators   = require("./apis/validators")
+  , Highlight    = G.Highlight    = require("highlight.js")
+  , JsonDB       = G.JsonDB       = require("mongo-sync-files")
+  , EventEmitter = G.EventEmitter = require("events").EventEmitter
+  , Bloggify     = G.Bloggify     = require("./lib")
+  , Git          = G.Git          = require("git-tools")
   ;
 
 // Dessions
