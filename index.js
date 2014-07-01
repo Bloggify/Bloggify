@@ -13,6 +13,7 @@ var G = global
   , Debug       = G.Debug       = require("bug-killer")
   , Validators  = G.Validators  = require("./apis/validators")
   , Highlight   = G.Highlight   = require("highlight.js")
+  , JsonDB      = G.JsonDB      = require("mongo-sync-files")
   , Bloggify    = G.Bloggify    = require("./lib")
   ;
 
