@@ -317,9 +317,6 @@ const FORMS = {
  */
 function fetchPosts (req, skip, limit, callback) {
 
-     //skip = skip || 0;
-     //limit = ((limit || posts.length) + skip);
-
      var from = skip
        , to   = skip + limit - 1
        ;
