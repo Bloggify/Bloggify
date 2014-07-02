@@ -64,28 +64,6 @@ var getPost = Bloggify.post.fetch;
 var handlePost = Bloggify.post.handle;
 
 /**
- * parseCookies
- * This function parses the cookies from request
- *
- * @name parseCookies
- * @function
- * @param {Object} request the request object
- * @return {Object} the parsed cookies into an object
- */
-function parseCookies (request) {
-    var list = {}
-      , rc = request.headers.cookie
-      ;
-
-    rc && rc.split(';').forEach(function( cookie ) {
-        var parts = cookie.split('=');
-        list[parts.shift().trim()] = unescape(parts.join('='));
-    });
-
-    return list;
-}
-
-/**
  * fetchPosts
  * This function returns the posts via callback
  *
