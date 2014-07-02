@@ -54,17 +54,20 @@ Http.createServer(function(req, res) {
         ).test(pathName)
       ;
 
-    if (route && route.url && typeof route.url === "object") {
-        return Statique.serve(req, res);
-    }
-
-    if (route && route.url || isBlogPost || isBlogPage) {
-        if (typeof Bloggify.apis["handlePage:" + req.method] !== "function") {
-            return Statique.serve(req, res);
-        }
-        Bloggify.apis["handlePage:" + req.method](
-            req, res, pathName, route, null, isBlogPost, isBlogPage
-        );
+    if (
+        route && route.url && typeof route.url !== "object"
+        || isBlogPost || isBlogPage
+        && typeof Bloggify.apis["handlePage:" + req.method] === "function"
+    ) {
+        Bloggify.session.isLoggedIn(req, function (err, sessionData) {
+            if (err) {
+                Debug.log(err, "error");
+                return Statique.error(req, res, 500);
+            }
+            Bloggify.apis["handlePage:" + req.method](
+                req, res, pathName, route, null, isBlogPost, isBlogPage, sessionData
+            );
+        });
         return;
     }
 

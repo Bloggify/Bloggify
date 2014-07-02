@@ -166,14 +166,14 @@ function getFormData (req, callback) {
  * @param {Boolean} isBlogPpage it's true if the page is a blog one
  * @return
  */
-function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage) {
+function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage, sessionData) {
 
     var pageRoute = route.url
       , pages = Utils.clone(Config.site.parsed.roots.pages)
       , currentPage = pages[pathName.slice(0, -1)] || pages[pathName]
       ;
 
-    if (currentPage && currentPage.loggedIn && !sessions[parseCookies(req).sid]) {
+    if (currentPage && currentPage.loggedIn && !sessionData) {
         return Statique.error(req, res, 403);
     }
 
@@ -277,7 +277,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage
 
         for (var i = 0; i < pageArray.length; ++i) {
             var cPageObj = pageArray[i];
-            if (cPageObj.loggedIn && !sessions[parseCookies(req).sid]) {
+            if (cPageObj.loggedIn && !sessionData) {
                 cPageObj.visible = false;
             }
             if (!cPageObj.label || cPageObj.visible === false) { continue; }
