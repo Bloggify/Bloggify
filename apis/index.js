@@ -168,7 +168,6 @@ function getFormData (req, callback) {
  */
 function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage, sessionData) {
 
-    debugger
     var pageRoute = route.url
       , pages = Utils.clone(Config.site.parsed.roots.pages)
       , currentPage = pages[pathName.slice(0, -1)] || pages[pathName]
@@ -226,7 +225,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage
             return Statique.error(req, res, 404);
         }
 
-        pageRoute = Config.site.paths.roots.posts + "/" + post.path;
+        pageRoute = Config.site.paths.roots.posts + "/" + post.id + ".md";
 
         if (req.url !== post.url) {
             return Statique.redirect(res, post.url);
