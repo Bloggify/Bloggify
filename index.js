@@ -1,3 +1,6 @@
+// Init Config global variable
+global.Config = { root: __dirname };
+
 // Dependencies
 var G = global
   , Statique     = G.Statique     = require("statique")
@@ -20,13 +23,13 @@ var G = global
   , Bloggify     = G.Bloggify     = require("./lib")
   ;
 
+
 // Dessions
 global.sessions = {};
 
 // Start core
-Bloggify.start({
-    root: __dirname
-});
+Bloggify.start();
+debugger;
 
 // Require apis after Config was inited
 Bloggify.apis = require("./apis")
