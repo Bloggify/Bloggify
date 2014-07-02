@@ -24,12 +24,8 @@ var G = global
   ;
 
 
-// Dessions
-global.sessions = {};
-
 // Start core
 Bloggify.start();
-debugger;
 
 // Require apis after Config was inited
 Bloggify.apis = require("./apis")
