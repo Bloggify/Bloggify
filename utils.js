@@ -73,8 +73,15 @@ Utils.clone = function clone (item) {
  * @return {Object} Parsed and evaluated module
  */
 Utils.requireNoCache = function (path) {
-    delete require.cache[require.resolve(path)];
-    return require(path);
+    try {
+        path = require.resolve(path);
+    } catch (e) {}
+    delete require.cache[path];
+    var content = {};
+    try {
+        content = require(path);
+    } catch (e) {}
+    return content;
 };
 
 /**
