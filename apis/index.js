@@ -106,7 +106,7 @@ function fetchPosts (req, skip, limit, callback) {
             }
 
             var pathToPost =
-                Config.site.paths.roots.posts + "/" + cPost.path
+                Config.site.paths.roots.posts + "/" + cPost.id + ".md"
             ;
 
             Bloggify.file.read(pathToPost, function (err, postContent) {
@@ -168,6 +168,7 @@ function getFormData (req, callback) {
  */
 function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage, sessionData) {
 
+    debugger
     var pageRoute = route.url
       , pages = Utils.clone(Config.site.parsed.roots.pages)
       , currentPage = pages[pathName.slice(0, -1)] || pages[pathName]
@@ -178,7 +179,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage
     }
 
     // handle core pages, build the route
-    if (pageRoute && pageRoute.indexOf(Config.site.paths.template + "/core") !== 0) {
+    if (pageRoute && pageRoute.indexOf(Config.site.paths.theme + "/core") !== 0) {
         pageRoute = Config.site.paths.roots.pages + pageRoute;
     }
 
@@ -289,7 +290,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage
             }
 
             pageHtml += Utils.mRender(
-                Config.site.parsed.roots.template.blocks.page, cPageObj
+                Config.site.parsed.roots.theme.blocks.page, cPageObj
             );
         }
 
@@ -299,23 +300,23 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage
                 var cPostObj = posts[i];
                 if (cPostObj.visible === false) { continue; }
                 postHtml += Utils.mRender(
-                    Config.site.parsed.roots.template.blocks.post, cPostObj
+                    Config.site.parsed.roots.theme.blocks.post, cPostObj
                 );
             }
         }
 
-        var htmlTemplate = Config.site.parsed.roots.template.single.page
+        var htmlTemplate = Config.site.parsed.roots.theme.single.page
           , tPost = null
           ;
 
         // add title
         if (isBlogPost) {
-            htmlTemplate = Config.site.parsed.roots.template.single.post
+            htmlTemplate = Config.site.parsed.roots.theme.single.post
             tPost = getPost(req, null, fileContent)
 
             tPost.content += Utils.mRender(
                 Marked(
-                    Config.site.parsed.roots.template.blocks.postEnd
+                    Config.site.parsed.roots.theme.blocks.postEnd
                 )
               , tPost
             );
