@@ -12,7 +12,7 @@
     "marked": "*",
     "mustache": "0.8.2",
     "bug-killer": "0.1.0",
-    "mongo-sync-files": "0.1.0",
+    "mongo-sync-files": "0.1.1",
     "git-tools": "0.1.1"
   },
   "devDependencies": {},
