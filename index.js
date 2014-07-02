@@ -15,8 +15,9 @@ var G = global
   , Highlight    = G.Highlight    = require("highlight.js")
   , JsonDB       = G.JsonDB       = require("mongo-sync-files")
   , EventEmitter = G.EventEmitter = require("events").EventEmitter
-  , Bloggify     = G.Bloggify     = require("./lib")
   , Git          = G.Git          = require("git-tools")
+  , Npm          = G.Npm          = require("npm")
+  , Bloggify     = G.Bloggify     = require("./lib")
   ;
 
 // Dessions
