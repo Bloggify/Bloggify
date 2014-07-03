@@ -12,7 +12,6 @@ var G = global
   , Moment       = G.Moment       = require("moment")
   , Mustache     = G.Mustache     = require("mustache")
   , QueryString  = G.QueryString  = require("querystring")
-  , Mandrill     = G.Mandrill     = require("mandrill-api/mandrill")
   , Debug        = G.Debug        = require("bug-killer")
   , Validators   = G.Validators   = require("./apis/validators")
   , Highlight    = G.Highlight    = require("highlight.js")

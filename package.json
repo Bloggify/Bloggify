@@ -7,7 +7,6 @@
     "statique": "~0.3.0",
     "moment": "*",
     "jxutils": "*",
-    "mandrill-api"  : "1.0.39",
     "highlight.js"  : "*",
     "marked": "*",
     "mustache": "0.8.2",

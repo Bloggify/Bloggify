@@ -6,9 +6,6 @@ Marked.setOptions({
     }
 });
 
-// Mandrill configuratiou
-var MandrillClient = new Mandrill.Mandrill(Config.mandrillConfig.key);
-
 /**
  * validateField
  * This funciton validates the value by
