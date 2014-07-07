@@ -25,7 +25,6 @@ build/Release
 node_modules
 
 # sensible data
-tmp
 config.json
 site
 
