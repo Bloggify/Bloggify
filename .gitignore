@@ -26,7 +26,7 @@ node_modules
 
 # sensible data
 tmp
-config.js
+config.json
 site
 
 # temp files
