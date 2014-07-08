@@ -25,6 +25,7 @@ var G = global
 
 // Start core
 Bloggify.start();
+Config.root = __dirname;
 
 // Require apis after Config was inited
 Bloggify.apis = require("./apis")
