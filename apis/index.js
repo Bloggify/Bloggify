@@ -235,7 +235,6 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage
         ].url;
     }
 
-
     // read file
     Bloggify.file.read(pageRoute, function (err, fileContent) {
 
@@ -358,6 +357,22 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage
 
         if (page.previous <= 0) {
             delete page.previous;
+        }
+
+        if (typeof currentPage.template === "string") {
+            return Bloggify.file.read(currentPage.template, function (err, template) {
+                if (err) {
+                    if (err.code === "ENOENT") {
+                        return Statique.error(req, res, 404);
+                    }
+                    return Statique.error(req, res, 500);
+                }
+
+                // Success response
+                Statique.sendRes(res, 200, "text/html",
+                    Utils.mRender(template, data)
+                );
+            });
         }
 
         // Success response
