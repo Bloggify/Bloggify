@@ -379,7 +379,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage
  * @param {Object} route the Statique route
  * @return
  */
-function handlePagePost (req, res, pathName, route) {
+function handlePagePost (req, res, pathName, route, posts, isBlogPost, isBlogPage, sessionData) {
 
     // get form data
     getFormData(req, function (err, formData) {
