@@ -46,13 +46,18 @@ Http.createServer(function(req, res) {
     }
 
     var route = Statique.getRoute(pathName)
-      , isBlogPost = (
-            new RegExp(Config.site.blog.url + "\/[0-9]+.*")
-        ).test(pathName)
-      , isBlogPage = new RegExp(
-            Config.site.blog.url + "(\/page\/[1-9]([0-9]*))?\/$"
-        ).test(pathName)
+      , isBlogPost = false
+      , isBlogPage = false
       ;
+
+    if (Config.site.blog) {
+        isBlogPost = (
+            new RegExp(Config.site.blog.url + "\/[0-9]+.*")
+        ).test(pathName);
+        isBlogPage = new RegExp(
+            Config.site.blog.url + "(\/page\/[1-9]([0-9]*))?\/$"
+        ).test(pathName);
+    }
 
     if (
         route && route.url && typeof route.url !== "object"

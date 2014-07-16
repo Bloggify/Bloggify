@@ -336,10 +336,6 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage
               , title: currentPage.label
               , page: {
                     content: Marked(fileContent)
-                  , number: Math.ceil(
-                        Config.site.parsed.roots.posts.length
-                        / Config.site.blog.posts.limit
-                    )
                   , next: pageNumber + 1
                   , active: pageNumber
                   , previous: pageNumber - 1
@@ -348,6 +344,13 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage
             }
           , config: Config
         };
+
+        if (Config.site.blog) {
+            data.data.page.number = Math.ceil(
+                Config.site.parsed.roots.posts.length
+                / Config.site.blog.posts.limit
+            );
+        }
 
         var page = data.data.page;
 
