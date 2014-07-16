@@ -426,7 +426,8 @@ function handlePagePost (req, res, pathName, route, posts, isBlogPost, isBlogPag
                                 res, 400, "text", JSON.stringify({
                                     message: fieldName[0].toUpperCase()
                                            + fieldName.substring(1)
-                                           + " is invalid."
+                                           + " is invalid.",
+                                    fields: [fieldName]
                                 })
                             );
                         }
