@@ -80,7 +80,11 @@ Utils.requireNoCache = function (path) {
     var content = {};
     try {
         content = require(path);
-    } catch (e) {}
+    } catch (e) {
+        if (/unexpected/i.test(e.message)) {
+            Debug.log(e.message, "error");
+        }
+    }
     return content;
 };
 
