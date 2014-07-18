@@ -60,8 +60,8 @@ Http.createServer(function(req, res) {
     }
 
     if (
-        route && route.url && typeof route.url !== "object"
-        || isBlogPost || isBlogPage
+        (route && route.url && typeof route.url !== "object"
+        || isBlogPost || isBlogPage)
         && typeof Bloggify.apis["handlePage:" + req.method] === "function"
     ) {
         Bloggify.session.isLoggedIn(req, function (err, sessionData) {
