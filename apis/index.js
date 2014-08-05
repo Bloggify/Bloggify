@@ -79,7 +79,9 @@ function fetchPosts (req, skip, limit, callback) {
        , to   = skip + limit - 1
        ;
 
-     var posts = Utils.clone(Config.site.parsed.roots.posts)
+     var posts = Utils.clone(
+             Utils.getConfigField("site.parsed.roots.posts", req)
+         )
        , result = []
        , complete = skip - 1
        ;
@@ -103,7 +105,7 @@ function fetchPosts (req, skip, limit, callback) {
             }
 
             var pathToPost =
-                Config.site.paths.roots.posts + "/" + cPost.id + ".md"
+                Utils.getConfigField("site.paths.roots.posts", req) + "/" + cPost.id + ".md"
             ;
 
             Bloggify.file.read(pathToPost, function (err, postContent) {
@@ -166,7 +168,7 @@ function getFormData (req, callback) {
 function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage, sessionData) {
 
     var pageRoute = route.url
-      , pages = Utils.clone(Config.site.parsed.roots.pages)
+      , pages = Utils.clone(Utils.getConfigField("site.parsed.roots.pages", req))
       , currentPage = pages[pathName.slice(0, -1)] || pages[pathName]
       ;
 
@@ -175,8 +177,8 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage
     }
 
     // handle core pages, build the route
-    if (pageRoute && pageRoute.indexOf(Config.site.paths.theme + "/core") !== 0) {
-        pageRoute = Config.site.paths.roots.pages + pageRoute;
+    if (pageRoute && pageRoute.indexOf(Utils.getConfigField("site.paths.theme", req) + "/core") !== 0) {
+        pageRoute = Utils.getConfigField("site.paths.roots.pages", req) + pageRoute;
     }
 
     if (isBlogPage) {
@@ -191,8 +193,8 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage
 
         fetchPosts(
             req
-          , (pageNumber - 1) * Config.site.blog.posts.limit
-          , Config.site.blog.posts.limit
+          , (pageNumber - 1) * Utils.getConfigField("site.blog.posts.limit", req)
+          , Utils.getConfigField("site.blog.posts.limit", req)
           , function (err, data) {
 
                 if (err) {
@@ -222,7 +224,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage
             return Statique.error(req, res, 404);
         }
 
-        pageRoute = Config.site.paths.roots.posts + "/" + post.id + ".md";
+        pageRoute = Utils.getConfigField("site.paths.roots.posts", req) + "/" + post.id + ".md";
 
         if (req.url !== post.url) {
             return Statique.redirect(res, post.url);
@@ -231,7 +233,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage
 
     if (isBlogPage) {
         pageRoute = pages[
-            Config.site.blog.url
+            Utils.getConfigField("site.blog.url", req)
         ].url;
     }
 
@@ -259,7 +261,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage
 
         if (isBlogPage) {
             currentPage = pages[
-                Config.site.blog.url
+                Utils.getConfigField("site.blog.url", req)
             ];
         }
 
@@ -287,7 +289,7 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage
             }
 
             pageHtml += Utils.mRender(
-                Config.site.parsed.roots.theme.blocks.page, cPageObj
+                Utils.getConfigField("site.parsed.roots.theme.blocks.page", req), cPageObj
             );
         }
 
@@ -297,23 +299,23 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage
                 var cPostObj = posts[i];
                 if (cPostObj.visible === false) { continue; }
                 postHtml += Utils.mRender(
-                    Config.site.parsed.roots.theme.blocks.post, cPostObj
+                    Utils.getConfigField("site.parsed.roots.theme.blocks.post", req), cPostObj
                 );
             }
         }
 
-        var htmlTemplate = Config.site.parsed.roots.theme.single.page
+        var htmlTemplate = Utils.getConfigField("site.parsed.roots.theme.single.page", req)
           , tPost = null
           ;
 
         // add title
         if (isBlogPost) {
-            htmlTemplate = Config.site.parsed.roots.theme.single.post
+            htmlTemplate = Utils.getConfigField("site.parsed.roots.theme.single.post", req)
             tPost = getPost(req, null, fileContent)
 
             tPost.content += Utils.mRender(
                 Marked(
-                    Config.site.parsed.roots.theme.blocks.postEnd
+                    Utils.getConfigField("site.parsed.roots.theme.blocks.postEnd", req)
                 )
               , tPost
             );
@@ -345,10 +347,10 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage
           , config: Config
         };
 
-        if (Config.site.blog) {
+        if (Utils.getConfigField("site.blog", req)) {
             data.data.page.number = Math.ceil(
-                Config.site.parsed.roots.posts.length
-                / Config.site.blog.posts.limit
+                Utils.getConfigField("site.parsed.roots.posts", req).length
+                / Utils.getConfigField("site.blog.posts.limit", req)
             );
         }
 
