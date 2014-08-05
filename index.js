@@ -36,6 +36,11 @@ Http.createServer(function(req, res) {
 
     var pathName = Url.parse(req.url, true).pathname;
 
+    // No blog running on this address
+    if (Config.multipleBlogs && !BlogConfigs[Utils.getSubdomain(req)]) {
+        return Statique.redirect(res, "http://admin.bloggify.net/create-your-blog-now");
+    }
+
     // Normalize path name
     if (pathName.substr(-1) !== "/") {
         pathName += "/";
