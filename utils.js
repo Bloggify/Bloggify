@@ -193,3 +193,19 @@ Utils.parseCookies = function (request) {
 
     return list;
 }
+
+Utils.getSubdomain = function (req) {
+    if (!req) { return ""; }
+    var splits = req.headers.host.split(".");
+    return splits.slice(0, splits.length - 2).join(".");
+}
+
+Utils.getConfigField = function (path, req) {
+    var domain = Utils.getSubdomain(req)
+      , cfConf = Utils.findValue(Config, path)
+      , bConf = BlogConfigs[domain] || {}
+      , bfConf = Utils.findValue(bConf, path)
+      ;
+
+    return bfConf || cfConf;
+};

@@ -1,5 +1,6 @@
 // Init Config global variable
 global.Config = { root: __dirname };
+global.BlogConfigs = {};
 
 // Dependencies
 var G = global
@@ -50,12 +51,12 @@ Http.createServer(function(req, res) {
       , isBlogPage = false
       ;
 
-    if (Config.site.blog) {
+    if (Utils.getConfigField("site.blog", req)) {
         isBlogPost = (
-            new RegExp(Config.site.blog.url + "\/[0-9]+.*")
+            new RegExp(Utils.getConfigField("site.blog.url", req) + "\/[0-9]+.*")
         ).test(pathName);
         isBlogPage = new RegExp(
-            Config.site.blog.url + "(\/page\/[1-9]([0-9]*))?\/$"
+            Utils.getConfigField("site.blog.url", req) + "(\/page\/[1-9]([0-9]*))?\/$"
         ).test(pathName);
     }
 
