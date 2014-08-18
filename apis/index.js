@@ -77,9 +77,7 @@ function fetchPosts (req, skip, limit, callback) {
 
      var from = skip
        , to   = skip + limit - 1
-       ;
-
-     var posts = Utils.clone(Config.site.parsed.roots.posts)
+       , posts = Utils.clone(Config.site.parsed.roots.posts)
        , result = []
        , complete = skip - 1
        ;
