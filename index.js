@@ -2,26 +2,24 @@
 global.Config = { root: __dirname };
 
 // Dependencies
-var G = global
-  , Statique     = G.Statique     = require("statique")
-  , Utils        = G.Utils        = require("./utils")
-  , Fs           = G.Fs           = require("fs")
-  , Url          = G.Url          = require("url")
-  , Http         = G.Http         = require("http")
-  , Marked       = G.Marked       = require("marked")
-  , Moment       = G.Moment       = require("moment")
-  , Mustache     = G.Mustache     = require("mustache")
-  , QueryString  = G.QueryString  = require("querystring")
-  , Debug        = G.Debug        = require("bug-killer")
-  , Validators   = G.Validators   = require("./apis/validators")
-  , Highlight    = G.Highlight    = require("highlight.js")
-  , JsonDB       = G.JsonDB       = require("mongo-sync-files")
-  , EventEmitter = G.EventEmitter = require("events").EventEmitter
-  , Git          = G.Git          = require("git-tools")
-  , Npm          = G.Npm          = require("npm")
-  , Bloggify     = G.Bloggify     = require("./lib")
-  ;
-
+var B = global.Bloggify = new require("events").EventEmitter();
+B._deps = {};
+B._deps.statique = require("statique");
+B._deps.utils = require("./utils");
+B._deps.fs = require("fs");
+B._deps.url = require("url");
+B._deps.http = require("http");
+B._deps.marked = require("marked");
+B._deps.moment = require("moment");
+B._deps.mustache = require("mustache");
+B._deps.queryString = require("querystring");
+B._deps.bugKiller = require("bug-killer");
+B._deps.validators = require("./apis/validators");
+B._deps.highlight = require("highlight.js");
+B._deps.jsonDB = require("mongo-sync-files");
+B._deps.gitTools = require("git-tools");
+B._deps.npm = require("npm");
+B._deps.lib = require("./lib");
 
 // Start core
 Bloggify.start();
