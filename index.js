@@ -1,5 +1,5 @@
 // Dependencies
-var B = global.Bloggify = new require("events").EventEmitter();
+var B = global.Bloggify = new (require("events").EventEmitter)();
 B._config = { root: __dirname };
 B._deps = {};
 B._deps.statique = require("statique");
