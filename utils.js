@@ -1,3 +1,8 @@
+// Dependencies
+var Debug = Bloggify.debug
+  , Config = Bloggify._config
+  ;
+
 /**
  * The util functions
  */
