@@ -1,8 +1,6 @@
-// Init Config global variable
-global.Config = { root: __dirname };
-
 // Dependencies
 var B = global.Bloggify = new require("events").EventEmitter();
+B._config = { root: __dirname };
 B._deps = {};
 B._deps.statique = require("statique");
 B._deps.utils = require("./utils");
@@ -13,7 +11,7 @@ B._deps.marked = require("marked");
 B._deps.moment = require("moment");
 B._deps.mustache = require("mustache");
 B._deps.queryString = require("querystring");
-B._deps.bugKiller = require("bug-killer");
+B._deps.bugKiller = B.debug = require("bug-killer");
 B._deps.validators = require("./apis/validators");
 B._deps.highlight = require("highlight.js");
 B._deps.jsonDB = require("mongo-sync-files");
@@ -23,13 +21,13 @@ B._deps.lib = require("./lib");
 
 // Start core
 Bloggify.start();
-Config.root = __dirname;
+B._config.root = __dirname;
 
 // Require apis after Config was inited
 Bloggify.apis = require("./apis")
 
 // Create server
-Http.createServer(function(req, res) {
+B._deps.http.createServer(function(req, res) {
 
     var pathName = Url.parse(req.url, true).pathname;
 
