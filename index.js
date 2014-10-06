@@ -17,6 +17,8 @@ B._deps.highlight = require("highlight.js");
 B._deps.jsonDB = require("mongo-sync-files");
 B._deps.gitTools = require("git-tools");
 B._deps.npm = require("npm");
+B._deps.events = require("events");
+
 B._deps.lib = require("./lib");
 
 // Start core
