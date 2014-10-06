@@ -44,14 +44,15 @@ B._deps.http.createServer(function(req, res) {
     var route = Statique.getRoute(pathName)
       , isBlogPost = false
       , isBlogPage = false
+      , siteBlog = B._config.site.blog
       ;
 
-    if (Config.site.blog) {
+    if (siteBlog) {
         isBlogPost = (
-            new RegExp(Config.site.blog.url + "\/[0-9]+.*")
+            new RegExp(siteBlog.url + "\/[0-9]+.*")
         ).test(pathName);
         isBlogPage = new RegExp(
-            Config.site.blog.url + "(\/page\/[1-9]([0-9]*))?\/$"
+            siteBlog.url + "(\/page\/[1-9]([0-9]*))?\/$"
         ).test(pathName);
     }
 
@@ -62,7 +63,7 @@ B._deps.http.createServer(function(req, res) {
     ) {
         Bloggify.session.isLoggedIn(req, function (err, sessionData) {
             if (err) {
-                Debug.log(err, "error");
+                Bloggify.debug.log(err, "error");
                 return Statique.error(req, res, 500);
             }
             Bloggify.apis["handlePage:" + req.method](
@@ -74,11 +75,11 @@ B._deps.http.createServer(function(req, res) {
 
     // Serve files
     Statique.serve(req, res);
-}).listen(Config.port, Config.ipaddress);
+}).listen(B._config.port, B._config.ipaddress);
 
 // Print some output
-Debug.log(
-    "Server running at http://" + (Config.ipaddress || "localhost")
-  + ":" + Config.port
+Bloggify.debug.log(
+    "Server running at http://" + (B._config.ipaddress || "localhost")
+  + ":" + B._config.port
   , "info"
 );
