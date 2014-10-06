@@ -1,4 +1,10 @@
-var Utils = require("./utils");
+var Utils = require("./utils")
+  , Events = require("events")
+  , EventEmitter = Events.EventEmitter
+  ;
+
+global.Bloggify = new EventEmitter();
+Bloggify.ROOT = __dirname;
 
 const DEFAULT_CONFIG = {
     site: {
@@ -22,8 +28,8 @@ const DEFAULT_CONFIG = {
       ttl: 864000000
     }
   , user: {
-        login: "admin",
-      , password: "admin",
+        login: "admin"
+      , password: "admin"
       , name: "Admin"
     }
   , content: "/content"
@@ -39,12 +45,17 @@ const DEFAULT_CONFIG = {
 };
 
 var bConfig = null;
-exports.getConfig = function (force) {
+Bloggify.getConfig = function (force) {
     if (force || !bConfig) {
-        return bConfig = Utils.mergeRecursive(
+        return bConfig = Bloggify._config = Utils.mergeRecursive(
             DEFAULT_CONFIG
           , Utils.requireNoCache("./config")
         );
     }
     return bConfig;
+};
+
+Bloggify.initPlugins = function (callback) {
+    // TODO
+    callback();
 };
