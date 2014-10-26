@@ -11,13 +11,13 @@ const DEFAULT_CONFIG = {
         title: "No Title"
       , description: "Another awesome Bloggify website"
       , git: ""
-      , blog: {
-            path: "/blog"
-          , label: "Blog"
-          , order: 19
-          , posts: {
-                limit: 3
-            }
+    }
+  , blog: {
+        path: "/blog"
+      , label: "Blog"
+      , order: 19
+      , posts: {
+            limit: 3
         }
     }
   , cache: {
@@ -41,7 +41,8 @@ const DEFAULT_CONFIG = {
         uri: "mongodb://localhost:27017/bloggify"
     }
   , port: 8080
-  , ipaddress: "localhost"
+  , host: "localhost"
+  , fileCache: 1000 * 60 * 60 * 60 * 24 * 7 * 4
 };
 
 var bConfig = null;
