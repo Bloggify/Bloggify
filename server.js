@@ -9,7 +9,7 @@ var Statique = require("statique")
 var server = new Lien({
     host: Config.host
   , port: Config.port
-  , root: Bloggify.ROOT + Config.content
+  , root: Config.content
   , cache: Config.fileCache
 });
 
