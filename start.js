@@ -1,6 +1,7 @@
 var Utils = require("./utils")
   , Events = require("events")
   , EventEmitter = Events.EventEmitter
+  , Fs = require("fs")
   ;
 
 global.Bloggify = new EventEmitter();
@@ -47,11 +48,18 @@ const DEFAULT_CONFIG = {
 
 var bConfig = null;
 Bloggify.getConfig = function (force) {
+
     if (force || !bConfig) {
-        return bConfig = Bloggify._config = Utils.mergeRecursive(
+
+        bConfig = Bloggify._config = Utils.mergeRecursive(
             DEFAULT_CONFIG
           , Utils.requireNoCache("./config")
         );
+
+        bConfig.content = Bloggify.ROOT + bConfig.content;
+        bConfig.theme = bConfig.content + bConfig.theme;
+        bConfig.pages = bConfig.content + bConfig.pages;
+        bConfig.posts = bConfig.content + bConfig.posts;
     }
     return bConfig;
 };
