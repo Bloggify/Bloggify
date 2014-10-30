@@ -57,9 +57,10 @@ Bloggify.getConfig = function (force) {
         );
 
         bConfig.content = Bloggify.ROOT + bConfig.content;
-        bConfig.theme = bConfig.content + bConfig.theme;
-        bConfig.pages = bConfig.content + bConfig.pages;
-        bConfig.posts = bConfig.content + bConfig.posts;
+        // TODO
+        // bConfig.theme = bConfig.content + bConfig.theme;
+        // bConfig.pages = bConfig.content + bConfig.pages;
+        // bConfig.posts = bConfig.content + bConfig.posts;
     }
     return bConfig;
 };
