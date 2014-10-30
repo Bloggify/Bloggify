@@ -4,6 +4,7 @@ var Statique = require("statique")
   , Url = require("url")
   , Lien = require("lien")
   , Config = Bloggify.getConfig()
+  , Theme = require("./theme")
   ;
 
 var server = new Lien({
@@ -14,27 +15,38 @@ var server = new Lien({
 });
 
 Bloggify.initPlugins(function () {
+    Theme(Config.content + Config.theme, function (err, themeObj) {
+        if (err) { throw err; }
 
-    // Error pages
-    server.page.add(/\/[4-9][0-9][0-9]\//, function (lien) {
-        lien.end();
+        // Error pages
+        server.page.add(/\/[4-9][0-9][0-9]\/?/, function (lien) {
+            var m = lien.pathName.match(/\/(.*)\/?/) || []
+              , code = parseInt(m[1])
+              ;
+
+            if (isNaN(code) || !themeObj.errors[code]) {
+                return lien.end(404);
+            }
+            lien.file(themeObj.errors[code]);
+        });
+
+        // Blog posts
+        server.page.add(new RegExp(Config.blog.path + "\/[0-9]+.*"), function (lien) {
+            debugger;
+            lien.end();
+        });
+
+        // Blog pages
+        server.page.add(new RegExp(Config.blog.path + "(\/page\/[1-9]([0-9]*))?\/$"), function (lien) {
+            debugger;
+            lien.end();
+        });
+
+        server.on("request", function (lien) {
+            lien.end();
+        });
     });
 
-    // Blog posts
-    server.page.add(new RegExp(Config.blog.path + "\/[0-9]+.*"), function (lien) {
-        debugger;
-        lien.end();
-    });
-
-    // Blog pages
-    server.page.add(new RegExp(Config.blog.path + "(\/page\/[1-9]([0-9]*))?\/$"), function (lien) {
-        debugger;
-        lien.end();
-    });
-
-    server.on("request", function (lien) {
-        lien.end();
-    });
 
    //     if (
    //         (route && route.url && typeof route.url !== "object"
