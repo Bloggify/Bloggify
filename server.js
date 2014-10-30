@@ -18,6 +18,8 @@ Bloggify.initPlugins(function () {
     Theme(Config.content + Config.theme, function (err, themeObj) {
         if (err) { throw err; }
 
+        server._sServer.setErrors(themeObj.errors);
+
         // Error pages
         server.page.add(/\/[4-9][0-9][0-9]\/?/, function (lien) {
             var m = lien.pathName.match(/\/(.*)\/?/) || []
