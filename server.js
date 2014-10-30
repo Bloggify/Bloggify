@@ -5,7 +5,7 @@ var Statique = require("statique")
   , Lien = require("lien")
   , Config = Bloggify.getConfig()
   , Theme = require("./theme")
-  , CoreApis = require("./lib")
+  , CoreApis = null
   ;
 
 var server = Bloggify.server = new Lien({
@@ -18,6 +18,9 @@ var server = Bloggify.server = new Lien({
 Bloggify.initPlugins(function () {
     Theme(Config.content + Config.theme, function (err, themeObj) {
         if (err) { throw err; }
+
+        Bloggify.theme = themeObj;
+        CoreApis = require("./lib");
 
         // Error pages
         server._sServer.setErrors(themeObj.errors);
