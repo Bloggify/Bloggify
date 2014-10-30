@@ -24,16 +24,16 @@ Bloggify.initPlugins(function () {
 
         // Error pages
         server._sServer.setErrors(themeObj.errors);
-        server.page.add(/\/[4-9][0-9][0-9]\/?/, CoreApis.errorPages);
-
-        // Site pages
-        server.page.add(new RegExp(Config.blog.path + "\/[0-9]+.*"), CoreApis.sitePage);
+        server.page.add(/^\/[4-9][0-9][0-9]\/$/, CoreApis.errorPages);
 
         // Blog posts
-        server.page.add(new RegExp(Config.blog.path + "\/[0-9]+.*"), CoreApis.blogPost);
+        server.page.add(new RegExp(Config.blog.path + "\/[0-9]+.*\/$"), CoreApis.blogPost);
 
         // Blog pages (pagination)
         server.page.add(new RegExp(Config.blog.path + "(\/page\/[1-9]([0-9]*))?\/$"), CoreApis.blogPage);
+
+        // Site pages
+        server.page.add(/^(\/[a-z0-9-]+)?\/$/, CoreApis.sitePage);
 
         // Other requests (CSS etc)
         server.on("request", function (lien) {
