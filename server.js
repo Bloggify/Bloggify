@@ -38,7 +38,7 @@ Bloggify.initPlugins(function () {
             lien.end();
         });
 
-        // Blog pages
+        // Blog pages (pagination)
         server.page.add(new RegExp(Config.blog.path + "(\/page\/[1-9]([0-9]*))?\/$"), function (lien) {
             debugger;
             lien.end();
