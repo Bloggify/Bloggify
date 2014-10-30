@@ -5,9 +5,10 @@ var Statique = require("statique")
   , Lien = require("lien")
   , Config = Bloggify.getConfig()
   , Theme = require("./theme")
+  , CoreApis = require("./lib")
   ;
 
-var server = new Lien({
+var server = Bloggify.server = new Lien({
     host: Config.host
   , port: Config.port
   , root: Config.content
@@ -18,52 +19,22 @@ Bloggify.initPlugins(function () {
     Theme(Config.content + Config.theme, function (err, themeObj) {
         if (err) { throw err; }
 
-        server._sServer.setErrors(themeObj.errors);
-
         // Error pages
-        server.page.add(/\/[4-9][0-9][0-9]\/?/, function (lien) {
-            var m = lien.pathName.match(/\/(.*)\/?/) || []
-              , code = parseInt(m[1])
-              ;
+        server._sServer.setErrors(themeObj.errors);
+        server.page.add(/\/[4-9][0-9][0-9]\/?/, CoreApis.errorPages);
 
-            if (isNaN(code) || !themeObj.errors[code]) {
-                return lien.end(404);
-            }
-            lien.file(themeObj.errors[code]);
-        });
+        // Site pages
+        server.page.add(new RegExp(Config.blog.path + "\/[0-9]+.*"), CoreApis.sitePage);
 
         // Blog posts
-        server.page.add(new RegExp(Config.blog.path + "\/[0-9]+.*"), function (lien) {
-            debugger;
-            lien.end();
-        });
+        server.page.add(new RegExp(Config.blog.path + "\/[0-9]+.*"), CoreApis.blogPost);
 
         // Blog pages (pagination)
-        server.page.add(new RegExp(Config.blog.path + "(\/page\/[1-9]([0-9]*))?\/$"), function (lien) {
-            debugger;
-            lien.end();
-        });
+        server.page.add(new RegExp(Config.blog.path + "(\/page\/[1-9]([0-9]*))?\/$"), CoreApis.blogPage);
 
+        // Other requests (CSS etc)
         server.on("request", function (lien) {
             lien.end();
         });
     });
-
-
-   //     if (
-   //         (route && route.url && typeof route.url !== "object"
-   //         || isBlogPost || isBlogPage)
-   //         && typeof Bloggify.apis["handlePage:" + req.method] === "function"
-   //     ) {
-   //         Bloggify.session.isLoggedIn(req, function (err, sessionData) {
-   //             if (err) {
-   //                 Debug.log(err, "error");
-   //                 return Statique.error(req, res, 500);
-   //             }
-   //             Bloggify.apis["handlePage:" + req.method](
-   //                 req, res, pathName, route, null, isBlogPost, isBlogPage, sessionData
-   //             );
-   //         });
-   //         return;
-   //     }
 });
