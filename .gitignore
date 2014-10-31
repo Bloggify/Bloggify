@@ -7,5 +7,5 @@ node_modules
 ionicabizau.net
 bloggify.net
 config.json
-site/
+./site/
 content/
