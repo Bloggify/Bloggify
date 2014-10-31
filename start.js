@@ -3,11 +3,13 @@ var Utils = require("./utils")
   , EventEmitter = Events.EventEmitter
   , Fs = require("fs")
   , JsonDB = require("mongo-sync-files")
+  , Debug = require("bug-killer")
   ;
 
 global.Bloggify = new EventEmitter();
 Bloggify.ROOT = __dirname;
 Bloggify.db = new JsonDB();
+Bloggify.log = Debug.log;
 
 const DEFAULT_CONFIG = {
     site: {
@@ -83,7 +85,7 @@ Bloggify.initDbs = function (callback) {
                 return callback(e);
             }
             if (e) { return Debug.log(e, "error"); }
-            if (--callback) {
+            if (!--complete) {
                 callback(null, null);
             }
         }
@@ -100,14 +102,14 @@ Bloggify.initDbs = function (callback) {
       , autoInit: true
     }, function (err) {
         if (err) { return clb(err); }
-        Debug.log("Inited posts collection.", "info");
+        Bloggify.log("Inited posts collection.", "info");
         clb(null);
     });
 
     // Init posts collection
     var pathPosts = Bloggify.ROOT + Bloggify._config.posts + "/index.json";
     ++complete;
-    Bloggify.post._col = Bloggify.db.initCollection({
+    Bloggify.post = Bloggify.db.initCollection({
         inputFile: pathPosts
       , outputFile: pathPosts
       , uri: Bloggify._config.database.uri
@@ -115,14 +117,14 @@ Bloggify.initDbs = function (callback) {
       , autoInit: true
     }, function (err) {
         if (err) { return clb(err); }
-        Debug.log("Inited posts collection.", "info");
+        Bloggify.log("Inited posts collection.", "info");
         clb(null);
     });
 
     // Init sessions collection
     var pathSessions = Bloggify.ROOT + "/tmp/sessions.json";
     ++complete;
-    Bloggify.session._col = Bloggify.db.initCollection({
+    Bloggify.session = Bloggify.db.initCollection({
         inputFile: pathSessions
       , outputFile: pathSessions
       , uri: Bloggify._config.database.uri
@@ -130,7 +132,7 @@ Bloggify.initDbs = function (callback) {
       , autoInit: true
     }, function (err) {
         if (err) { return clb(err); }
-        Debug.log("Inited sessions collection.", "info");
+        Bloggify.log("Inited sessions collection.", "info");
         clb(null);
     });
 };
