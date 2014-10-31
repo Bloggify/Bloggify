@@ -2,10 +2,12 @@ var Utils = require("./utils")
   , Events = require("events")
   , EventEmitter = Events.EventEmitter
   , Fs = require("fs")
+  , JsonDB = require("mongo-sync-files")
   ;
 
 global.Bloggify = new EventEmitter();
 Bloggify.ROOT = __dirname;
+BloggifyLib.db = new JsonDB();
 
 const DEFAULT_CONFIG = {
     site: {
@@ -68,4 +70,67 @@ Bloggify.getConfig = function (force) {
 Bloggify.initPlugins = function (callback) {
     // TODO
     callback();
+};
+
+Bloggify.initDbs = function (callback) {
+
+    var complete = 0
+      , clbed = false
+      , clb = function (e, d) {
+            if (clbed === true) { return; }
+            if (e) {
+                clbed = true;
+                return callback(e);
+            }
+            if (e) { return Debug.log(e, "error"); }
+            if (--callback) {
+                callback(null, null);
+            }
+        }
+      ;
+
+    // Init pages collection
+    var pathPages = Bloggify.ROOT + Bloggify._config.pages + "/index.json";
+    ++complete;
+    Bloggify.pages = BloggifyLib.database.initCollection({
+        inputFile: pathPages
+      , outputFile: pathPages
+      , uri: Bloggify._config.database.uri
+      , collection: "pages"
+      , autoInit: true
+    }, function (err) {
+        if (err) { return clb(err); }
+        Debug.log("Inited posts collection.", "info");
+        clb(null);
+    });
+
+    // Init posts collection
+    var pathPosts = Bloggify.ROOT + Bloggify._config.posts + "/index.json";
+    ++complete;
+    BloggifyLib.post._col = BloggifyLib.database.initCollection({
+        inputFile: pathPosts
+      , outputFile: pathPosts
+      , uri: Config.database.uri
+      , collection: "posts"
+      , autoInit: true
+    }, function (err) {
+        if (err) { return clb(err); }
+        Debug.log("Inited posts collection.", "info");
+        clb(null);
+    });
+
+    // Init sessions collection
+    var pathSessions = Bloggify.ROOT + "/tmp/sessions.json";
+    ++complete;
+    BloggifyLib.session._col = BloggifyLib.database.initCollection({
+        inputFile: pathSessions
+      , outputFile: pathSessions
+      , uri: Config.database.uri
+      , collection: "sessions"
+      , autoInit: true
+    }, function (err) {
+        if (err) { return clb(err); }
+        Debug.log("Inited sessions collection.", "info");
+        clb(null);
+    });
 };
