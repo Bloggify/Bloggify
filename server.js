@@ -1,3 +1,4 @@
+// Dependencies
 var Statique = require("statique")
   , Start = require("./start")
   , Http = require("http")
@@ -8,6 +9,7 @@ var Statique = require("statique")
   , CoreApis = null
   ;
 
+// Init lien server
 var server = Bloggify.server = new Lien({
     host: Config.host
   , port: Config.port
@@ -15,29 +17,38 @@ var server = Bloggify.server = new Lien({
   , cache: Config.fileCache
 });
 
-Bloggify.initPlugins(function () {
-    Theme(Config.content + Config.theme, function (err, themeObj) {
+// Init databases
+Bloggify.initDbs(function (err) {
+    if (err) { throw err; }
+
+    // Init plugins
+    Bloggify.initPlugins(function (err) {
         if (err) { throw err; }
 
-        Bloggify.theme = themeObj;
-        CoreApis = require("./lib");
+        // Init theme
+        Theme(Config.content + Config.theme, function (err, themeObj) {
+            if (err) { throw err; }
 
-        // Error pages
-        server._sServer.setErrors(themeObj.errors);
-        server.page.add(/^\/[4-9][0-9][0-9]\/$/, CoreApis.errorPages);
+            Bloggify.theme = themeObj;
+            CoreApis = require("./lib");
 
-        // Blog posts
-        server.page.add(new RegExp(Config.blog.path + "\/[0-9]+.*\/$"), CoreApis.blogPost);
+            // Error pages
+            server._sServer.setErrors(themeObj.errors);
+            server.page.add(/^\/[4-9][0-9][0-9]\/$/, CoreApis.errorPages);
 
-        // Blog pages (pagination)
-        server.page.add(new RegExp(Config.blog.path + "(\/page\/[1-9]([0-9]*))?\/$"), CoreApis.blogPage);
+            // Blog posts
+            server.page.add(new RegExp(Config.blog.path + "\/[0-9]+.*\/$"), CoreApis.blogPost);
 
-        // Site pages
-        server.page.add(/^(\/[a-z0-9-]+)?\/$/, CoreApis.sitePage);
+            // Blog pages (pagination)
+            server.page.add(new RegExp(Config.blog.path + "(\/page\/[1-9]([0-9]*))?\/$"), CoreApis.blogPage);
 
-        // Other requests (CSS etc)
-        server.on("request", function (lien) {
-            lien.end();
+            // Site pages
+            server.page.add(/^(\/[a-z0-9-]+)?\/$/, CoreApis.sitePage);
+
+            // Other requests (CSS etc)
+            server.on("request", function (lien) {
+                lien.end();
+            });
         });
     });
 });
