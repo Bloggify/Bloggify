@@ -30,7 +30,7 @@ var Theme = module.exports = function (path, callback) {
             themeObj.errors[err] = Bloggify._config.theme + themeObj.errors[err];
         }
 
-        themeObj.main = Jade.compileFile(path + "/" + themeObj.main);
+        themeObj.render = Jade.compileFile(path + "/" + themeObj.main);
 
         callback(null, themeObj);
     });
