@@ -7,7 +7,7 @@ var Utils = require("./utils")
 
 global.Bloggify = new EventEmitter();
 Bloggify.ROOT = __dirname;
-BloggifyLib.db = new JsonDB();
+Bloggify.db = new JsonDB();
 
 const DEFAULT_CONFIG = {
     site: {
@@ -92,7 +92,7 @@ Bloggify.initDbs = function (callback) {
     // Init pages collection
     var pathPages = Bloggify.ROOT + Bloggify._config.pages + "/index.json";
     ++complete;
-    Bloggify.pages = BloggifyLib.database.initCollection({
+    Bloggify.pages = Bloggify.db.initCollection({
         inputFile: pathPages
       , outputFile: pathPages
       , uri: Bloggify._config.database.uri
@@ -107,10 +107,10 @@ Bloggify.initDbs = function (callback) {
     // Init posts collection
     var pathPosts = Bloggify.ROOT + Bloggify._config.posts + "/index.json";
     ++complete;
-    BloggifyLib.post._col = BloggifyLib.database.initCollection({
+    Bloggify.post._col = Bloggify.db.initCollection({
         inputFile: pathPosts
       , outputFile: pathPosts
-      , uri: Config.database.uri
+      , uri: Bloggify._config.database.uri
       , collection: "posts"
       , autoInit: true
     }, function (err) {
@@ -122,10 +122,10 @@ Bloggify.initDbs = function (callback) {
     // Init sessions collection
     var pathSessions = Bloggify.ROOT + "/tmp/sessions.json";
     ++complete;
-    BloggifyLib.session._col = BloggifyLib.database.initCollection({
+    Bloggify.session._col = Bloggify.db.initCollection({
         inputFile: pathSessions
       , outputFile: pathSessions
-      , uri: Config.database.uri
+      , uri: Bloggify._config.database.uri
       , collection: "sessions"
       , autoInit: true
     }, function (err) {
