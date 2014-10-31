@@ -13,10 +13,7 @@ const DEFAULT_THEME_CONFIG = {
 };
 
 var Theme = module.exports = function (path, callback) {
-
-    path += "/package.json";
-
-    Fs.readFile(path, "utf-8", function (err, themePackage) {
+    Fs.readFile(path + "/package.json", "utf-8", function (err, themePackage) {
         if (err) { return callback(err); }
         try {
             themePackage = JSON.parse(themePackage);
@@ -29,13 +26,13 @@ var Theme = module.exports = function (path, callback) {
           , themePackage.bloggify
         );
 
-        for (var err in themeObj.config.errors) {
-            themeObj.config.errors[err] =
-                Bloggify._config.theme + themeObj.config.errors[err];
+        for (var err in themeObj.errors) {
+            themeObj.errors[err] =
+                Bloggify._config.theme + themeObj.errors[err];
         }
 
-        themeObj.main = jade.compileFile(path + themeObj.main, options);
+        themeObj.main = Jade.compileFile(path + "/" + themeObj.main);
 
-        callback(null, themeObj.config);
+        callback(null, themeObj);
     });
 };
