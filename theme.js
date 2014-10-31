@@ -1,4 +1,7 @@
-var Utils = require("./utils");
+var Utils = require("./utils")
+  , Jade = require("jade")
+  , Fs = require("fs")
+  ;
 
 const DEFAULT_THEME_CONFIG = {
     errors: {
@@ -11,25 +14,28 @@ const DEFAULT_THEME_CONFIG = {
 
 var Theme = module.exports = function (path, callback) {
 
-    debugger;
     path += "/package.json";
-    var themeObj = {};
 
-    try {
-        themeObj.npm = require(path);
-    } catch (e) {
-        return callback(e);
-    }
+    Fs.readFile(path, "utf-8", function (err, themePackage) {
+        if (err) { return callback(err); }
+        try {
+            themePackage = JSON.parse(themePackage);
+        } catch (e) {
+            return callback(e);
+        }
 
-    themeObj.config = Utils.mergeRecursive(
-        DEFAULT_THEME_CONFIG
-      , themeObj.npm.bloggify
-    );
+        var themeObj = Utils.mergeRecursive(
+            DEFAULT_THEME_CONFIG
+          , themePackage.bloggify
+        );
 
-    for (var err in themeObj.config.errors) {
-        themeObj.config.errors[err] =
-            Bloggify._config.theme + themeObj.config.errors[err];
-    }
+        for (var err in themeObj.config.errors) {
+            themeObj.config.errors[err] =
+                Bloggify._config.theme + themeObj.config.errors[err];
+        }
 
-    callback(null, themeObj.config);
+        themeObj.main = jade.compileFile(path + themeObj.main, options);
+
+        callback(null, themeObj.config);
+    });
 };
