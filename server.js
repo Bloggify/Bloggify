@@ -13,7 +13,7 @@ var Statique = require("statique")
 var server = Bloggify.server = new Lien({
     host: Config.host
   , port: Config.port
-  , root: Config.content
+  , root: Config.pathContent
   , cache: Config.fileCache
 });
 
@@ -26,7 +26,7 @@ Bloggify.initDbs(function (err) {
         if (err) { throw err; }
 
         // Init theme
-        Theme(Config.content + Config.theme, function (err, themeObj) {
+        Theme(Config.pathContent + Config.theme, function (err, themeObj) {
             if (err) { throw err; }
 
             Bloggify.theme = themeObj;
