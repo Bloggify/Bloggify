@@ -60,11 +60,7 @@ Bloggify.getConfig = function (force) {
           , Utils.requireNoCache("./config")
         );
 
-        bConfig.content = Bloggify.ROOT + bConfig.content;
-        // TODO
-        // bConfig.theme = bConfig.content + bConfig.theme;
-        // bConfig.pages = bConfig.content + bConfig.pages;
-        // bConfig.posts = bConfig.content + bConfig.posts;
+        bConfig.pathContent = Bloggify.ROOT + bConfig.content;
     }
     return bConfig;
 };
@@ -92,7 +88,7 @@ Bloggify.initDbs = function (callback) {
       ;
 
     // Init pages collection
-    var pathPages = Bloggify.ROOT + Bloggify._config.pages + "/index.json";
+    var pathPages = Bloggify._config.pathContent + Bloggify._config.pages + "/index.json";
     ++complete;
     Bloggify.pages = Bloggify.db.initCollection({
         inputFile: pathPages
@@ -107,7 +103,7 @@ Bloggify.initDbs = function (callback) {
     });
 
     // Init posts collection
-    var pathPosts = Bloggify.ROOT + Bloggify._config.posts + "/index.json";
+    var pathPosts = Bloggify._config.pathContent + Bloggify._config.posts + "/index.json";
     ++complete;
     Bloggify.post = Bloggify.db.initCollection({
         inputFile: pathPosts
