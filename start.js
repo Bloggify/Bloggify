@@ -20,7 +20,7 @@ const DEFAULT_CONFIG = {
   , blog: {
         path: "/blog"
       , label: "Blog"
-      , order: 19
+      , order: 11
       , posts: {
             limit: 3
         }
