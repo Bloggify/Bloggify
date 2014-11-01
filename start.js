@@ -105,7 +105,7 @@ Bloggify.initDbs = function (callback) {
     // Init posts collection
     var pathPosts = Bloggify._config.pathContent + Bloggify._config.posts + "/index.json";
     ++complete;
-    Bloggify.post = Bloggify.db.initCollection({
+    Bloggify.posts = Bloggify.db.initCollection({
         inputFile: pathPosts
       , outputFile: pathPosts
       , uri: Bloggify._config.database.uri
@@ -120,7 +120,7 @@ Bloggify.initDbs = function (callback) {
     // Init sessions collection
     var pathSessions = Bloggify.ROOT + "/tmp/sessions.json";
     ++complete;
-    Bloggify.session = Bloggify.db.initCollection({
+    Bloggify.sessions = Bloggify.db.initCollection({
         inputFile: pathSessions
       , outputFile: pathSessions
       , uri: Bloggify._config.database.uri
