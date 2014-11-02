@@ -30,7 +30,17 @@ var Theme = module.exports = function (path, callback) {
             themeObj.errors[err] = Bloggify._config.theme + themeObj.errors[err];
         }
 
-        themeObj.render = Jade.compileFile(path + "/" + themeObj.main);
+        var mainFile = path + "/" + themeObj.main;
+        themeObj.render = Jade.compileFile(mainFile);
+        var timeout = null;
+        Fs.watch(path, function (event, filename) {
+            if (event !== "change") { return; }
+            if (!/.jade$/.test(filename)) { return; }
+            clearTimeout(timeout);
+            timeout = setTimeout(function () {
+                themeObj.render = Jade.compileFile(mainFile);
+            }, 1000);
+        });
 
         callback(null, themeObj);
     });

@@ -17,6 +17,9 @@ const DEFAULT_CONFIG = {
       , description: "Another awesome Bloggify website"
       , git: ""
     }
+  , options: {
+        social: "Who am I?"
+    }
   , blog: {
         path: "/blog"
       , label: "Blog"
