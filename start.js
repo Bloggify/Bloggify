@@ -61,7 +61,7 @@ Bloggify.getConfig = function (force) {
 
     if (force || !bConfig) {
 
-        bConfig = Bloggify._config = Utils.mergeRecursive(
+        bConfig = Bloggify.config = Utils.mergeRecursive(
             DEFAULT_CONFIG
           , Utils.requireNoCache("./config")
         );
@@ -91,12 +91,12 @@ Bloggify.initDbs = function (callback) {
       ;
 
     // Init pages collection
-    var pathPages = Bloggify._config.pathContent + Bloggify._config.pages + "/index.json";
+    var pathPages = Bloggify.config.pathContent + Bloggify.config.pages + "/index.json";
     ++complete;
     Bloggify.pages = Bloggify.db.initCollection({
         inputFile: pathPages
       , outputFile: pathPages
-      , uri: Bloggify._config.database.uri
+      , uri: Bloggify.config.database.uri
       , collection: "pages"
       , autoInit: true
     }, function (err) {
@@ -106,12 +106,12 @@ Bloggify.initDbs = function (callback) {
     });
 
     // Init posts collection
-    var pathPosts = Bloggify._config.pathContent + Bloggify._config.posts + "/index.json";
+    var pathPosts = Bloggify.config.pathContent + Bloggify.config.posts + "/index.json";
     ++complete;
     Bloggify.posts = Bloggify.db.initCollection({
         inputFile: pathPosts
       , outputFile: pathPosts
-      , uri: Bloggify._config.database.uri
+      , uri: Bloggify.config.database.uri
       , collection: "posts"
       , autoInit: true
     }, function (err) {
@@ -126,7 +126,7 @@ Bloggify.initDbs = function (callback) {
     Bloggify.sessions = Bloggify.db.initCollection({
         inputFile: pathSessions
       , outputFile: pathSessions
-      , uri: Bloggify._config.database.uri
+      , uri: Bloggify.config.database.uri
       , collection: "sessions"
       , autoInit: true
     }, function (err) {

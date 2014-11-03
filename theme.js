@@ -27,7 +27,7 @@ var Theme = module.exports = function (path, callback) {
         );
 
         for (var err in themeObj.errors) {
-            themeObj.errors[err] = Bloggify._config.theme + themeObj.errors[err];
+            themeObj.errors[err] = Bloggify.config.theme + themeObj.errors[err];
         }
 
         var mainFile = path + "/" + themeObj.main;
