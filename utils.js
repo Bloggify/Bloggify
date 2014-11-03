@@ -1,7 +1,9 @@
 /**
  * The util functions
  */
-var Utils = module.exports = require("jxutils");
+var Utils = module.exports = require("jxutils")
+  , Fs = require("fs")
+  ;
 
 /**
  * clone
