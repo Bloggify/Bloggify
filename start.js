@@ -4,6 +4,7 @@ var Utils = require("./utils")
   , Fs = require("fs")
   , JsonDB = require("mongo-sync-files")
   , Debug = require("bug-killer")
+  , Plugin = require("./lib/api/plugin")
   ;
 
 global.Bloggify = new EventEmitter();
@@ -44,7 +45,7 @@ const DEFAULT_CONFIG = {
   , theme: "/theme"
   , pages: "/pages"
   , posts: "/posts"
-  , plugins: {}
+  , plugins: []
   , database: {
         uri: "mongodb://localhost:27017/bloggify"
     }
@@ -68,10 +69,7 @@ Bloggify.getConfig = function (force) {
     return bConfig;
 };
 
-Bloggify.initPlugins = function (callback) {
-    // TODO
-    callback();
-};
+Bloggify.initPlugins = Plugin.initPlugins;
 
 Bloggify.initDbs = function (callback) {
 
