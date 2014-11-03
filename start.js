@@ -20,6 +20,8 @@ const DEFAULT_CONFIG = {
     }
   , options: {
         social: "Who am I?"
+      , customCSS: []
+      , customJS: []
     }
   , blog: {
         path: "/blog"
