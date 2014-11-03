@@ -88,6 +88,17 @@ Utils.requireNoCache = function (path) {
     return content;
 };
 
+Utils.readJson =  function (path) {
+    try {
+        return JSON.parse(Fs.readFileSync(path, "utf-8"));
+    } catch (e) {
+        if (e.code === "ENOENT") {
+            return null;
+        }
+        throw e;
+    }
+};
+
 /**
  * parsePaths
  * This is a recursive function that parses the paths saving them in
