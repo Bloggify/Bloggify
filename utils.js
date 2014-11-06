@@ -1,3 +1,8 @@
+// Dependencies
+var Debug = Bloggify.debug
+  , Config = Bloggify._config
+  ;
+
 /**
  * The util functions
  */
@@ -15,8 +20,9 @@ var Utils = module.exports = require("jxutils");
 Utils.clone = function clone (item) {
     if (!item) { return item; } // null, undefined values check
 
-    var types = [ Number, String, Boolean ],
-        result;
+    var types = [ Number, String, Boolean ]
+      , result
+      ;
 
     // normalizing primitives if someone did new String('aaa'), or new Number('444');
     types.forEach(function(type) {
