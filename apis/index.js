@@ -179,7 +179,6 @@ function handlePageGet (req, res, pathName, route, posts, isBlogPost, isBlogPage
 
     if (isBlogPage) {
         var pageNumber = parseInt((pathName.match(/[1-9]([0-9]*)/) || [])[0]);
-
         if (isNaN(pageNumber)) {
             pageNumber = 1;
         }

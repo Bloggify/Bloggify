@@ -1,7 +1,9 @@
 /**
  * The util functions
  */
-var Utils = module.exports = require("jxutils");
+var Utils = module.exports = require("jxutils")
+  , Fs = require("fs")
+  ;
 
 /**
  * clone
@@ -86,6 +88,17 @@ Utils.requireNoCache = function (path) {
         }
     }
     return content;
+};
+
+Utils.readJson =  function (path) {
+    try {
+        return JSON.parse(Fs.readFileSync(path, "utf-8"));
+    } catch (e) {
+        if (e.code === "ENOENT") {
+            return null;
+        }
+        throw e;
+    }
 };
 
 /**
@@ -193,3 +206,19 @@ Utils.parseCookies = function (request) {
 
     return list;
 }
+
+Utils.mergeRecursive = function MergeRecursive (obj1, obj2) {
+    for (var p in obj2) {
+        try {
+            if (obj2[p].constructor == Object) {
+                obj1[p] = Utils.mergeRecursive(obj1[p], obj2[p]);
+            } else {
+                obj1[p] = obj2[p];
+            }
+        } catch (e) {
+            obj1[p] = obj2[p];
+        }
+    }
+
+    return obj1;
+};
