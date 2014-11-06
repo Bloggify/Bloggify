@@ -119,19 +119,4 @@ Bloggify.initDbs = function (callback) {
         Bloggify.log("Inited posts collection.", "info");
         clb(null);
     });
-
-    // Init sessions collection
-    var pathSessions = Bloggify.ROOT + "/tmp/sessions.json";
-    ++complete;
-    Bloggify.sessions = Bloggify.db.initCollection({
-        inputFile: pathSessions
-      , outputFile: pathSessions
-      , uri: Bloggify.config.database.uri
-      , collection: "sessions"
-      , autoInit: true
-    }, function (err) {
-        if (err) { return clb(err); }
-        Bloggify.log("Inited sessions collection.", "info");
-        clb(null);
-    });
 };
