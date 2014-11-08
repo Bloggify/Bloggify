@@ -67,7 +67,7 @@ Utils.clone = function clone (item) {
 
 Utils.readJson =  function (path) {
 
-    if (!/\.json$/.test(path) {
+    if (!/\.json$/.test(path)) {
         path += ".json";
     }
 
