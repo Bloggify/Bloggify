@@ -65,31 +65,6 @@ Utils.clone = function clone (item) {
     return result;
 };
 
-/**
- * requireNoCache
- * Requires a module, deleting the cache
- *
- * @name requireNoCache
- * @function
- * @param {String} path The Node.JS module name that should be included.
- * @return {Object} Parsed and evaluated module
- */
-Utils.requireNoCache = function (path) {
-    try {
-        path = require.resolve(path);
-    } catch (e) {}
-    delete require.cache[path];
-    var content = {};
-    try {
-        content = require(path);
-    } catch (e) {
-        if (/unexpected/i.test(e.message)) {
-            Debug.log(e.message, "error");
-        }
-    }
-    return content;
-};
-
 Utils.readJson =  function (path) {
     try {
         return JSON.parse(Fs.readFileSync(path, "utf-8"));
