@@ -66,6 +66,11 @@ Utils.clone = function clone (item) {
 };
 
 Utils.readJson =  function (path) {
+
+    if (!/\.json$/.test(path) {
+        path += ".json";
+    }
+
     try {
         return JSON.parse(Fs.readFileSync(path, "utf-8"));
     } catch (e) {

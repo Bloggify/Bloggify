@@ -63,7 +63,7 @@ Bloggify.getConfig = function (force) {
 
         bConfig = Bloggify.config = Utils.mergeRecursive(
             DEFAULT_CONFIG
-          , Utils.readJson("./config")
+          , Utils.readJson("./config.json")
         );
 
         bConfig.pathContent = Bloggify.ROOT + bConfig.content;
