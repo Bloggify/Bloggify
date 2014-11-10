@@ -25,7 +25,8 @@ const DEFAULT_CONFIG = {
     }
   , blog: {
         path: "/blog"
-      , label: "Blog"
+      , slug: "blog"
+      , title: "Blog"
       , order: 11
       , posts: {
             limit: 3
