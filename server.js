@@ -1,11 +1,9 @@
 // Dependencies
-var Statique = require("statique")
-  , Start = require("./start")
-  , Http = require("http")
+var Lien = require("lien")
   , Url = require("url")
-  , Lien = require("lien")
+  , Start = require("./lib/config")
   , Config = Bloggify.getConfig()
-  , Theme = require("./theme")
+  , Theme = require(Bloggify.PATH_LIB + "/theme")
   , CoreApis = null
   ;
 
