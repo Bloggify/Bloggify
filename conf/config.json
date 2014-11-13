@@ -4,8 +4,8 @@
   },
   "plugins": [
     {
-      "name": "post-tags",
-      "source": "git@github.com:BloggifyPlugins/post-tags.git",
+      "name": "article-tags",
+      "source": "git@github.com:BloggifyPlugins/article-tags.git",
       "version": "2.0.0"
     },
     {
