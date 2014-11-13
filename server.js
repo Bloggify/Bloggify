@@ -34,8 +34,8 @@ Bloggify.initDbs(function (err) {
             server._sServer.setErrors(themeObj.errors);
             server.page.add(/^\/[4-9][0-9][0-9]\/?$/, CoreApis.errorPages);
 
-            // Blog posts
-            server.page.add(new RegExp(Config.blog.path + "\/[0-9]+.*\/?$"), CoreApis.blogPost);
+            // Blog articles
+            server.page.add(new RegExp(Config.blog.path + "\/[0-9]+.*\/?$"), CoreApis.blogArticle);
 
             // Blog pages (pagination)
             server.page.add(new RegExp(Config.blog.path + "(\/page\/[1-9]([0-9]*))?\/?$"), CoreApis.blogPage);
