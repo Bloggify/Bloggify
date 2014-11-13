@@ -28,7 +28,7 @@ const DEFAULT_CONFIG = {
       , slug: "blog"
       , title: "Blog"
       , order: 11
-      , posts: {
+      , articles: {
             limit: 3
         }
     }
@@ -47,7 +47,7 @@ const DEFAULT_CONFIG = {
   , content: "/content"
   , theme: "/theme"
   , pages: "/pages"
-  , posts: "/posts"
+  , articles: "/articles"
   , plugins: []
   , database: {
         uri: "mongodb://localhost:27017/bloggify"
