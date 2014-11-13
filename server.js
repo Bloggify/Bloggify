@@ -1,11 +1,9 @@
 // Dependencies
-var Statique = require("statique")
-  , Start = require("./start")
-  , Http = require("http")
+var Lien = require("lien")
   , Url = require("url")
-  , Lien = require("lien")
+  , Start = require("./lib/config")
   , Config = Bloggify.getConfig()
-  , Theme = require("./theme")
+  , Theme = require(Bloggify.PATH_LIB + "/theme")
   , CoreApis = null
   ;
 
@@ -36,8 +34,8 @@ Bloggify.initDbs(function (err) {
             server._sServer.setErrors(themeObj.errors);
             server.page.add(/^\/[4-9][0-9][0-9]\/?$/, CoreApis.errorPages);
 
-            // Blog posts
-            server.page.add(new RegExp(Config.blog.path + "\/[0-9]+.*\/?$"), CoreApis.blogPost);
+            // Blog articles
+            server.page.add(new RegExp(Config.blog.path + "\/[0-9]+.*\/?$"), CoreApis.blogArticle);
 
             // Blog pages (pagination)
             server.page.add(new RegExp(Config.blog.path + "(\/page\/[1-9]([0-9]*))?\/?$"), CoreApis.blogPage);
