@@ -27,7 +27,10 @@ Bloggify.initDbs(function (err) {
         Theme(Config.pathContent + Config.theme, function (err, themeObj) {
             if (err) { throw err; }
 
+            // Attach the theme object
             Bloggify.theme = themeObj;
+
+            // Initialize core apis
             CoreApis = require("./lib");
 
             // Error pages
