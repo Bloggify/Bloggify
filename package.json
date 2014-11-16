@@ -4,10 +4,9 @@
   "description": "Git based CMS/Blog",
   "main": "index.js",
   "dependencies": {
-    "moment": "*",
-    "jxutils": "*",
-    "highlight.js"  : "*",
-    "marked": "*",
+    "jxutils": "0.1.5",
+    "highlight.js": "8.3.0",
+    "marked": "0.3.2",
     "bug-killer": "1.0.0",
     "mongo-sync-files": "1.0.0",
     "git-tools": "0.1.1",
@@ -16,7 +15,8 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
