@@ -16,16 +16,22 @@ var server = Bloggify.server = new Lien({
 });
 
 // Init databases
+Bloggify.log("Initializing database.", "info");
 Bloggify.initDbs(function (err) {
     if (err) { throw err; }
 
     // Init plugins
+    Bloggify.log("Initializing plugins.", "info");
     Bloggify.initPlugins(function (err) {
         if (err) { throw err; }
 
         // Init theme
+        Bloggify.log("Initializing theme.", "info");
         Theme(Config.pathContent + Config.theme, function (err, themeObj) {
             if (err) { throw err; }
+
+            // Output
+            Bloggify.log("Initializing APIs and server router.", "info");
 
             // Attach the theme object
             Bloggify.theme = themeObj;
@@ -50,6 +56,9 @@ Bloggify.initDbs(function (err) {
             server.on("request", function (lien) {
                 lien.end();
             });
+
+            // Output
+            Bloggify.log("Bloggify platform is started.", "info");
         });
     });
 });
