@@ -8,9 +8,8 @@
     "jxutils": "*",
     "highlight.js"  : "*",
     "marked": "*",
-    "mustache": "0.8.2",
-    "bug-killer": "0.1.0",
-    "mongo-sync-files": "0.1.3",
+    "bug-killer": "1.0.0",
+    "mongo-sync-files": "1.0.0",
     "git-tools": "0.1.1",
     "jade": "1.7.0",
     "lien": "0.0.5"
