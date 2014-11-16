@@ -7,8 +7,8 @@
     "jxutils": "0.1.5",
     "highlight.js": "8.3.0",
     "marked": "0.3.2",
-    "bug-killer": "1.0.1",
-    "mongo-sync-files": "1.0.0",
+    "bug-killer": "1.0.0",
+    "mongo-sync-files": "1.0.1",
     "git-tools": "0.1.1",
     "jade": "1.7.0",
     "lien": "0.0.5"
