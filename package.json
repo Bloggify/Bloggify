@@ -1,5 +1,5 @@
 {
-  "name": "gitcms",
+  "name": "bloggify",
   "version": "0.0.0",
   "description": "Git based CMS/Blog",
   "main": "index.js",
