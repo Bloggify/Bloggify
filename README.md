@@ -1,5 +1,6 @@
-Bloggify
-========
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Bloggify/Resources/master/logo/Logo.png" width="150">
+</p>
 
 Node.JS based blogging platform.
 
