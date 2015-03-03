@@ -11,7 +11,7 @@
     "mongo-sync-files": "1.0.1",
     "git-tools": "0.1.1",
     "jade": "1.7.0",
-    "lien": "0.0.5"
+    "lien": "0.0.7"
   },
   "devDependencies": {},
   "scripts": {
