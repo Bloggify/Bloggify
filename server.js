@@ -58,7 +58,7 @@ Bloggify.initDbs(function (err) {
             });
 
             // Output
-            Bloggify.log("Bloggify platform is started.", "info");
+            Bloggify.log("Bloggify platform is started on http://" + (Config.host || "localhost") + ":" + Config.port, "info");
         });
     });
 });
