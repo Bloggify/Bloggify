@@ -1,0 +1,13 @@
+#!/usr/bin/env node
+
+// Dependencies
+var Logger = require("bug-killer")
+  , OArgv = require("oargv")
+  , Fs = require("fs")
+  ;
+
+// Configurations
+Logger.config.displayDate = false;
+Logger.config.logLevel = 4;
+
+
