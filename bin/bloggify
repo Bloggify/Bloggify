@@ -6,6 +6,7 @@ var Logger = require("bug-killer")
   , CLP = require("clp")
   , Fs = require("fs")
   , Package = require("../package")
+  , Bloggify = require("../lib/server")
   ;
 
 // Configurations
@@ -30,5 +31,5 @@ parser.addOption(nameOption);
 parser.process();
 
 if (!nameOption.value) {
-    Logger.log("Please provide a path to the config file.", "error");
+    return Logger.log("Please provide a path to the config file.", "error");
 }
