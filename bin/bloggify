@@ -3,11 +3,32 @@
 // Dependencies
 var Logger = require("bug-killer")
   , OArgv = require("oargv")
+  , CLP = require("clp")
   , Fs = require("fs")
+  , Package = require("../package")
   ;
 
 // Configurations
 Logger.config.displayDate = false;
 Logger.config.logLevel = 4;
 
+var parser = new CLP({
+    name: "Bloggify"
+  , version: Package.version
+  , exe: Package.name
+  , examples: [
+        "bloggify -c path/to/some-site"
+      , "bloggify -h"
+    ]
+  , docs_url: "https://github.com/Bloggify/Bloggify"
+});
 
+
+var nameOption = new CLP.Option(["config", "c"], "The path to the config file or site directory.", "config")
+
+parser.addOption(nameOption);
+parser.process();
+
+if (!nameOption.value) {
+    Logger.log("Please provide a path to the config file.", "error");
+}
