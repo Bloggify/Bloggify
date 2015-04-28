@@ -39,7 +39,7 @@ if (!configOption.value) {
 }
 
 var confPath = configOption.value;
-if (/\.json$/.test(confPath)) {
+if (!/\.json$/.test(confPath)) {
     confPath = confPath + "/conf/index.json";
 }
 
