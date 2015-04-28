@@ -4,9 +4,11 @@
 var Logger = require("bug-killer")
   , OArgv = require("oargv")
   , CLP = require("clp")
-  , Fs = require("fs")
+  , Path = require("path")
+  , Ul = require("ul")
   , Package = require("../package")
-  , Bloggify = require("../lib/server")
+  , BloggifyServer = require("../lib/server")
+  , IsThere = require("is-there")
   ;
 
 // Configurations
@@ -25,11 +27,31 @@ var parser = new CLP({
 });
 
 
-var nameOption = new CLP.Option(["config", "c"], "The path to the config file or site directory.", "config")
+var configOption = new CLP.Option(["config", "c"], "The path to the config file or site directory.", "config")
 
-parser.addOption(nameOption);
+parser.addOption(configOption);
 parser.process();
 
-if (!nameOption.value) {
+if (!configOption.value) {
     return Logger.log("Please provide a path to the config file.", "error");
+} else {
+    configOption.value = Path.resolve(process.cwd(), configOption.value);
 }
+
+var confPath = configOption.value;
+if (/\.json$/.test(confPath)) {
+    confPath = confPath + "/conf/index.json";
+}
+
+if (!IsThere.sync(confPath)) {
+    return Logger.log("The configuration file is not found.", "error");
+}
+
+BloggifyServer.start(confPath, function (message) {
+    Bloggify.log(message, "info");
+}, function (err, data) {
+    if (err) {
+        return Bloggify.log(err, "error");
+    }
+    Bloggify.log(data, "info");
+});
