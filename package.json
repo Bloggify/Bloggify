@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "description": "Git based CMS/Blog",
   "main": "index.js",
+  "bin": {
+      "bloggify": "./bin/bloggify"
+  },
   "dependencies": {
     "jxutils": "0.1.5",
     "highlight.js": "8.3.0",
