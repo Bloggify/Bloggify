@@ -15,6 +15,7 @@ var Logger = require("bug-killer")
 Logger.config.displayDate = false;
 Logger.config.logLevel = 4;
 
+// Create the arguments parser
 var parser = new CLP({
     name: "Bloggify"
   , version: Package.version
@@ -27,26 +28,30 @@ var parser = new CLP({
 });
 
 
+// Config option
 var configOption = new CLP.Option(["config", "c"], "The path to the config file or site directory.", "config")
-
 parser.addOption(configOption);
 parser.process();
 
+// Check the config option
 if (!configOption.value) {
     return Logger.log("Please provide a path to the config file.", "error");
 } else {
     configOption.value = Path.resolve(process.cwd(), configOption.value);
 }
 
+// Normalize the path to the configuration file
 var confPath = configOption.value;
 if (!/\.json$/.test(confPath)) {
     confPath = confPath + "/conf/index.json";
 }
 
+// Check the configuration file path
 if (!IsThere.sync(confPath)) {
     return Logger.log("The configuration file is not found.", "error");
 }
 
+// Start the Bloggify server
 BloggifyServer.start(confPath, function (message) {
     Bloggify.log(message, "info");
 }, function (err, data) {
