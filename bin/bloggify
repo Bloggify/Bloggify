@@ -2,18 +2,12 @@
 
 // Dependencies
 var Logger = require("bug-killer")
-  , OArgv = require("oargv")
   , CLP = require("clp")
   , Path = require("path")
-  , Ul = require("ul")
   , Package = require("../package")
   , BloggifyServer = require("../lib/server")
   , IsThere = require("is-there")
   ;
-
-// Configurations
-Logger.config.displayDate = false;
-Logger.config.logLevel = 4;
 
 // Create the arguments parser
 var parser = new CLP({
@@ -47,7 +41,7 @@ if (!/\.json$/.test(confPath)) {
 }
 
 // Check the configuration file path
-if (!IsThere.sync(confPath)) {
+if (!IsThere(confPath)) {
     return Logger.log("The configuration file is not found.", "error");
 }
 
