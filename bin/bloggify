@@ -42,7 +42,7 @@ if (!/\.json$/.test(confPath)) {
 
 // Check the configuration file path
 if (!IsThere(confPath)) {
-    return Logger.log("The configuration file is not found.", "error");
+    return Logger.log("The configuration file was not found.", "error");
 }
 
 // Start the Bloggify server
