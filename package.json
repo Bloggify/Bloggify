@@ -18,7 +18,8 @@
     "mongof": "2.0.0",
     "clp": "^3.0.0",
     "r-json": "^1.0.0",
-    "is-there": "^4.0.0"
+    "is-there": "^4.0.0",
+    "ul": "5.0.0"
   },
   "devDependencies": {},
   "scripts": {
