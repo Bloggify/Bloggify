@@ -17,6 +17,7 @@
     "marked": "^0.3.3",
     "mongo-sync-files": "1.0.1",
     "clp": "^3.0.0",
+    "r-json": "^1.0.0",
     "is-there": "^4.0.0"
   },
   "devDependencies": {},
