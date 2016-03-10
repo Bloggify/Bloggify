@@ -27,5 +27,10 @@
   "bugs": {
     "url": "https://github.com/IonicaBizau/bloggify-paths/issues"
   },
-  "homepage": "https://github.com/IonicaBizau/bloggify-paths#readme"
+  "homepage": "https://github.com/IonicaBizau/bloggify-paths#readme",
+  "dependencies": {
+    "abs": "^1.2.1",
+    "deffy": "^2.2.1",
+    "ul": "^5.2.1"
+  }
 }
