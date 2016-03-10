@@ -1,5 +1,11 @@
 "use strict";
 
-const bloggifyCore = require("../lib");
+const BloggifyCore = require("../lib");
 
-console.log(bloggifyCore());
+
+let bloggify = new BloggifyCore("~/path/to/app");
+
+bloggify.getConfig((err, data) => {
+    console.log(err || data);
+    // { plugins: [] }
+});

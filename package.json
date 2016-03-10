@@ -21,5 +21,9 @@
   "bugs": {
     "url": "https://github.com/IonicaBizau/bloggify-core/issues"
   },
-  "homepage": "https://github.com/IonicaBizau/bloggify-core#readme"
+  "homepage": "https://github.com/IonicaBizau/bloggify-core#readme",
+  "dependencies": {
+    "ul": "^5.2.1",
+    "bloggify-paths": "bitbucket:bloggify/bloggify-paths"
+  }
 }
