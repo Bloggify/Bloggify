@@ -1,0 +1,25 @@
+{
+  "name": "bloggify-core",
+  "description": "The Bloggify core library.",
+  "keywords": [
+    "bloggify",
+    "core",
+    "the",
+    "library"
+  ],
+  "license": "MIT",
+  "version": "1.0.0",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ionică Bizău <bizauionica@gmail.com> (http://ionicabizau.net)",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/IonicaBizau/bloggify-core.git"
+  },
+  "bugs": {
+    "url": "https://github.com/IonicaBizau/bloggify-core/issues"
+  },
+  "homepage": "https://github.com/IonicaBizau/bloggify-core#readme"
+}
