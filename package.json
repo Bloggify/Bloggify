@@ -1,0 +1,31 @@
+{
+  "name": "bloggify-paths",
+  "description": "Helper library for maintaining the Bloggify paths in one place.",
+  "keywords": [
+    "bloggify",
+    "paths",
+    "helper",
+    "library",
+    "for",
+    "maintaining",
+    "the",
+    "in",
+    "one",
+    "place"
+  ],
+  "license": "MIT",
+  "version": "1.0.0",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ionică Bizău <bizauionica@gmail.com> (http://ionicabizau.net)",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/IonicaBizau/bloggify-paths.git"
+  },
+  "bugs": {
+    "url": "https://github.com/IonicaBizau/bloggify-paths/issues"
+  },
+  "homepage": "https://github.com/IonicaBizau/bloggify-paths#readme"
+}
