@@ -1,5 +1,8 @@
 "use strict";
 
-const bloggifyServer = require("../lib");
+const BloggifyServer = require("../lib");
 
-console.log(bloggifyServer());
+let app = new BloggifyServer(`${__dirname}/../node_modules/bloggify-app-example`);
+app.onLoad(err => {
+    console.log(`Bloggify server running on port ${app._serverPort}`);
+});
