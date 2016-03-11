@@ -22,8 +22,11 @@
     "url": "https://github.com/IonicaBizau/bloggify-core/issues"
   },
   "homepage": "https://github.com/IonicaBizau/bloggify-core#readme",
+  "devDependencies": {
+    "bloggify-app-example": "bitbucket:bloggify/bloggify-app-example"
+  },
   "dependencies": {
-    "ul": "^5.2.1",
-    "bloggify-paths": "bitbucket:bloggify/bloggify-paths"
+    "bloggify-paths": "bitbucket:bloggify/bloggify-paths",
+    "ul": "^5.2.1"
   }
 }
