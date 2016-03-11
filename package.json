@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "bloggify-paths": "bitbucket:bloggify/bloggify-paths",
+    "bloggify-plugin-loader": "bitbucket:bloggify/bloggify-plugin-loader",
     "ul": "^5.2.1"
   }
 }
