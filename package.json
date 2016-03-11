@@ -20,5 +20,12 @@
   "bugs": {
     "url": "https://github.com/IonicaBizau/bloggify-server/issues"
   },
-  "homepage": "https://github.com/IonicaBizau/bloggify-server#readme"
+  "homepage": "https://github.com/IonicaBizau/bloggify-server#readme",
+  "devDependencies": {
+    "bloggify-app-example": "bitbucket:bloggify/bloggify-app-example"
+  },
+  "dependencies": {
+    "ul": "^5.2.1",
+    "bloggify-core": "bitbucket:bloggify/bloggify-core"
+  }
 }
