@@ -13,6 +13,8 @@ bloggify.getConfig((err, data) => {
     console.log(err || data);
 });
 
-bloggify.loadPlugins(["b", "a"], (err, data) => {
+bloggify.loadPlugins(["b"], (err, data) => {
     console.log(err || data);
 });
+
+console.log(bloggify.config);
