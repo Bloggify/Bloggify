@@ -2,28 +2,11 @@
   "name": "bloggify",
   "version": "0.0.0",
   "description": "Git based CMS/Blog",
-  "main": "index.js",
+  "main": "lib/index.js",
   "bin": {
     "bloggify": "./bin/bloggify"
   },
-  "dependencies": {
-    "abs": "1.0.0",
-    "bug-killer": "^4.0.0",
-    "clp": "^3.0.0",
-    "fwatcher": "^2.0.0",
-    "git-tools": "^0.1.4",
-    "highlight.js": "^8.6.0",
-    "is-there": "^4.0.0",
-    "jade": "^1.11.0",
-    "jxutils": "^0.1.8",
-    "lien": "0.0.17",
-    "marked": "^0.3.3",
-    "mongof": "2.0.0",
-    "one-by-one": "2.0.0",
-    "r-json": "^1.0.0",
-    "same-time": "2.0.0",
-    "ul": "5.0.0"
-  },
+  "dependencies": {},
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -31,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/IonicaBizau/gitcms.git"
+    "url": "git://github.com/Bloggify/Bloggify.git"
   },
   "keywords": [
     "cms",
@@ -39,10 +22,10 @@
     "blog",
     "node"
   ],
-  "author": "Ionică Bizău <bizauionica@gmail.com>",
-  "license": "KINDLY",
+  "author": "Bloggify <contact@bloggify.org> (http://bloggify.org)",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/IonicaBizau/gitcms/issues"
+    "url": "https://github.com/Bloggify/Bloggify/issues"
   },
-  "homepage": "https://github.com/IonicaBizau/gitcms"
+  "homepage": "https://github.com/Bloggify/Bloggify"
 }
