@@ -25,7 +25,8 @@
     "bloggify-app-example": "bitbucket:bloggify/bloggify-app-example"
   },
   "dependencies": {
-    "ul": "^5.2.1",
-    "bloggify-core": "bitbucket:bloggify/bloggify-core"
+    "bloggify-core": "bitbucket:bloggify/bloggify-core",
+    "lien": "^1.0.1",
+    "ul": "^5.2.1"
   }
 }
