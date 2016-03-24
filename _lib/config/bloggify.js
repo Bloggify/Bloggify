@@ -4,14 +4,6 @@ var Events = require("events")
   , Path = require("path")
   ;
 
-// Create the global Bloggify variable and PATH_* fields
-module.exports = global.Bloggify = new EventEmitter();
-
-// Attach constants
-Bloggify.ROOT = Path.join(__dirname, "../..");
-Bloggify.PATH_LIB = Bloggify.ROOT + "/lib";
-Bloggify.PATH_UTIL = Bloggify.PATH_LIB + "/util";
-
 // Bloggify processors
 Bloggify.processors = {
     // Specific page
