@@ -1,22 +1,22 @@
 {
-  "name": "bloggify-app-example",
+  "name": "bloggify-app-hello-world",
   "version": "1.0.0",
-  "description": "An simple example of a Bloggify website.",
-  "main": "index.js",
+  "description": "A hello-world app using Bloggify.",
+  "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@bitbucket.org/bloggify/blogigfy-app-example.git"
+    "url": "git+ssh://git@bitbucket.org/bloggify/bloggify-app-hello-world.git"
   },
+  "keywords": [
+    "bloggify",
+    "hello",
+    "world",
+    "starter"
+  ],
   "author": "",
   "license": "ISC",
-  "homepage": "https://bitbucket.org/bloggify/blogigfy-app-example#readme",
-  "gitHead": "81cae9900753330e512f94fd285c96004a03a042",
-  "readme": "ERROR: No README data found!",
-  "_id": "bloggify-app-example@1.0.0",
-  "_shasum": "b7ea3c120dadc60eabf2637c0abbc8b456a8e6f1",
-  "_from": "bitbucket:bloggify/bloggify-app-example",
-  "_resolved": "git+ssh://git@bitbucket.org/bloggify/bloggify-app-example.git#81cae9900753330e512f94fd285c96004a03a042"
+  "homepage": "https://bitbucket.org/bloggify/bloggify-app-hello-world#readme"
 }
