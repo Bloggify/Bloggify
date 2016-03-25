@@ -1,0 +1,24 @@
+{
+  "name": "bloggify-plugin-manager",
+  "version": "1.0.0",
+  "description": "The official plugin manager for Bloggify.",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bloggify/plugin-manager.git"
+  },
+  "keywords": [
+    "plugin",
+    "manager",
+    "bloggify"
+  ],
+  "author": "Bloggify <contact@bloggify.org> (http://bloggify.org)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Bloggify/plugin-manager/issues"
+  },
+  "homepage": "https://github.com/Bloggify/plugin-manager#readme"
+}

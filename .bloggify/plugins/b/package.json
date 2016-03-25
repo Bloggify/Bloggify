@@ -1,0 +1,6 @@
+{
+  "name": "b",
+  "version": "1.0.0",
+  "description": "Test b plugin",
+  "main": "index.js"
+}
