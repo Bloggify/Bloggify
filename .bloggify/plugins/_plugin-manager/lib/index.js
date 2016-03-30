@@ -1,5 +1,7 @@
 "use strict";
 
+const gitModuleInstaller = require("git-module-installer");
+
 module.exports = class BloggifyPluginManager {
     static init (config, bloggify, ready) {
         bloggify.pluginManager = new BloggifyPluginManager(bloggify);

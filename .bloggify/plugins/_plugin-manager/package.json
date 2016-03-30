@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/Bloggify/plugin-manager/issues"
   },
-  "homepage": "https://github.com/Bloggify/plugin-manager#readme"
+  "homepage": "https://github.com/Bloggify/plugin-manager#readme",
+  "dependencies": {
+    "git-module-installer": "^1.0.0"
+  }
 }
