@@ -7,9 +7,12 @@
     "bloggify": "./bin/bloggify"
   },
   "dependencies": {
-    "bloggify-server": "bitbucket:bloggify/bloggify-server"
+    "bloggify-server": "bitbucket:bloggify/bloggify-server",
+    "ul": "^5.2.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "bloggify-app-example": "bitbucket:bloggify/bloggify-app-example"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
