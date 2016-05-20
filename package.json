@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "bloggify-server": "bitbucket:bloggify/bloggify-server",
+    "tilda": "^4.2.1",
     "ul": "^5.2.1"
   },
   "devDependencies": {
