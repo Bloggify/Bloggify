@@ -38,7 +38,7 @@ let parser = new Tilda(`${__dirname}/../package.json`, {
     }
 ]).on("start", action => {
     Logger.log("Start.");
-}).on("start", action => {
+}).on("stop", action => {
     Logger.log("Stop.");
 }).main(action => {
     parser.displayHelp();
