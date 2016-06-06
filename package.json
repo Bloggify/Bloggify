@@ -33,5 +33,8 @@
   "bugs": {
     "url": "https://github.com/IonicaBizau/bloggify-ejs-renderer/issues"
   },
-  "homepage": "https://github.com/IonicaBizau/bloggify-ejs-renderer#readme"
+  "homepage": "https://github.com/IonicaBizau/bloggify-ejs-renderer#readme",
+  "dependencies": {
+    "ejs": "^2.4.2"
+  }
 }
