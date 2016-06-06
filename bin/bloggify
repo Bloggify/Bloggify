@@ -38,8 +38,12 @@ let parser = new Tilda(`${__dirname}/../package.json`, {
     }
 ]).on("start", action => {
     Logger.log("Start.");
+    let app = new Bloggify();
+    app.onLoad(err => {
+        Logger.log(`Bloggify server running on port ${app._serverPort}`);
+    });
 }).on("stop", action => {
-    Logger.log("Stop.");
+    Logger.log("Not yet implemented.");
 }).main(action => {
     parser.displayHelp();
 });
