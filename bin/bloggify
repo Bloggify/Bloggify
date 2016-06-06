@@ -1,0 +1,73 @@
+#!/usr/bin/env node
+
+"use strict";
+
+const Tilda = require("tilda")
+    , Bloggify = require("..")
+    , Logger = require("bug-killer")
+    ;
+
+let parser = new Tilda(`${__dirname}/../package.json`, {
+    examples: [
+        "bloggify start"
+      , "bloggify stop"
+      , "bloggify start -c path/to/config/file.json"
+    ]
+}).action([
+    {
+        name: "start"
+      , desc: "Starts the Bloggify process."
+      , options: [
+            {
+                name: "path"
+              , opts: ["config", "c"]
+              , desc: "The path to the config file or site directory."
+              , type: String
+              , default: ".bloggify/config.json"
+            }
+          , {
+                opts: ["daemon", "d"]
+              , desc: "Start the process as daemon."
+              , type: Boolean
+            }
+        ]
+    }
+  , {
+        name: "stop"
+      , desc: "Stops the Bloggify process."
+    }
+]).on("start", action => {
+    Logger.log("Start.");
+}).on("start", action => {
+    Logger.log("Stop.");
+}).main(action => {
+    parser.displayHelp();
+});
+
+//// Check the config option
+//if (!configOption.value) {
+//    return Logger.log("Please provide a path to the config file.", "error");
+//} else {
+//    configOption.value = Path.resolve(process.cwd(), configOption.value);
+//}
+//
+//// Normalize the path to the configuration file
+//var confPath = configOption.value;
+//if (!/\.json$/.test(confPath)) {
+//    confPath = confPath + "/conf/index.json";
+//}
+//
+//// Check the configuration file path
+//if (!IsThere(confPath)) {
+//    return Logger.log("The configuration file was not found.", "error");
+//}
+//
+//// Start the Bloggify server
+//BloggifyServer.start(confPath, function (message) {
+//    Bloggify.log(message, "info");
+//}, function (err, data) {
+//    if (err) {
+//        return Bloggify.log(err, "error");
+//    }
+//    Bloggify.log(data, "info");
+//});
