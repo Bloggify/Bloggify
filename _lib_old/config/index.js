@@ -125,8 +125,10 @@ Bloggify.render = function (lien, data) {
     var processor = Bloggify.processors[data.type];
 
     var processedAll = false;
+
     function processContent(arr) {
         var complete = 0;
+
         function checkComplete() {
             if (++complete === arr.length) {
                 if (Bloggify.processors.all.length && processedAll === false) {
@@ -136,6 +138,7 @@ Bloggify.render = function (lien, data) {
                 lien.end(content);
             }
         }
+
         for (var i = 0; i < arr.length; ++i) {
             var cFun = arr[i];
             if (typeof cFun !== "function") {
