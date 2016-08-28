@@ -30,6 +30,18 @@ let parser = new Tilda(`${__dirname}/../package.json`, {
               , desc: "Start the process as daemon."
               , type: Boolean
             }
+          , {
+                name: "cert"
+              , opts: ["cert"]
+              , desc: "The path to the certificate file."
+              , type: String
+            }
+          , {
+                name: "key"
+              , opts: ["key"]
+              , desc: "The path to the key file."
+              , type: String
+            }
         ]
     }
   , {
@@ -38,7 +50,19 @@ let parser = new Tilda(`${__dirname}/../package.json`, {
     }
 ]).on("start", action => {
     Logger.log("Start.");
-    let app = new Bloggify();
+    let opts = {};
+
+    if (action.options.cert.value && action.options.key.value) {
+        opts.server = {
+            ssl: {
+                cert: action.options.cert.value
+              , key: action.options.key.value
+            }
+        };
+    }
+
+    let app = new Bloggify(opts);
+
     app.onLoad(err => {
         Logger.log(`Bloggify server running on port ${app._serverPort}`);
     });
@@ -47,31 +71,3 @@ let parser = new Tilda(`${__dirname}/../package.json`, {
 }).main(action => {
     parser.displayHelp();
 });
-
-//// Check the config option
-//if (!configOption.value) {
-//    return Logger.log("Please provide a path to the config file.", "error");
-//} else {
-//    configOption.value = Path.resolve(process.cwd(), configOption.value);
-//}
-//
-//// Normalize the path to the configuration file
-//var confPath = configOption.value;
-//if (!/\.json$/.test(confPath)) {
-//    confPath = confPath + "/conf/index.json";
-//}
-//
-//// Check the configuration file path
-//if (!IsThere(confPath)) {
-//    return Logger.log("The configuration file was not found.", "error");
-//}
-//
-//// Start the Bloggify server
-//BloggifyServer.start(confPath, function (message) {
-//    Bloggify.log(message, "info");
-//}, function (err, data) {
-//    if (err) {
-//        return Bloggify.log(err, "error");
-//    }
-//    Bloggify.log(data, "info");
-//});
