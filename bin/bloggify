@@ -42,6 +42,12 @@ let parser = new Tilda(`${__dirname}/../package.json`, {
               , desc: "The path to the key file."
               , type: String
             }
+          , {
+                name: "port"
+              , opts: ["port", "p"]
+              , desc: "The server port."
+              , type: Number
+            }
         ]
     }
   , {
@@ -58,6 +64,7 @@ let parser = new Tilda(`${__dirname}/../package.json`, {
                 cert: action.options.cert.value
               , key: action.options.key.value
             }
+          , port: action.options.port.value
         };
     }
 
