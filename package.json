@@ -9,7 +9,7 @@
   "dependencies": {
     "bloggify-server": "bitbucket:bloggify/bloggify-server",
     "bloggify-markdown-adapter": "IonicaBizau/bloggify-markdown-adapter",
-    "bloggify-theme-renderer": ""IonicaBizau/bloggify-theme-renderer",
+    "bloggify-theme-renderer": "IonicaBizau/bloggify-theme-renderer",
     "bug-killer": "^4.2.3",
     "map-o": "^2.0.3",
     "tilda": "^4.2.1",
