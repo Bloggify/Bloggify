@@ -35,7 +35,7 @@
   },
   "homepage": "https://github.com/IonicaBizau/bloggify-ajs-renderer#readme",
   "dependencies": {
-    "ajs": "IonicaBizauKitchen/ajs#new",
+    "ajs": "^1.2.1",
     "noop6": "^1.0.2",
     "read-file-cache": "^1.0.0",
     "typpy": "^2.3.3"
