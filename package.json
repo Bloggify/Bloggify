@@ -1,7 +1,7 @@
 {
   "name": "bloggify",
   "version": "0.0.0",
-  "description": "Git based CMS/Blog",
+  "description": "We make publishing easy.",
   "main": "lib/index.js",
   "bin": {
     "bloggify": "./bin/bloggify"
