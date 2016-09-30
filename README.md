@@ -1,14 +1,14 @@
 
-# bloggify-ejs-renderer
+# bloggify-ajs-renderer
 
- [![PayPal](https://img.shields.io/badge/%24-paypal-f39c12.svg)][paypal-donations] [![AMA](https://img.shields.io/badge/ask%20me-anything-1abc9c.svg)](https://github.com/IonicaBizau/ama) [![Version](https://img.shields.io/npm/v/bloggify-ejs-renderer.svg)](https://www.npmjs.com/package/bloggify-ejs-renderer) [![Downloads](https://img.shields.io/npm/dt/bloggify-ejs-renderer.svg)](https://www.npmjs.com/package/bloggify-ejs-renderer) [![Get help on Codementor](https://cdn.codementor.io/badges/get_help_github.svg)](https://www.codementor.io/johnnyb?utm_source=github&utm_medium=button&utm_term=johnnyb&utm_campaign=github)
+ [![PayPal](https://img.shields.io/badge/%24-paypal-f39c12.svg)][paypal-donations] [![AMA](https://img.shields.io/badge/ask%20me-anything-1abc9c.svg)](https://github.com/IonicaBizau/ama) [![Version](https://img.shields.io/npm/v/bloggify-ajs-renderer.svg)](https://www.npmjs.com/package/bloggify-ajs-renderer) [![Downloads](https://img.shields.io/npm/dt/bloggify-ajs-renderer.svg)](https://www.npmjs.com/package/bloggify-ajs-renderer) [![Get help on Codementor](https://cdn.codementor.io/badges/get_help_github.svg)](https://www.codementor.io/johnnyb?utm_source=github&utm_medium=button&utm_term=johnnyb&utm_campaign=github)
 
-> Ejs renderer for Bloggify.
+> ajs renderer for Bloggify.
 
 ## :cloud: Installation
 
 ```sh
-$ npm i --save bloggify-ejs-renderer
+$ npm i --save bloggify-ajs-renderer
 ```
 
 
@@ -17,7 +17,7 @@ $ npm i --save bloggify-ejs-renderer
 
 
 ```js
-const bloggifyEjsRenderer = require("bloggify-ejs-renderer");
+const bloggifyEjsRenderer = require("bloggify-ajs-renderer");
 
 console.log(bloggifyEjsRenderer());
 ```
