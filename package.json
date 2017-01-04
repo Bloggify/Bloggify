@@ -7,7 +7,7 @@
     "bloggify": "./bin/bloggify"
   },
   "dependencies": {
-    "bloggify-server": "bitbucket:bloggify/bloggify-server",
+    "bloggify-server": "IonicaBizau/bloggify-server",
     "bloggify-markdown-adapter": "IonicaBizau/bloggify-markdown-adapter",
     "bloggify-theme-renderer": "IonicaBizau/bloggify-theme-renderer",
     "bug-killer": "^4.2.6",
