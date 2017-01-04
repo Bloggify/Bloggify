@@ -25,7 +25,7 @@
     "bloggify-app-example": "bitbucket:bloggify/bloggify-app-example"
   },
   "dependencies": {
-    "bloggify-core": "bitbucket:bloggify/bloggify-core",
+    "bloggify-core": "IonicaBizau/bloggify-core",
     "lien": "^2.0.0",
     "ul": "^5.2.1",
     "rucksack": "IonicaBizau/rucksack-new"
