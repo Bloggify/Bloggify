@@ -1,9 +1,9 @@
 {
-  "name": "bloggify-ajs-renderer",
-  "description": "ajs renderer for Bloggify.",
+  "name": "bloggify-js-renderer",
+  "description": "js renderer for Bloggify.",
   "keywords": [
     "bloggify",
-    "ajs",
+    "js",
     "renderer",
     "for"
   ],
@@ -28,16 +28,13 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/IonicaBizau/bloggify-ajs-renderer.git"
+    "url": "git+ssh://git@github.com/IonicaBizau/bloggify-js-renderer.git"
   },
   "bugs": {
-    "url": "https://github.com/IonicaBizau/bloggify-ajs-renderer/issues"
+    "url": "https://github.com/IonicaBizau/bloggify-js-renderer/issues"
   },
-  "homepage": "https://github.com/IonicaBizau/bloggify-ajs-renderer#readme",
+  "homepage": "https://github.com/IonicaBizau/bloggify-js-renderer#readme",
   "dependencies": {
-    "ajs": "^1.2.1",
-    "noop6": "^1.0.2",
-    "read-file-cache": "^1.0.0",
-    "typpy": "^2.3.3"
+    "noop6": "^1.0.2"
   }
 }
