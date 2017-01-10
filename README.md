@@ -49,9 +49,7 @@ console.log(new BloggifyPaths("~/path/to/my/app", {
 ## :memo: Documentation
 
 
-### constructor
-
-BloggifyPaths
+### `BloggifyPaths(root, options, bloggifyInstance)`
 Creates a new instance of `BloggifyPaths`.
 
 The instance contains the following fields:
@@ -123,8 +121,7 @@ Returns the path to the theme's public directory/uri.
 #### Return
 - **String** The public path.
 
-### `FilePath(filePath, absolute)`
-staticFilePath
+### `staticFilePath(filePath, absolute)`
 Gets the url of a file.
 
 #### Params
