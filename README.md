@@ -97,7 +97,7 @@ The instance contains the following fields:
 - **Object** The BloggifyPaths instance.
 
 ### `initPublicPaths()`
-Initializes path values (documented above).
+Initializes the path values (documented above).
 
 ### `getPublicPaths()`
 Fetches the public paths of the app.
