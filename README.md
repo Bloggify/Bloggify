@@ -97,6 +97,22 @@ The instance contains the following fields:
 ### `initPublicPaths()`
 Initializes the path values (documented above).
 
+### `getBundlePaths(name)`
+Get the bundle paths for a bundle name.
+
+#### Params
+- **String** `name`: The bundle name (default: `main`).
+
+#### Return
+- **Object** An object containing the following fields:
+ - `urls`: The URL endpoints.
+   - `js` (String): The JavaScript bundle url.
+   - `css` (String): The CSS bundle url.
+
+ - `local`: The local paths.
+   - `js` (String): The JavaScript bundle local path.
+   - `css` (String): The CSS bundle local path.
+
 ### `getPublicPaths()`
 Fetches the public paths of the app.
 
