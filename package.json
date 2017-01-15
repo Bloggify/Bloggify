@@ -26,8 +26,8 @@
   },
   "dependencies": {
     "bloggify-core": "IonicaBizau/bloggify-core",
-    "lien": "^2.0.0",
-    "ul": "^5.2.1",
-    "rucksack": "IonicaBizau/rucksack-new"
+    "lien": "^2.2.0",
+    "rucksack": "IonicaBizau/rucksack-new",
+    "ul": "^5.2.1"
   }
 }
