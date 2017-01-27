@@ -13,6 +13,7 @@
     "bug-killer": "^4.2.6",
     "map-o": "^2.0.3",
     "tilda": "^4.2.1",
+    "safe-r-json": "1.0.1",
     "ul": "^5.2.1"
   },
   "devDependencies": {
