@@ -70,6 +70,7 @@ let parser = new Tilda(`${__dirname}/../package.json`, {
     }
 
     let app = new Bloggify(opts);
+    global.__bloggify = app;
 
     app.onLoad(err => {
         Logger.log(`Bloggify server running on port ${app._serverPort}`);
