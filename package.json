@@ -1,0 +1,37 @@
+{
+  "name": "bloggify",
+  "description": "Bloggify handlers for Node.js.",
+  "keywords": [
+    "bloggify",
+    "handlers",
+    "for",
+    "node",
+    "js"
+  ],
+  "license": "MIT",
+  "version": "1.0.0",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ionică Bizău <bizauionica@gmail.com> (https://ionicabizau.net)",
+  "homepage": "https://github.com/IonicaBizau/bloggify#readme",
+  "files": [
+    "bin/",
+    "app/",
+    "lib/",
+    "dist/",
+    "src/",
+    "resources/",
+    "menu/",
+    "cli.js",
+    "index.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/IonicaBizau/bloggify.git"
+  },
+  "bugs": {
+    "url": "https://github.com/IonicaBizau/bloggify/issues"
+  }
+}
