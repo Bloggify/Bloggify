@@ -1,5 +1,5 @@
 "use strict";
 
-const bloggify = require("../lib");
+const Bloggify = require("../lib");
 
-console.log(bloggify());
+// `Bloggify` will be the running instance object of Bloggify.
