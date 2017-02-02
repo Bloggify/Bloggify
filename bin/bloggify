@@ -70,6 +70,7 @@ let parser = new Tilda(`${__dirname}/../package.json`, {
     }
 
     let app = new Bloggify(opts);
+    // TODO Do not use globals
     global.__bloggify = app;
 
     app.onLoad(err => {
