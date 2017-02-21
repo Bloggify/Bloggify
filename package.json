@@ -28,6 +28,8 @@
     "bloggify-core": "IonicaBizau/bloggify-core",
     "lien": "^2.2.0",
     "rucksack": "IonicaBizau/rucksack-new",
-    "ul": "^5.2.1"
+    "safe-r-json": "^1.0.1",
+    "ul": "^5.2.1",
+    "w-json": "^1.3.5"
   }
 }
