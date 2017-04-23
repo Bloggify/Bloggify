@@ -42,96 +42,55 @@ Registers a new router.
 #### Params
 - **BloggifyRouter** `router`: The Bloggify router to register.
 
-### `getArticleById(id, cb)`
-Gets a specific article, by id.
+### `getConfig(cb)`
+Fetches the configuration of the Bloggify instance. If the callback function is not provided, the config object will be returned.
 
 #### Params
-- **String** `id`: The article id.
 - **Function** `cb`: The callback function.
 
-### `getArticles(query, cb)`
-Get multiple articles.
+#### Return
+- **Object** The configuration.
+
+### `loadPlugins(names, cb)`
+Loads the provided plugins.
 
 #### Params
-- **Object** `query`: The query.
+- **Array** `names`: The list of plugin names.
 - **Function** `cb`: The callback function.
 
-### `createArticle(title, content, custom, cb)`
-Create a new article.
+### `require(name, mod)`
+Considering the value of the module (`true`, `false`), it returns the raw module of the plugin or the instance of it.
 
 #### Params
-- **String** `title`: The article title.
-- **String** `content`: The article content.
-- **Object** `custom`: Custom data.
-- **Function** `cb`: The callback function.
+- **String** `name`: The plugin's name.
+- **Boolean** `mod`: The plugin's module.
 
-### `saveArticle(id, title, content, custom, cb)`
-Saves an existing article.
+#### Return
+- **BloggifyPlugin** The plugin's instance.
 
-#### Params
-- **String** `id`: The article id.
-- **String** `title`: The article title.
-- **String** `content`: The article content.
-- **Object** `custom`: Custom data.
-- **Function** `cb`: The callback function.
+### `logLevel(newLogLevel)`
+Sets or gets the log level.
 
-### `deleteArticle(id, cb)`
-Delete an article.
+The log levels are:
 
-#### Params
-- **String** `id`: The article id.
-- **Function** `cb`: The callback function.
-
-### `deleteArticles(ids, cb)`
-Delete multiple articles.
+  - `0`: Ignore everything
+  - `1`: Errors
+  - `2`: Errors + Warnings
+  - `3`: Errors + Warnings + Info
+  - `4`: Everything
 
 #### Params
-- **Array** `ids`: A list of ids.
-- **Function** `cb`: The callback function.
+- **String** `newLogLevel`: The instance of the log.
 
-### `getPageBySlug(slug, cb)`
-Get a page by the slug.
+#### Return
+- **String** The log level.
 
-#### Params
-- **String** `slug`: The page slug.
-- **Function** `cb`: The callback function.
-
-### `getPages(query, cb)`
-Get multiple pages.
+### `log(msg, type, stream, newLine)`
+Prints a log message in the output.
 
 #### Params
-- **Object** `query`: The query object.
-- **Function** `cb`: The callback function.
-
-### `createPage(title, content, custom, cb)`
-Create a new page.
-
-#### Params
-- **String** `title`: The article title.
-- **String** `content`: The article content.
-- **Object** `custom`: Custom data.
-- **Function** `cb`: The callback function.
-
-### `savePage(title, content, custom, cb)`
-Saves a page.
-
-#### Params
-- **String** `title`: The article title.
-- **String** `content`: The article content.
-- **Object** `custom`: Custom data.
-- **Function** `cb`: The callback function.
-
-### `deletePage(slug, cb)`
-Delete a page.
-
-#### Params
-- **String** `slug`: The page slug.
-- **Function** `cb`: The callback function.
-
-### `deletePages(slugs, cb)`
-Delete multiple pages.
-
-#### Params
-- **Array** `slugs`: An array of slugs.
-- **Function** `cb`: The callback function.
+- **Error|String** `msg`: The log message.
+- **String** `type`: The log type (error|info|warn|log).
+- **Stream** `stream`: The output stream (defaults to `process.stderr` for errors and `process.stdout` for other logs).
+- **Boolean** `newLine`: A flag wheter to add a new line at the end of the message or not.
 
