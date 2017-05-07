@@ -11,6 +11,7 @@
     "bloggify-plugin-loader": "github:ionicabizau/bloggify-plugin-loader",
     "bloggify-theme-renderer": "IonicaBizau/bloggify-theme-renderer",
     "bug-killer": "^4.2.6",
+    "lien": "^2.3.0",
     "map-o": "^2.0.3",
     "safe-r-json": "1.0.1",
     "tilda": "^4.2.1",
