@@ -1,6 +1,6 @@
 {
   "name": "bloggify.js",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "The client side API for Bloggify.",
   "main": "index.js",
   "scripts": {
