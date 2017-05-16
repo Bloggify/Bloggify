@@ -1,6 +1,6 @@
 {
   "name": "bloggify.js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "The client side API for Bloggify.",
   "main": "index.js",
   "scripts": {
@@ -19,5 +19,9 @@
   "bugs": {
     "url": "https://github.com/Bloggify/bloggify-prebuilt/issues"
   },
-  "homepage": "https://github.com/Bloggify/bloggify-prebuilt#readme"
+  "homepage": "https://github.com/Bloggify/bloggify-prebuilt#readme",
+  "dependencies": {
+    "socket.io-client": "^2.0.1"
+  },
+  "blah": {}
 }
