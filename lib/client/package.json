@@ -1,0 +1,23 @@
+{
+  "name": "bloggify.js",
+  "version": "1.0.0",
+  "description": "The client side API for Bloggify.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Bloggify <support@bloggify.org> (https://bloggify.org)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bloggify/bloggify-prebuilt.git"
+  },
+  "keywords": [
+    "bloggify",
+    "javascript"
+  ],
+  "bugs": {
+    "url": "https://github.com/Bloggify/bloggify-prebuilt/issues"
+  },
+  "homepage": "https://github.com/Bloggify/bloggify-prebuilt#readme"
+}
