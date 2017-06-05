@@ -1,6 +1,6 @@
 {
   "name": "bloggify-js-renderer",
-  "description": "js renderer for Bloggify.",
+  "description": "JS renderer for Bloggify.",
   "keywords": [
     "bloggify",
     "js",
@@ -8,33 +8,38 @@
     "for"
   ],
   "license": "MIT",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Ionică Bizău <bizauionica@gmail.com> (http://ionicabizau.net)",
+  "author": "Bloggify <support@bloggify.org> (https://bloggify.org)",
   "files": [
     "bin/",
     "app/",
     "lib/",
     "dist/",
     "src/",
+    "scripts/",
     "resources/",
     "menu/",
-    "scripts/",
     "cli.js",
     "index.js"
   ],
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/IonicaBizau/bloggify-js-renderer.git"
+    "url": "git+ssh://git@github.com/Bloggify/js-renderer.git"
   },
   "bugs": {
-    "url": "https://github.com/IonicaBizau/bloggify-js-renderer/issues"
+    "url": "https://github.com/Bloggify/js-renderer/issues"
   },
-  "homepage": "https://github.com/IonicaBizau/bloggify-js-renderer#readme",
+  "homepage": "https://github.com/Bloggify/js-renderer#readme",
   "dependencies": {
     "noop6": "^1.0.2"
+  },
+  "blah": {
+    "installation": [
+      "After installing the module, make sure you add `bloggify-js-renderer` in the `plugins` list."
+    ]
   }
 }

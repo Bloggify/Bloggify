@@ -61,6 +61,6 @@ Thanks! :sweat_smile:
 
 
 
-[1]: https://github.com/IonicaBizau/bloggify-js-renderer/issues
+[1]: https://github.com/Bloggify/js-renderer/issues
 
 [2]: https://github.com/IonicaBizau/code-style
