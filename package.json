@@ -7,9 +7,9 @@
     "bloggify": "./bin/bloggify"
   },
   "dependencies": {
-    "bloggify-markdown-adapter": "IonicaBizau/bloggify-markdown-adapter",
-    "bloggify-plugin-loader": "github:ionicabizau/bloggify-plugin-loader",
-    "bloggify-theme-renderer": "IonicaBizau/bloggify-theme-renderer",
+    "bloggify-markdown-adapter": "latest",
+    "bloggify-plugin-loader": "latest",
+    "bloggify-theme-renderer": "latest",
     "bug-killer": "^4.2.6",
     "lien": "^3.0.1",
     "map-o": "^2.0.3",
