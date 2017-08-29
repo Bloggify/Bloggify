@@ -4,7 +4,7 @@
 
 const Tilda = require("tilda")
     , Bloggify = require("..")
-    , Logger = require("bug-killer")
+    , Logger = require("cute-logger")
     ;
 
 process.stdin.isTTY = true;
@@ -76,9 +76,6 @@ let parser = new Tilda(`${__dirname}/../package.json`, {
     }
 
     let app = new Bloggify(opts);
-    // TODO Do not use globals
-    global.__bloggify = app;
-
     app.onLoad(err => {
         Logger.log(`Bloggify server running on port ${app._serverPort}`);
     });
