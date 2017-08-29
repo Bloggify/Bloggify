@@ -11,7 +11,6 @@ process.stdin.isTTY = true
 let parser = new Tilda(`${__dirname}/../package.json`, {
     examples: [
         "bloggify start"
-      , "bloggify stop"
       , "bloggify start -c path/to/config/file.json"
     ]
 }).action([
