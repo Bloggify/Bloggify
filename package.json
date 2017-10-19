@@ -1,6 +1,6 @@
 {
   "name": "bloggify",
-  "version": "0.0.0-alpha9",
+  "version": "0.0.0-alpha10",
   "description": "We make publishing easy.",
   "main": "lib/index.js",
   "bin": {
