@@ -14,7 +14,7 @@ Logger.log("Initializing...")
 
 const packs = {
     prod: rJson(PACKAGE_JSON_PRODUCTION_PATH)
-    dev: rJson(PACKAGE_JSON_DEVELOPMENT_PATH)
+  , dev: rJson(PACKAGE_JSON_DEVELOPMENT_PATH)
 }
 
 const publish = p => {
