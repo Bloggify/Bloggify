@@ -20,6 +20,7 @@ const packs = {
 const publish = p => {
     p.version = process.argv[2]
     wJson(PACKAGE_JSON_PATH, p)
+    debugger
     return exec("npm", ["publish"], {
         cwd: ROOT
       , stdio: "inherit"
