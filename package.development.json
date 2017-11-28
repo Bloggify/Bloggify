@@ -1,6 +1,6 @@
 {
-  "name": "bloggify",
-  "version": "0.0.0-alpha15",
+  "name": "bloggify-cli",
+  "version": "0.0.0-alpha11",
   "description": "We make publishing easy.",
   "main": "lib/index.js",
   "bin": {
@@ -29,7 +29,7 @@
     "mkdirp": "^0.5.1",
     "parse-db-uri": "^1.0.0",
     "require-dir": "^0.3.2",
-    "rucksack-lite": "^4.0.0",
+    "rucksack": "^4.0.0",
     "safe-r-json": "^1.0.3",
     "socket.io": "^2.0.1",
     "tilda": "^4.2.1",
@@ -55,5 +55,9 @@
   "bugs": {
     "url": "https://github.com/Bloggify/Bloggify/issues"
   },
-  "homepage": "https://github.com/Bloggify/Bloggify"
+  "homepage": "https://github.com/Bloggify/Bloggify",
+  "devDependencies": {
+    "edit-json-file": "^1.0.6",
+    "execa": "^0.8.0"
+  }
 }
