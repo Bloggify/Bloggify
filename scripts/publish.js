@@ -27,6 +27,10 @@ const publish = p => {
     })
 }
 
+
+try {
+    fs.unlinkSync(PACKAGE_JSON_PATH)
+} catch (e) {}
 Logger.log("Publishing bloggify-cli")
 publish(packs.dev).then(() => {
     Logger.log("Publishing bloggify")
