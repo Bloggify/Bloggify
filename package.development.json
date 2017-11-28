@@ -56,6 +56,7 @@
   },
   "homepage": "https://github.com/Bloggify/Bloggify",
   "devDependencies": {
-    "edit-json-file": "^1.0.6"
+    "edit-json-file": "^1.0.6",
+    "execa": "^0.8.0"
   }
 }

@@ -1,4 +1,4 @@
-const exec = require("child_process").execSync
+const exec = require("execa")
     , rJson = require("r-json")
     , wJson = require("w-json")
     , fs = require("fs")
@@ -18,25 +18,26 @@ const packs = {
 }
 
 const publish = p => {
-    p,version = process.argv[2]
+    p.version = process.argv[2]
     wJson(PACKAGE_JSON_PATH, p)
-    exec("npm", ["publish"], {
+    return exec("npm", ["publish"], {
         cwd: ROOT
       , stdio: "inherit"
     })
 }
 
 Logger.log("Publishing bloggify-cli")
-publish(packs.dev)
+publish(packs.dev).then(() => {
+    Logger.log("Publishing bloggify")
+    return publish(packs.prod)
+}).then(() => {
+    Logger.log("Cleaning up")
+    fs.unlinkSync(PACKAGE_JSON_PATH)
 
-Logger.log("Publishing bloggify")
-publish(packs.prod)
+    try {
+        fs.unlinkSync(`${ROOT}/package-lock.json`)
+    } catch (e) {}
 
-Logger.log("Cleaning up")
-fs.unlinkSync(PACKAGE_JSON_PATH)
-
-try {
-    fs.unlinkSync(`${ROOT}/package-lock.json`)
-} catch (e) {}
-
-Logger.log("Done.")
+    Logger.log("Done.")
+    return exec("ln", ["-s", "package.development.json", "package.json"], { cwd: ROOT })
+}).catch(console.error)
