@@ -1,22 +1,42 @@
-const exec = require("spawno")
-    , edit = require("edit-json-file")
-    , packPath = require("package-json-path")
-    , ul = require("ul")
+const exec = require("child_process").execSync
+    , rJson = require("r-json")
+    , wJson = require("w-json")
+    , fs = require("fs")
+    , Logger = require("cute-logger")
 
 
 const ROOT = `${__dirname}/..`
-const PACKAGE_JSON_PATH = packPath(ROOT)
+const PACKAGE_JSON_PATH = `${ROOT}/package.json`
+const PACKAGE_JSON_PRODUCTION_PATH = `${ROOT}/package.production.json`
+const PACKAGE_JSON_DEVELOPMENT_PATH = `${ROOT}/package.development.json`
 
-const pack = edit(PACKAGE_JSON_PATH)
-    , copy = ul.clone(pack.data)
+Logger.log("Initializing...")
 
-// Publish bloggify-cli (development use)
-pack.set("name", "bloggify-cli")
-exec("npm", ["publish"], {
-    cwd: ROOT
-}, (err, stdout) => {
-    // Disable rucksack in production
-    pack.set("dependencies.rucksack", undefined)
-    pack.set("name", "bloggify")
-    debugger
-})
+const packs = {
+    prod: rJson(PACKAGE_JSON_PRODUCTION_PATH)
+    dev: rJson(PACKAGE_JSON_DEVELOPMENT_PATH)
+}
+
+const publish = p => {
+    p,version = process.argv[2]
+    wJson(PACKAGE_JSON_PATH, p)
+    exec("npm", ["publish"], {
+        cwd: ROOT
+      , stdio: "inherit"
+    })
+}
+
+Logger.log("Publishing bloggify-cli")
+publish(packs.dev)
+
+Logger.log("Publishing bloggify")
+publish(packs.prod)
+
+Logger.log("Cleaning up")
+fs.unlinkSync(PACKAGE_JSON_PATH)
+
+try {
+    fs.unlinkSync(`${ROOT}/package-lock.json`)
+} catch (e) {}
+
+Logger.log("Done.")

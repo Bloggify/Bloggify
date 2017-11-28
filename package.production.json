@@ -28,12 +28,12 @@
     "mkdirp": "^0.5.1",
     "parse-db-uri": "^1.0.0",
     "require-dir": "^0.3.2",
-    "rucksack-lite": "^2.3.3",
+    "rucksack-lite": "^4.0.0",
     "safe-r-json": "^1.0.3",
     "socket.io": "^2.0.1",
+    "tilda": "^4.2.1",
     "ul": "^5.2.1",
-    "w-json": "^1.3.7",
-    "winston": "^3.0.0-rc1"
+    "w-json": "^1.3.7"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
