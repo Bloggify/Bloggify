@@ -5,7 +5,8 @@
   "main": "lib/index.js",
   "bin": {
     "bloggify": "./bin/bloggify",
-    "bloggify-start": "./bin/bloggify-start"
+    "bloggify-start": "./bin/bloggify-start",
+    "bloggify-prod-start": "./bin/bloggify-prod-start"
   },
   "dependencies": {
     "bloggify-actions": "^1.0.0",

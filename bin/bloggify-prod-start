@@ -1,0 +1,17 @@
+#!/usr/bin/env node
+
+"use strict"
+
+const Bloggify = require("..")
+
+process.argv.push("--no-bundle")
+process.env.NODE_ENV = "production"
+
+let d = new Date()
+let app = new Bloggify()
+app.onLoad(err => {
+    if (err) throw err
+})
+app.ready(() => {
+    console.log("Ready." + (new Date() - d) + "ms")
+})

@@ -2,16 +2,75 @@
 
 "use strict"
 
-const Bloggify = require("..")
+const Tilda = require("tilda")
+    , Bloggify = require("..")
+    , Logger = require("cute-logger")
 
-process.argv.push("--no-bundle")
-process.env.NODE_ENV = "production"
 
-let d = new Date()
-let app = new Bloggify()
-app.onLoad(err => {
-    if (err) throw err
-})
-app.ready(() => {
-    console.log("Ready." + (new Date() - d) + "ms")
+process.stdin.isTTY = true
+let parser = new Tilda(`${__dirname}/../package.json`, {
+    examples: [
+        "bloggify start"
+      , "bloggify start -c path/to/config/file.json"
+    ]
+  , desc: "Starts the Bloggify process."
+  , options: [
+        {
+            name: "path"
+          , opts: ["config", "c"]
+          , desc: "The path to the config file or site directory."
+          , type: String
+          , default: ".bloggify/config.json"
+        }
+      , {
+            opts: ["daemon", "d"]
+          , desc: "Start the process as daemon."
+          , type: Boolean
+        }
+      , {
+            name: "cert"
+          , opts: ["cert"]
+          , desc: "The path to the certificate file."
+          , type: String
+        }
+      , {
+            name: "key"
+          , opts: ["key"]
+          , desc: "The path to the key file."
+          , type: String
+        }
+      , {
+            name: "port"
+          , opts: ["port", "p"]
+          , desc: "The server port."
+          , type: Number
+        }
+    ]
+}).main(action => {
+    console.log(`
+     ------------------------------
+         ___
+     ,,,(o,o),,,  Starting Bloggify
+      ';:\`-':;'   - - - - - - - - -
+        -"-"-     Version: ${parser.version}
+
+     ------------------------------
+`)
+
+    let opts = {}
+
+    if (action.options.cert.value && action.options.key.value) {
+        opts.server = {
+            ssl: {
+                cert: action.options.cert.value
+              , key: action.options.key.value
+            }
+          , port: action.options.port.value
+        }
+    }
+
+    let app = new Bloggify(opts)
+    app.onLoad(err => {
+        Logger.log(`Bloggify server running on port ${app._serverPort}`)
+    })
 })
