@@ -54,7 +54,7 @@
   "bugs": {
     "url": "https://github.com/Bloggify/Bloggify/issues"
   },
-  "homepage": "https://github.com/Bloggify/Bloggify"
+  "homepage": "https://github.com/Bloggify/Bloggify",
   "devDependencies": {
     "edit-json-file": "^1.0.6"
   }
