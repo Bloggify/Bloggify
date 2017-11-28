@@ -1,0 +1,9 @@
+{
+    "asi": true,
+    "globalstrict": true,
+    "moz": true,
+    "laxcomma": true,
+    "esversion": 6,
+    "node": true,
+    "browser": true
+}
