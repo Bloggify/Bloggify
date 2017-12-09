@@ -2,20 +2,6 @@
 
 "use strict"
 
-const Bloggify = require("..")
-
-process.argv.push("--no-bundle")
-process.env.NODE_ENV = "production"
-
-let d = new Date()
-let app = new Bloggify()
-app.onLoad(err => {
-    if (err) throw err
-})
-app.ready(() => {
-    console.log("Ready." + (new Date() - d) + "ms")
-})
-
 const cluster = require('cluster')
 
 // Fork workers.
@@ -30,4 +16,20 @@ if (cluster.isMaster && !process.argv.includes("--no-workers")) {
     cluster.on('exit', (worker, code, signal) => {
         console.log(`Worker ${worker.process.pid} died`);
     });
+    return
 }
+
+const Bloggify = require("..")
+
+process.argv.push("--no-bundle")
+process.env.NODE_ENV = "production"
+
+let d = new Date()
+let app = new Bloggify()
+app.onLoad(err => {
+    if (err) throw err
+})
+app.ready(() => {
+    console.log("Ready." + (new Date() - d) + "ms")
+})
+
