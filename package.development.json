@@ -7,7 +7,8 @@
     "bloggify": "./bin/bloggify",
     "bloggify-start": "./bin/bloggify-dev-start",
     "bloggify-dev-start": "./bin/bloggify-dev-start",
-    "bloggify-prod-start": "./bin/bloggify-prod-start"
+    "bloggify-prod-start": "./bin/bloggify-prod-start",
+    "bloggify-bundle": "./bin/bloggify-bundle"
   },
   "dependencies": {
     "bloggify-actions": "^1.0.0",
