@@ -7,7 +7,7 @@ const cluster = require('cluster')
 // Fork workers.
 if (cluster.isMaster && !process.argv.includes("--no-workers")) {
     const numCPUs = require('os').cpus().length
-    app.log(`Master ${process.pid} is running`);
+    console.log(`Master ${process.pid} is running`);
 
     for (let i = 0; i < numCPUs; i++) {
         cluster.fork();
