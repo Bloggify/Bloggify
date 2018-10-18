@@ -6,6 +6,9 @@ const cluster = require('cluster')
 
 // Fork workers.
 if (cluster.isMaster && !process.argv.includes("--no-workers")) {
+    cluster.setupMaster({
+        silent: true
+    })
     const numCPUs = require('os').cpus().length
     console.log(`Master ${process.pid} is running`)
 
@@ -35,4 +38,3 @@ app.onLoad(err => {
 app.ready(() => {
     console.log("Ready." + (new Date() - d) + "ms")
 })
-
