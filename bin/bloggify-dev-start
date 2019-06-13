@@ -87,24 +87,39 @@ let parser = new Tilda(`${__dirname}/../package.json`, {
     app.onLoad(err => {
         Logger.log(`Bloggify server running on port ${app._serverPort}`)
         if (!err) {
-            if (action.options.script.value) {
-                app.ready(() => {
-                    setTimeout(() => {
+            app.ready(() => {
+                setTimeout(() => {
+                    if (action.options.script.value) {
+                        // Build the module path
                         const scriptPath = abs(action.options.script.value)
                         Logger.log(`Running ${scriptPath}...`)
-                        require(scriptPath)
+
+                        // Load the module
+                        const scr = require(scriptPath)
+
+                        // Detect the init script
+                        const init = typeof scr.init === "function" ? scr.init :
+                            typeof scr === "function" ? scr :
+                            (() => {})
+
+                        // Run the init function
+                        Promise.resolve().then(() => {
+                            return init()
+                        }).catch(err => {
+                            Bloggify.log(err, "error")
+                        })
                         app.exit()
-                    }, 0);
-                })
-            }
+                    }
+                    if (action.options.repl.value) {
+                        const repl = require("repl");
+                        const replServer = repl.start({
+                            prompt: "Bloggify > ",
+                            useGlobal: true
+                        });
+                        replServer.displayPrompt
+                    }
+                }, 0)
+            })
         }
     })
-
-    if (action.options.repl.value) {
-        const repl = require("repl");
-        const replServer = repl.start({
-            prompt: "Bloggify > ",
-            useGlobal: true
-        });
-    }
 })
