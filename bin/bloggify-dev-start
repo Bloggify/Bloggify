@@ -104,6 +104,7 @@ let parser = new Tilda(`${__dirname}/../package.json`, {
         const repl = require("repl");
         const replServer = repl.start({
             prompt: "Bloggify > ",
+            useGlobal: true
         });
     }
 })
