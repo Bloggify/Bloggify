@@ -12,6 +12,10 @@ const PACKAGE_JSON_DEVELOPMENT_PATH = `${ROOT}/package.development.json`
 
 Logger.log("Initializing...")
 
+if (!process.argv[2]) {
+    throw new Error("Usage: node scripts/publish <version>")
+}
+
 const packs = {
     prod: rJson(PACKAGE_JSON_PRODUCTION_PATH)
   , dev: rJson(PACKAGE_JSON_DEVELOPMENT_PATH)
@@ -20,7 +24,6 @@ const packs = {
 const publish = p => {
     p.version = process.argv[2]
     wJson(PACKAGE_JSON_PATH, p)
-    debugger
     return exec("npm", ["publish"], {
         cwd: ROOT
       , stdio: "inherit"
