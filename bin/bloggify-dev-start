@@ -5,7 +5,7 @@
 const Tilda = require("tilda")
     , Bloggify = require("..")
     , Logger = require("cute-logger")
-
+    , abs = require("abs")
 
 process.stdin.isTTY = true
 let parser = new Tilda(`${__dirname}/../package.json`, {
@@ -21,6 +21,20 @@ let parser = new Tilda(`${__dirname}/../package.json`, {
           , desc: "The path to the config file or site directory."
           , type: String
           , default: ".bloggify/config.json"
+        }
+      , {
+            name: "script"
+          , opts: ["s", "script"]
+          , desc: "Execute a specific script in the context of your Bloggify app."
+          , type: String
+          , default: ""
+        }
+      , {
+            name: "repl"
+          , opts: ["r", "repl"]
+          , desc: "Enable the interactive REPL."
+          , type: Boolean
+          , default: false
         }
       , {
             opts: ["daemon", "d"]
@@ -72,5 +86,24 @@ let parser = new Tilda(`${__dirname}/../package.json`, {
     let app = new Bloggify(opts)
     app.onLoad(err => {
         Logger.log(`Bloggify server running on port ${app._serverPort}`)
+        if (!err) {
+            if (action.options.script.value) {
+                app.ready(() => {
+                    setTimeout(() => {
+                        const scriptPath = abs(action.options.script.value)
+                        Logger.log(`Running ${scriptPath}...`)
+                        require(scriptPath)
+                        app.exit()
+                    }, 0);
+                })
+            }
+        }
     })
+
+    if (action.options.repl.value) {
+        const repl = require("repl");
+        const replServer = repl.start({
+            prompt: "Bloggify > ",
+        });
+    }
 })
