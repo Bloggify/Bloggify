@@ -50,10 +50,6 @@ let parser = new Tilda(`${__dirname}/../package.json`, {
             }
         ]
     }
-  , {
-        name: "stop"
-      , desc: "Stops the Bloggify process."
-    }
 ]).on("start", action => {
     console.log(`
      ------------------------------
