@@ -13,7 +13,11 @@ You can install the package globally and use it as command line tool:
 
 
 ```sh
-$ npm i -g bloggify-cli
+# Using npm
+npm install --global bloggify-cli
+
+# Using yarn
+yarn global add bloggify-cli
 ```
 
 
@@ -28,7 +32,6 @@ We make publishing easy.
 
 Commands:
   start  Starts the Bloggify process.
-  stop   Stops the Bloggify process.
 
 Options:
   -v, --version  Displays version information.
@@ -44,10 +47,14 @@ Documentation can be found at https://github.com/Bloggify/Bloggify.
 ## :clipboard: Example
 
 
-Here is an example how to use this package as library. To install it locally, as library, you can do that using `npm`:
+Here is an example how to use this package as library. To install it locally, as library, you can do that using `npm` (or `yarn`):
 
 ```sh
-$ npm i --save bloggify-cli
+# Using npm
+npm install --save bloggify-cli
+
+# Using yarn
+yarn add bloggify-cli
 ```
 
 
@@ -84,12 +91,6 @@ For full API reference, see the [DOCUMENTATION.md][docs] file.
 Have an idea? Found a bug? See [how to contribute][contributing].
 
 
-## :dizzy: Where is this library used?
-If you are using this library in one of your projects, add it in this list. :sparkles:
-
-
- - [`bloggify-starter`](https://github.com/Bloggify/starter#readme)—A simple example of a Bloggify app.
- - [`bloggify.org`](https://github.com/Bloggify/newww#readme) (by Bloggify)—The Bloggify.org website source code.
 
 ## :scroll: License
 

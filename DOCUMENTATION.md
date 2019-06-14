@@ -144,7 +144,7 @@ Creates a new instance of `Bloggify`.
     - `controllers` (String): (default: `"/app/controllers"`)
     - `routes` (String): (default: `"/app/routes"`)
     - `services` (String): (default: `"/app/services"`)
-    - `views` (String): (default: `"/app/views"`)
+    - `partials` (String): (default: `"/app/partials"`)
     - `actions` (String): (default: `"/app/actions"`)
     - `plugins` (String): (default: `"/node_modules"`)
     - `config` (String): The config file: `bloggify.js(on)` (default: `"/bloggify"`).
@@ -216,6 +216,15 @@ Prints a log message in the output.
 - **String** `type`: The log type (error|info|warn|log).
 - **Stream** `stream`: The output stream (defaults to `process.stderr` for errors and `process.stdout` for other logs).
 - **Boolean** `newLine`: A flag wheter to add a new line at the end of the message or not.
+
+### `exit(code, force, delay)`
+Closes the Bloggify app.
+
+#### Params
+
+- **Number** `code`: The exit code.
+- **Boolean** `force`: Force the closing of the process.
+- **Number** `delay`: An optional delay.
 
 ### `extend(methods)`
 Extends the Bloggify instance with new methods.
