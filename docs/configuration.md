@@ -26,6 +26,12 @@ module.exports = {
 
 Below are the fields you can configure in the `bloggify.js` (or `bloggify.json`) file:
 
+  - `title` (String): The application name. For convenience (in case it's
+     not set), the default is an empty string (`""`).
+
+  - `description` (String): The application description. For convenience
+     (in case it's not set), the default is an empty string (`""`).
+
  - `plugins` (Array): The plugins to load. A specific element should be
     either a string or an array of two values (the value name and the
     configuration object).
@@ -59,12 +65,6 @@ Below are the fields you can configure in the `bloggify.js` (or `bloggify.json`)
       2. Actions
       3. Router
       4. Renderer(s)
-
-  - `title` (String): The application name. For convenience (in case it's
-     not set), the default is an empty string (`""`).
-
-  - `description` (String): The application description. For convenience
-     (in case it's not set), the default is an empty string (`""`).
 
   - `db_uri` (String): The database URI. It can be set in the options,
      or via an environment variable: `DB_URI`. The recommended way is
