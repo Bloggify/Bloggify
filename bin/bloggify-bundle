@@ -2,10 +2,12 @@
 
 const Bloggify = require("..")
 
+process.env.PORT = 8076
 process.env.NODE_ENV = "production"
 process.argv.push("--exit-after-bundle")
 
 let app = new Bloggify()
 app.onLoad(err => {
+    if (err) throw err
     app.log(`Bloggify server running on port ${app._serverPort}`)
 })

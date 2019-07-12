@@ -12,7 +12,7 @@ if (cluster.isMaster && !process.argv.includes("--no-workers")) {
     const numCPUs = require('os').cpus().length
     console.log(`Master ${process.pid} is running`)
 
-    for (let i = 0; i < numCPUs; i++) {
+    for (let i = 0; i < numCPUs; ++i) {
         let worker = cluster.fork()
         worker.process.stdout.pipe(process.stdout)
         worker.process.stderr.pipe(process.stderr)
@@ -32,9 +32,11 @@ process.env.NODE_ENV = "production"
 
 let d = new Date()
 let app = new Bloggify()
+
 app.onLoad(err => {
     if (err) throw err
 })
+
 app.ready(() => {
     console.log("Ready." + (new Date() - d) + "ms")
 })
