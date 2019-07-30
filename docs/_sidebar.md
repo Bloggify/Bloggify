@@ -4,6 +4,8 @@
   - [CLI Tools](cli-tools.md)
   - [Creating a Custom App](creating-a-custom-app.md)
   - [Configuration](configuration.md)
+  - [Enviroment Variables](enviroment-variables.md)
+  - [CLI Options](cli-options.md)
 
 - Customization
 

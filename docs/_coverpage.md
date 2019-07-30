@@ -4,9 +4,7 @@
 
 > We make publishing easy.
 
- - Simple
- - Developer friendly
- - Fast
+Simple · Developer friendly · Fast
 
 [GitHub](https://github.com/Bloggify/Bloggify/)
 [Getting Started](#bloggify)

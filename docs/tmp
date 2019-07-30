@@ -1,0 +1,12 @@
+7. Application Structure
+
+7.1. Routes & Controllers
+
+The routes and controllers are mixed in the same directory. By default, Bloggify uses `bloggify-flexible-router` which interprets the `app/routes` directory.
+
+
+By default, the `ajs`
+
+
+
+7. Actions
