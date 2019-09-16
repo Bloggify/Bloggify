@@ -37,7 +37,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "docs": "docsify serve docs"
+    "docs": "docsify serve docs",
+    "postinstall": "node scripts/postinstall.js"
   },
   "repository": {
     "type": "git",
