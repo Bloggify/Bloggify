@@ -24,7 +24,7 @@
     "mkdirp": "^0.5.1",
     "parse-db-uri": "^1.0.0",
     "require-dir": "^0.3.2",
-    "rucksack-lite": "^4.0.0",
+    "rucksack-lite": "^4.0.3",
     "safe-r-json": "^1.0.3",
     "tilda": "^4.2.1",
     "ul": "^5.2.1",
