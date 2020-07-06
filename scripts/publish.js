@@ -1,3 +1,5 @@
+// node scripts/publish <version>
+
 const exec = require("execa")
     , rJson = require("r-json")
     , wJson = require("w-json")
