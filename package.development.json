@@ -22,6 +22,7 @@
     "error-creator": "^1.0.0",
     "fs-file-tree": "^1.0.4",
     "lien": "^3.1.1",
+    "local-ip-address": "^1.0.0",
     "map-o": "^2.0.3",
     "maybe-require": "^1.0.0",
     "mkdirp": "^1.0.4",
