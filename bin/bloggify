@@ -51,14 +51,15 @@ let parser = new Tilda(`${__dirname}/../package.json`, {
         ]
     }
 ]).on("start", action => {
+    const vr = parser.version
+    //    1.0.0
     console.log(`
-     ------------------------------
-         ___
-     ,,,(o,o),,,  Starting Bloggify
-      ';:\`-':;'   - - - - - - - - -
-        -"-"-     Version: ${parser.version}
-
-     ------------------------------
+┌────────────────────────────────┐
+│     ___                        │
+│ ,,,(o,o),,,  Starting Bloggify │
+│  ';:'-':;'  Version: ${vr}     │
+│    -"-"-                       │
+└────────────────────────────────┘
 `)
 
     let opts = {}
@@ -77,8 +78,6 @@ let parser = new Tilda(`${__dirname}/../package.json`, {
     app.onLoad(err => {
         Logger.log(`Bloggify server running on port ${app._serverPort}`)
     })
-}).on("stop", action => {
-    Logger.log("Not yet implemented.")
 }).main(action => {
     parser.displayHelp()
 })
