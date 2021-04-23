@@ -10,8 +10,8 @@ const Tilda = require("tilda")
 process.stdin.isTTY = true
 let parser = new Tilda(`${__dirname}/../package.json`, {
     examples: [
-        "bloggify start"
-      , "bloggify start -c path/to/config/file.json"
+        "bloggify"
+      , "bloggify -c path/to/config/file.json"
     ]
   , desc: "Starts the Bloggify process."
   , options: [
@@ -61,14 +61,15 @@ let parser = new Tilda(`${__dirname}/../package.json`, {
         }
     ]
 }).main(action => {
+    const vr = parser.version
+    //    1.0.0
     console.log(`
-     ------------------------------
-         ___
-     ,,,(o,o),,,  Starting Bloggify
-      ';:\`-':;'   - - - - - - - - -
-        -"-"-     Version: ${parser.version}
-
-     ------------------------------
+┌────────────────────────────────┐
+│     ___                        │
+│ ,,,(o,o),,,  Starting Bloggify │
+│  ';:'-':;'  Version: ${vr}     │
+│    -"-"-                       │
+└────────────────────────────────┘
 `)
 
     let opts = {}
