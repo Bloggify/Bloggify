@@ -10,8 +10,9 @@ const Tilda = require("tilda")
 process.stdin.isTTY = true
 let parser = new Tilda(`${__dirname}/../package.json`, {
     examples: [
-        "bloggify"
-      , "bloggify -c path/to/config/file.json"
+        "bloggify-dev-start"
+      , "bloggify-dev-start -c path/to/config/file.json"
+      , "bloggify-dev-start -s scripts/your-script.js"
     ]
   , desc: "Starts the Bloggify process."
   , options: [
@@ -59,10 +60,15 @@ let parser = new Tilda(`${__dirname}/../package.json`, {
           , desc: "The server port."
           , type: Number
         }
+      , {
+            name: "routes"
+          , opts: ["routes", "l"]
+          , desc: "List all the server routes."
+          , type: Boolean
+        }
     ]
 }).main(action => {
     const vr = parser.version
-    //    1.0.0
     console.log(`
 ┌────────────────────────────────┐
 │     ___                        │
@@ -87,40 +93,80 @@ let parser = new Tilda(`${__dirname}/../package.json`, {
     let app = new Bloggify(opts)
     app.onLoad(err => {
         Logger.log(`Bloggify server running on port ${app._serverPort}`)
-        if (!err) {
-            app.ready(() => {
-                setTimeout(() => {
-                    if (action.options.script.value) {
-                        // Build the module path
-                        const scriptPath = abs(action.options.script.value)
-                        Logger.log(`Running ${scriptPath}...`)
+        if (err) { return; }
+        app.ready(() => {
+            setTimeout(() => {
 
-                        // Load the module
-                        const scr = require(scriptPath)
+                // Run scripts
+                if (action.options.script.value) {
+                    // Build the module path
+                    const scriptPath = abs(action.options.script.value)
+                    Logger.log(`Running ${scriptPath}...`)
 
-                        // Detect the init script
-                        const init = typeof scr.init === "function" ? scr.init :
-                            typeof scr === "function" ? scr :
-                            (() => {})
+                    // Load the module
+                    const scr = require(scriptPath)
 
-                        // Run the init function
-                        Promise.resolve().then(() => {
-                            return init()
-                        }).catch(err => {
-                            Bloggify.log(err, "error")
+                    // Detect the init script
+                    const init = typeof scr.init === "function" ? scr.init :
+                        typeof scr === "function" ? scr :
+                        (() => {})
+
+                    // Run the init function
+                    Promise.resolve().then(() => {
+                        return init()
+                    }).catch(err => {
+                        Bloggify.log(err, "error")
+                    })
+
+                    app.exit()
+                }
+
+                // Start the repl
+                if (action.options.repl.value) {
+                    const repl = require("repl");
+                    const replServer = repl.start({
+                        prompt: "Bloggify > ",
+                        useGlobal: true
+                    });
+                    replServer.displayPrompt
+                }
+
+                // Show the routes
+                if (action.options.routes.value) {
+
+                    const showRoutesForRouter = (obj, label) => {
+                        const routes = []
+                        obj.stack.forEach(middleware => {
+                            if (middleware.route) {
+                                routes.push(middleware.route)
+                            } else if (middleware.name === "router") {
+                                middleware.handle.stack.forEach(handler => {
+                                    handler.route && routes.push(handler.route);
+                                })
+                            } else if (middleware.regexp) {
+                                routes.push({
+                                    path: middleware.regexp.toString()
+                                  , methods: { _ALL: true }
+                                });
+                            }
                         })
-                        app.exit()
+
+                        if (routes.length) {
+                            label && console.log(label)
+                            routes.forEach(route => {
+                                console.log(` ${Object.keys(route.methods).map(c => c.toUpperCase().replace("_", "")).join(", ")} ${route.path}`)
+                            })
+                            console.log("\n")
+                        }
                     }
-                    if (action.options.repl.value) {
-                        const repl = require("repl");
-                        const replServer = repl.start({
-                            prompt: "Bloggify > ",
-                            useGlobal: true
-                        });
-                        replServer.displayPrompt
-                    }
-                }, 0)
-            })
-        }
+
+                    showRoutesForRouter(app.server.beforeRequest, "\nApplication routes:")
+                    showRoutesForRouter(app.server.router, "")
+                    showRoutesForRouter(app.server.staticRouter, "Static Routes")
+
+                    app.exit(true)
+                }
+            }, 0)
+        })
     })
 })
