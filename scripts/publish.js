@@ -1,6 +1,6 @@
 // node scripts/publish <version>
 
-const exec = require("execa")
+const exec = require("spawno").promise
     , rJson = require("r-json")
     , wJson = require("w-json")
     , fs = require("fs")
@@ -28,7 +28,7 @@ const publish = p => {
     wJson(PACKAGE_JSON_PATH, p)
     return exec("npm", ["publish"], {
         cwd: ROOT
-      , stdio: "inherit"
+      , output: true
     })
 }
 
@@ -36,6 +36,7 @@ const publish = p => {
 try {
     fs.unlinkSync(PACKAGE_JSON_PATH)
 } catch (e) {}
+
 Logger.log("Publishing bloggify-cli")
 publish(packs.dev).then(() => {
     Logger.log("Publishing bloggify")
@@ -49,5 +50,5 @@ publish(packs.dev).then(() => {
     } catch (e) {}
 
     Logger.log("Done.")
-    return exec("ln", ["-s", "package.development.json", "package.json"], { cwd: ROOT })
+    return exec("ln", ["-s", "package.development.json", "package.json"], { cwd: ROOT, output: true })
 }).catch(console.error)

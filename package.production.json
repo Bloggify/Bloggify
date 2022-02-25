@@ -14,7 +14,7 @@
     "bloggify-renderer-ajs": "^2.0.1",
     "bloggify-template-renderer": "^2.0.2",
     "cute-logger": "^8.0.0",
-    "dotenv": "^8.1.0",
+    "dotenv": "^16.0.0",
     "error-creator": "^1.0.0",
     "fs-file-tree": "^1.0.4",
     "lien": "^3.1.1",
