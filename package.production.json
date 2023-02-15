@@ -1,6 +1,6 @@
 {
   "name": "bloggify",
-  "version": "1.8.3",
+  "version": "2.0.3",
   "description": "We make publishing easy.",
   "main": "lib/index.js",
   "bin": {
@@ -21,19 +21,18 @@
     "local-ip-address": "^1.0.0",
     "map-o": "^2.0.3",
     "maybe-require": "^1.0.0",
-    "mkdirp": "^1.0.4",
+    "mkdirp": "^2.1.3",
+    "parse-db-uri": "^2.0.0",
     "parse-db-uri": "^1.0.0",
     "require-dir": "^1.2.0",
-    "rucksack-lite": "^4.0.3",
+    "rucksack-lite": "^5.0.0",
     "safe-r-json": "^1.0.3",
     "tilda": "^4.2.1",
     "ul": "^5.2.1",
     "w-json": "^1.3.7"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
-    "postinstall": "node scripts/postinstall.js"
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
