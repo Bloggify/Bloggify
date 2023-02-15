@@ -2,8 +2,8 @@
 
 const Bloggify = require("..")
 
-process.env.PORT = 8076
-process.env.NODE_ENV = "production"
+process.env.PORT = process.env.PORT || 8076
+process.env.NODE_ENV = process.env.NODE_ENV || "production"
 process.argv.push("--exit-after-bundle")
 
 let app = new Bloggify()

@@ -61,15 +61,7 @@ let parser = new Tilda(`${__dirname}/../package.json`, {
         }
     ]
 }).main(action => {
-    console.log(`
-     ------------------------------
-         ___
-     ,,,(o,o),,,  Starting Bloggify
-      ';:\`-':;'   - - - - - - - - -
-        -"-"-     Version: ${parser.version}
-
-     ------------------------------
-`)
+    console.log(`Starting Bloggify v${parser.version}`)
 
     let opts = {}
 
