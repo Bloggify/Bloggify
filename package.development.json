@@ -1,6 +1,6 @@
 {
   "name": "bloggify-cli",
-  "version": "2.0.3",
+  "version": "2.0.5",
   "description": "We make publishing easy.",
   "main": "lib/index.js",
   "bin": {
