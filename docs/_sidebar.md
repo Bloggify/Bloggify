@@ -7,6 +7,7 @@
   - [Environment Variables](environment-variables.md)
   - [API](api.md)
   - [CLI Options](cli-options.md)
+  - [Bloggify Utils](bloggify-utils.md)
 
 - Customization
 
