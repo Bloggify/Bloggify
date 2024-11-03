@@ -741,7 +741,7 @@ A table component for a model.
         "age",
     ]}
     listSlug="users"
-    defaultSorting={[{ field: "name", direction: "ASC" }]}
+    defaultSorting={[{ id: "name", desc: true }]}
     bulkDelete
     onRowSelectionChange={selectedRows => console.log(selectedRows)}
     where={{ age: { $gt: 42 } }}
