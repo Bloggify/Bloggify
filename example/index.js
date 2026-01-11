@@ -1,7 +1,7 @@
 "use strict";
 
 // This is how to include Bloggify as library.
-const Bloggify = require("../lib")
+import Bloggify from "../lib/index.js";
 
 // Start the Bloggify app
 const app = new Bloggify("path/to/the/application/root")

@@ -1,76 +1,138 @@
 #!/usr/bin/env node
 
-"use strict"
-
-const Tilda = require("tilda")
-    , Bloggify = require("..")
-    , Logger = require("cute-logger")
-
+import Tilda from "tilda"
+import Bloggify from "../lib/index.js"
+import Logger from "cute-logger"
 
 process.stdin.isTTY = true
-let parser = new Tilda(`${__dirname}/../package.json`, {
-    examples: [
-        "bloggify start"
-      , "bloggify start -c path/to/config/file.json"
-    ]
+const __dirname = new URL("../bin/", import.meta.url).pathname
+
+const parser = new Tilda(`${__dirname}/../package.json`, {
+  examples: [
+    "bloggify start",
+  ]
 }).action([
-    {
-        name: "start"
-      , desc: "Starts the Bloggify process."
-      , options: [
-            {
-                name: "path"
-              , opts: ["config", "c"]
-              , desc: "The path to the config file or site directory."
-              , type: String
-              , default: ".bloggify/config.json"
-            }
-          , {
-                opts: ["daemon", "d"]
-              , desc: "Start the process as daemon."
-              , type: Boolean
-            }
-          , {
-                name: "cert"
-              , opts: ["cert"]
-              , desc: "The path to the certificate file."
-              , type: String
-            }
-          , {
-                name: "key"
-              , opts: ["key"]
-              , desc: "The path to the key file."
-              , type: String
-            }
-          , {
-                name: "port"
-              , opts: ["port", "p"]
-              , desc: "The server port."
-              , type: Number
-            }
-        ]
-    }
+  {
+    name: "start",
+    desc: "Starts the Bloggify process.",
+    options: [{
+      name: "port",
+      opts: ["port", "p"],
+      desc: "The server port.",
+      type: Number
+    }]
+  },
+  {
+    name: "dev-start",
+    desc: "Starts the Bloggify process in development mode.",
+    options: [{
+      name: "port",
+      opts: ["port", "p"],
+      desc: "The server port.",
+      type: Number
+    }, {
+      opts: ["no-repl"],
+      desc: "Disable the interactive REPL.",
+    }, {
+      opts: ["--no-bundle"],
+      desc: "Do not bundle the assets on start.",
+    }]
+  },
+  {
+    name: "script",
+    desc: "Execute a specific script in the context of your Bloggify app.",
+    args: [{
+      name: "path",
+      type: String,
+      desc: "The path to the script file.",
+      required: true
+    }]
+  },
+  {
+    name: "bundle",
+    desc: "Bundles the application assets for production.",
+    options: [{
+      name: "port",
+      opts: ["port", "p"],
+      desc: "The server port.",
+      type: Number,
+      default: 9999
+    }]
+  }
 ]).on("start", action => {
-    console.log(`Starting Bloggify v${parser.version}`)
+  process.argv.push("--no-bundle")
+  process.env.NODE_ENV = "production"
+  process.env.PORT = process.env.PORT || action.options.port.value || "8080"
 
-    let opts = {}
+  const d = new Date()
+  const app = new Bloggify()
 
-    if (action.options.cert.value && action.options.key.value) {
-        opts.server = {
-            ssl: {
-                cert: action.options.cert.value
-              , key: action.options.key.value
-            }
-          , port: action.options.port.value
-        }
-    }
+  app.onLoad(err => {
+    if (err) throw err
+  })
 
-    let app = new Bloggify(opts)
-    app.onLoad(err => {
-        Logger.log(`Bloggify server running on port ${app._serverPort}`)
+  app.ready(() => console.log("Ready." + (new Date() - d) + "ms"))
+}).on("dev-start", action => {
+  let app = new Bloggify()
+  app.onLoad(err => {
+    Logger.log(`Bloggify server running on port ${app._serverPort}`)
+    if (err) { return; }
+    app.ready(async () => {
+      if (action.options.noRepl.is_provided) { return; }
+      const repl = await import("repl");
+      const replServer = repl.start({
+        prompt: "Bloggify > ",
+        useGlobal: true
+      });
     })
-}).on("stop", action => {
-    Logger.log("Not yet implemented.")
+  })
+}).on("script", action => {
+  process.env.NODE_ENV = process.env.NODE_ENV || "development";
+  process.argv.push("--no-bundle");
+
+  let app = new Bloggify()
+  app.onLoad(err => {
+    Logger.log(`Bloggify server running on port ${app._serverPort}`)
+    if (err) { return; }
+    app.ready(async () => {
+      setTimeout(async () => {
+        if (action.args.path) {
+          const abs = (await import("abs")).default;
+          const scriptPath = abs(action.args.path)
+          Logger.log(`Running ${scriptPath}...`)
+
+          // Load the module
+          const scr = await import(scriptPath)
+
+          // Detect the init script
+          const init = typeof scr.init === "function" ? scr.init :
+            typeof scr === "function" ? scr :
+              (() => { })
+
+          // Run the init function
+          Promise.resolve().then(() => {
+            return init()
+          }).catch(err => {
+            Bloggify.log(err, "error")
+          })
+          app.exit()
+        } else {
+          Logger.log("No script path provided.", "error")
+          app.exit()
+        }
+      }, 0)
+    })
+  })
+}).on("bundle", action => {
+
+  process.env.NODE_ENV = process.env.NODE_ENV || "production"
+  process.argv.push("--exit-after-bundle")
+
+  let app = new Bloggify()
+  app.onLoad(err => {
+    if (err) throw err
+    app.log(`Bloggify server running on port ${app._serverPort}`)
+  })
 }).main(action => {
-    parser.displayHelp()
+  parser.displayHelp()
 })
