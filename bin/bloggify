@@ -74,6 +74,7 @@ const parser = new Tilda(`${__dirname}/../package.json`, {
   app.ready(() => console.log("Ready." + (new Date() - d) + "ms"))
 }).on("dev-start", action => {
   let app = new Bloggify()
+  debugger
   app.onLoad(err => {
     Logger.log(`Bloggify server running on port ${app._serverPort}`)
     if (err) { return; }
