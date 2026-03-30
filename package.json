@@ -13,6 +13,7 @@
     "bloggify-flexible-router": "^2.0.0",
     "bloggify-plugin-loader": "^2.0.1",
     "bloggify-renderer-ajs": "^2.0.1",
+    "bloggify-renderer-ejs": "^1.0.0",
     "bloggify-template-renderer": "^2.0.2",
     "cute-logger": "^8.0.0",
     "deffy": "^2.2.4",
