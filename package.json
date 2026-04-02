@@ -4,8 +4,7 @@
   "description": "We make publishing easy.",
   "main": "lib/index.js",
   "bin": {
-    "bloggify": "./bin/bloggify",
-    "bloggify-prod-start": "./bin/bloggify-prod-start"
+    "bloggify": "./bin/bloggify"
   },
   "dependencies": {
     "abs": "^1.3.14",
