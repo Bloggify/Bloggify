@@ -1,6 +1,6 @@
 {
   "name": "bloggify",
-  "version": "4.0.0-alpha",
+  "version": "4.0.0-alpha.0",
   "description": "We make publishing easy.",
   "main": "lib/index.js",
   "bin": {
@@ -36,9 +36,6 @@
     "typpy": "^2.3.13",
     "ul": "^5.2.1",
     "w-json": "^1.3.7"
-  },
-  "scripts": {
-    "start": "node server.js"
   },
   "repository": {
     "type": "git",
