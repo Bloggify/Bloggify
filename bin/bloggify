@@ -72,20 +72,21 @@ const parser = new Tilda(`${__dirname}/../package.json`, {
   })
 
   app.ready(() => console.log("Ready." + (new Date() - d) + "ms"))
-}).on("dev-start", action => {
+}).on("dev-start", async action => {
   let app = new Bloggify()
-  app.onLoad(err => {
+  try {
+    await app.onLoad()
     Logger.log(`Bloggify server running on port ${app._serverPort}`)
-    if (err) { return; }
-    app.ready(async () => {
-      if (action.options.noRepl.is_provided) { return; }
-      const repl = await import("repl");
-      const replServer = repl.start({
-        prompt: "Bloggify > ",
-        useGlobal: true
-      });
-    })
-  })
+    await app.ready()
+    if (action.options.noRepl.is_provided) { return; }
+    const repl = await import("repl");
+    const replServer = repl.start({
+      prompt: "Bloggify > ",
+      useGlobal: true
+    });
+  } catch (e) {
+    Bloggify.log(e, "error");
+  }
 }).on("script", action => {
   process.env.NODE_ENV = process.env.NODE_ENV || "development";
   process.argv.push("--no-bundle");
