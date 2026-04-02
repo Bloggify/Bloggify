@@ -161,6 +161,16 @@ Creates a new instance of `Bloggify`.
 #### Return
 - **Bloggify** The `Bloggify` instance.
 
+### `onLoad(cb)`
+Checkes if the server is loaded.
+
+#### Params
+
+- **Function** `cb`: The callback function.
+
+#### Return
+- **Promise** Returns a promise that resolves when the server is loaded.
+
 ### `render(lien, templateName, data)`
 Renders a template.
 
@@ -169,25 +179,6 @@ Renders a template.
 - **Lien** `lien`: The `lien` object.
 - **String** `templateName`: The template name or path.
 - **Object** `data`: The template data.
-
-### `loadPlugins(names, cb)`
-Loads the provided plugins.
-
-#### Params
-
-- **Array** `names`: The list of plugin names.
-- **Function** `cb`: The callback function.
-
-### `require(name, mod)`
-Considering the value of the module (`true`, `false`), it returns the raw module of the plugin or the instance of it.
-
-#### Params
-
-- **String** `name`: The plugin's name.
-- **Boolean** `mod`: The plugin's module.
-
-#### Return
-- **BloggifyPlugin** The plugin's instance.
 
 ### `logLevel(newLogLevel)`
 Sets or gets the log level.
@@ -206,6 +197,17 @@ The log levels are:
 
 #### Return
 - **String** The log level.
+
+### `require(name, mod)`
+Considering the value of the module (`true`, `false`), it returns the raw module of the plugin or the instance of it.
+
+#### Params
+
+- **String** `name`: The plugin's name.
+- **Boolean** `mod`: The plugin's module.
+
+#### Return
+- **BloggifyPlugin** The plugin's instance.
 
 ### `log(msg, type, stream, newLine)`
 Prints a log message in the output.

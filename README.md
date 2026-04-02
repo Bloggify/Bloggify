@@ -19,7 +19,7 @@
 
 # `$ bloggify`
 
- [![Version](https://img.shields.io/npm/v/bloggify-cli.svg)](https://www.npmjs.com/package/bloggify-cli) [![Downloads](https://img.shields.io/npm/dt/bloggify-cli.svg)](https://www.npmjs.com/package/bloggify-cli)
+ [![Version](https://img.shields.io/npm/v/bloggify.svg)](https://www.npmjs.com/package/bloggify) [![Downloads](https://img.shields.io/npm/dt/bloggify.svg)](https://www.npmjs.com/package/bloggify)
 
 
 
@@ -52,10 +52,10 @@ You can install the package globally and use it as command line tool:
 
 ```sh
 # Using npm
-npm install --global bloggify-cli
+npm install --global bloggify
 
 # Using yarn
-yarn global add bloggify-cli
+yarn global add bloggify
 ```
 
 
@@ -69,7 +69,11 @@ Usage: bloggify <command> [options]
 We make publishing easy.
 
 Commands:
-  start  Starts the Bloggify process.
+  start      Starts the Bloggify process.
+  dev-start  Starts the Bloggify process in development mode.
+  script     Execute a specific script in the context of your
+             Bloggify app.
+  bundle     Bundles the application assets for production.
 
 Options:
   -h, --help     Displays this help.
@@ -77,7 +81,6 @@ Options:
 
 Examples:
   $ bloggify start
-  $ bloggify start -c path/to/config/file.json
 
 Documentation can be found at https://github.com/Bloggify/Bloggify.
 ```
@@ -94,30 +97,18 @@ Documentation can be found at https://github.com/Bloggify/Bloggify.
 
 
 
-## :clipboard: Example
-
-
-
-Here is an example how to use this package as library. To install it locally, as library, you can use `npm install bloggify-cli` (or `yarn add bloggify-cli`):
-
-
-
-```js
-// This is how to include Bloggify as library.
-const Bloggify = require("bloggify-cli")
-
-// Start the Bloggify app
-const app = new Bloggify("path/to/the/application/root")
-
-// Do something after it's started
-app.onLoad(err => {
-    console.log(`Bloggify server running on port ${app._serverPort}`)
-})
-```
 
 
 
 
+
+
+
+
+
+## :memo: Documentation
+
+For full API reference, see the [DOCUMENTATION.md][docs] file.
 
 
 
@@ -135,12 +126,6 @@ There are few ways to get help:
  2. For bug reports and feature requests, open issues. :bug:
 
 
-
-
-
-## :memo: Documentation
-
-For full API reference, see the [DOCUMENTATION.md][docs] file.
 
 
 
@@ -168,13 +153,6 @@ Have an idea? Found a bug? See [how to contribute][contributing].
 
 
 
-
-
-
-## :dizzy: Where is this library used?
-If you are using this library in one of your projects, add it in this list. :sparkles:
-
- - `bloggify-starter`
 
 
 
