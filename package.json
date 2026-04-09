@@ -16,7 +16,7 @@
     "bloggify-template-renderer": "^2.0.2",
     "cute-logger": "^8.0.0",
     "deffy": "^2.2.4",
-    "dotenv": "^17.4.0",
+    "dotenv": "^17.4.1",
     "error-creator": "^1.0.0",
     "fs-file-tree": "^1.0.4",
     "import-dir-dynamic": "^1.1.0",

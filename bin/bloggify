@@ -5,7 +5,7 @@ import Bloggify from "../lib/index.js"
 import Logger from "cute-logger"
 
 process.stdin.isTTY = true
-const __dirname = new URL("../bin/", import.meta.url).pathname
+const __dirname = import.meta.dirname;
 
 const parser = new Tilda(`${__dirname}/../package.json`, {
   examples: [
