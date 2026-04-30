@@ -17,8 +17,8 @@ Creates a new instance of `Bloggify`.
     ```js
     [
        // Load the web sockets module
-       "ws"
-     , ["some-interesting-module",{
+       "ws",
+       ["some-interesting-module",{
          "and": "some",
          "interesting": "configuration"
        }]
