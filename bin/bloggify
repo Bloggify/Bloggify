@@ -62,7 +62,9 @@ const parser = new Tilda(`${__dirname}/../package.json`, {
 ]).on("start", action => {
   process.argv.push("--no-bundle")
   process.env.NODE_ENV = "production"
-  process.env.PORT = process.env.PORT || action.options.port.value || "8080"
+  if (action.options.port.value) {
+    process.env.PORT = action.options.port.value
+  }
 
   const d = new Date()
   const app = new Bloggify()
