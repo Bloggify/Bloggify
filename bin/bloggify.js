@@ -1,0 +1,141 @@
+#!/usr/bin/env node
+
+import Tilda from "tilda";
+import Bloggify from "bloggify";
+import Logger from "cute-logger";
+
+process.stdin.isTTY = true;
+const __dirname = import.meta.dirname;
+
+const parser = new Tilda(`${__dirname}/../package.json`, {
+    examples: [
+        "bloggify start",
+    ]
+}).action([
+    {
+        name: "start",
+        desc: "Starts the Bloggify process.",
+        options: [{
+            name: "port",
+            opts: ["port", "p"],
+            desc: "The server port.",
+            type: Number
+        }]
+    },
+    {
+        name: "dev-start",
+        desc: "Starts the Bloggify process in development mode.",
+        options: [{
+            name: "port",
+            opts: ["port", "p"],
+            desc: "The server port.",
+            type: Number
+        }, {
+            opts: ["no-repl"],
+            desc: "Disable the interactive REPL.",
+        }, {
+            opts: ["--no-bundle"],
+            desc: "Do not bundle the assets on start.",
+        }]
+    },
+    {
+        name: "script",
+        desc: "Execute a specific script in the context of your Bloggify app.",
+        args: [{
+            name: "path",
+            type: String,
+            desc: "The path to the script file.",
+            required: true
+        }]
+    },
+    {
+        name: "bundle",
+        desc: "Bundles the application assets for production.",
+        options: [{
+            name: "port",
+            opts: ["port", "p"],
+            desc: "The server port.",
+            type: Number,
+            default: 9999
+        }]
+    }
+]).on("start", action => {
+    process.argv.push("--no-bundle");
+    process.env.NODE_ENV = "production";
+    if (action.options.port.value) {
+        process.env.PORT = action.options.port.value;
+    }
+
+    const d = new Date();
+    const app = new Bloggify();
+
+    app.onLoad(err => {
+        if (err) throw err;
+    });
+
+    app.ready(() => console.log("Ready." + (new Date() - d) + "ms"));
+}).on("dev-start", async action => {
+    let app = new Bloggify();
+    try {
+        await app.onLoad();
+        Logger.log(`Bloggify server running on port ${app._serverPort}`);
+        await app.ready();
+        if (action.options.noRepl.is_provided) { return; }
+        const repl = await import("repl");
+        repl.start({
+            prompt: "Bloggify > ",
+            useGlobal: true
+        });
+    } catch (e) {
+        Bloggify.log(e, "error");
+    }
+}).on("script", action => {
+    process.env.NODE_ENV = process.env.NODE_ENV || "development";
+    process.argv.push("--no-bundle");
+
+    let app = new Bloggify();
+    app.onLoad(err => {
+        Logger.log(`Bloggify server running on port ${app._serverPort}`);
+        if (err) { return; }
+        app.ready(async () => {
+            setTimeout(async () => {
+                if (action.args.path) {
+                    const abs = (await import("abs")).default;
+                    const scriptPath = abs(action.args.path);
+                    Logger.log(`Running ${scriptPath}...`);
+
+                    // Load the module
+                    const scr = await import(scriptPath);
+
+                    // Detect the init script
+                    const init = typeof scr.init === "function" ? scr.init :
+                        typeof scr === "function" ? scr :
+                            (() => { });
+
+                    // Run the init function
+                    Promise.resolve().then(() => {
+                        return init();
+                    }).catch(err => {
+                        Bloggify.log(err, "error");
+                    });
+                    app.exit();
+                } else {
+                    Logger.log("No script path provided.", "error");
+                    app.exit();
+                }
+            }, 0);
+        });
+    });
+}).on("bundle", () => {
+
+    process.env.NODE_ENV = process.env.NODE_ENV || "production";
+    process.argv.push("--exit-after-bundle");
+
+    let app = new Bloggify();
+    app.onLoad(err => {
+        if (err) throw err;
+        app.log(`Bloggify server running on port ${app._serverPort}`);
+    });
+}).main(() => {
+    parser.displayHelp();
+});
