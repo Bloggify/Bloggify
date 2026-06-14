@@ -7,7 +7,7 @@ Creates a new instance of `Bloggify`.
 
 #### Params
 
-- **Object** `options`: An object containing the following fields:
+- **object** `options`: An object containing the following fields:
   - `plugins` (Array): The plugins to load. A specific element should be
     either a string or an array of two values (the value name and the
     configuration object).
@@ -177,8 +177,8 @@ Renders a template.
 #### Params
 
 - **Lien** `lien`: The `lien` object.
-- **String** `templateName`: The template name or path.
-- **Object** `data`: The template data.
+- **string** `templateName`: The template name or path.
+- **object** `data`: The template data.
 
 ### `logLevel(newLogLevel)`
 Sets or gets the log level.
@@ -193,18 +193,19 @@ The log levels are:
 
 #### Params
 
-- **String** `newLogLevel`: The instance of the log.
+- **string** `newLogLevel`: The instance of the log.
 
 #### Return
-- **String** The log level.
+- **string** The log level.
 
-### `require(name, mod)`
+### `require(name, mod, cb)`
 Considering the value of the module (`true`, `false`), it returns the raw module of the plugin or the instance of it.
 
 #### Params
 
-- **String** `name`: The plugin's name.
-- **Boolean** `mod`: The plugin's module.
+- **string** `name`: The plugin's name.
+- **boolean** `mod`: The plugin's module.
+- **Function** `cb`: The callback function.
 
 #### Return
 - **BloggifyPlugin** The plugin's instance.
@@ -214,26 +215,26 @@ Prints a log message in the output.
 
 #### Params
 
-- **Error|String** `msg`: The log message.
-- **String** `type`: The log type (error|info|warn|log).
+- **Error|string** `msg`: The log message.
+- **string** `type`: The log type (error|info|warn|log).
 - **Stream** `stream`: The output stream (defaults to `process.stderr` for errors and `process.stdout` for other logs).
-- **Boolean** `newLine`: A flag wheter to add a new line at the end of the message or not.
+- **boolean** `newLine`: A flag wheter to add a new line at the end of the message or not.
 
 ### `exit(code, force, delay)`
 Closes the Bloggify app.
 
 #### Params
 
-- **Number** `code`: The exit code.
-- **Boolean** `force`: Force the closing of the process.
-- **Number** `delay`: An optional delay.
+- **number** `code`: The exit code.
+- **boolean** `force`: Force the closing of the process.
+- **number** `delay`: An optional delay.
 
 ### `extend(methods)`
 Extends the Bloggify instance with new methods.
 
 #### Params
 
-- **Object** `methods`: An object containing functions you want to append to the `Bloggify` instance.
+- **object** `methods`: An object containing functions you want to append to the `Bloggify` instance.
 
 #### Return
 - **Bloggify** The `Bloggify` instance.
