@@ -98,11 +98,11 @@ Creates a new instance of `Bloggify`.
      You need to install these in your app folder:
 
      ```sh
-     npm install connect-mongo bloggify-mongoose
+     npm install express-mysql-session bloggify-sequelize
      ```
 
      If no models are used, you don't need to install
-     `bloggify-mongoose`. `connect-mongo` will be used for
+     `bloggify-sequelize`. `express-mysql-session` will be used for
      session management.
 
      The models will be created in the models folder (default: `app/models`).
@@ -124,6 +124,13 @@ Creates a new instance of `Bloggify`.
 
      module.exports = Subject
      ```
+
+     **`postgres` / `postgresql`**
+
+     URI: `DB_URI=postgres://user:password@host:5432/your-database-name`
+     Install `connect-pg-simple` and `pg` for sessions. If models are used,
+     install `bloggify-sequelize` and `pg-hstore` as well. The session store
+     creates its table if it is missing.
 
   -  `db_options` (Object): Additional options to be passed to the
      database plugin (`bloggify-sequelize` or `bloggify-mongoose`).

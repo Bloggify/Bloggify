@@ -2,9 +2,16 @@
   "name": "bloggify",
   "version": "4.0.7",
   "description": "We make publishing easy.",
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "main": "lib/index.js",
   "bin": {
     "bloggify": "./bin/bloggify.js"
+  },
+  "scripts": {
+    "test": "node --test"
   },
   "dependencies": {
     "abs": "^2.0.0",
@@ -16,13 +23,13 @@
     "bloggify-template-renderer": "^2.0.2",
     "cute-logger": "^8.0.0",
     "deffy": "^5.0.0",
-    "dotenv": "^17.4.1",
+    "dotenv": "^18.0.10",
     "error-creator": "^1.0.0",
     "fs-file-tree": "^2.0.0",
     "import-dir-dynamic": "^1.1.0",
     "is-there": "^4.5.1",
     "iterate-object": "^1.3.4",
-    "lien": "^4.0.0",
+    "lien": "^5.0.0",
     "local-ip-address": "^1.0.0",
     "maybe-require": "^1.0.0",
     "mkdirp": "^3.0.1",

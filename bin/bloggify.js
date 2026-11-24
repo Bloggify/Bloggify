@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import Tilda from "tilda";
-import Bloggify from "bloggify";
+import Bloggify from "../lib/index.js";
 import Logger from "cute-logger";
 
 process.stdin.isTTY = true;
@@ -69,11 +69,8 @@ const parser = new Tilda(`${__dirname}/../package.json`, {
     const d = new Date();
     const app = new Bloggify();
 
-    app.onLoad(err => {
-        if (err) throw err;
-    });
-
-    app.ready(() => console.log("Ready." + (new Date() - d) + "ms"));
+    app.ready(() => console.log("Ready." + (new Date() - d) + "ms"))
+        .catch(() => { process.exitCode = 1; });
 }).on("dev-start", async action => {
     let app = new Bloggify();
     try {
@@ -87,7 +84,8 @@ const parser = new Tilda(`${__dirname}/../package.json`, {
             useGlobal: true
         });
     } catch (e) {
-        Bloggify.log(e, "error");
+        app.log(e, "error");
+        process.exitCode = 1;
     }
 }).on("script", action => {
     process.env.NODE_ENV = process.env.NODE_ENV || "development";
@@ -124,18 +122,18 @@ const parser = new Tilda(`${__dirname}/../package.json`, {
                     app.exit();
                 }
             }, 0);
-        });
-    });
+        }).catch(() => { process.exitCode = 1; });
+    }).catch(() => { process.exitCode = 1; });
 }).on("bundle", () => {
 
     process.env.NODE_ENV = process.env.NODE_ENV || "production";
     process.argv.push("--exit-after-bundle");
 
     let app = new Bloggify();
-    app.onLoad(err => {
-        if (err) throw err;
+    app.ready().catch(() => { process.exitCode = 1; });
+    app.onLoad().then(() => {
         app.log(`Bloggify server running on port ${app._serverPort}`);
-    });
+    }).catch(() => { process.exitCode = 1; });
 }).main(() => {
     parser.displayHelp();
 });

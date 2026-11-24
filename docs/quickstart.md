@@ -4,7 +4,7 @@ In this quickstart guide you will learn how to set up a blog application using B
 
 You need to have some prerequisites installed:
 
- - Node.js (preferably `>=8.0.0`). Check out [nodejs.org](https://nodejs.org/en/) how to install.
+ - Node.js `>=22.12.0`. Check out [nodejs.org](https://nodejs.org/en/) how to install.
  - `npm`, installed by the Node.js installer, by default.
  - `git` (we use this to communicate with GitHub)
 

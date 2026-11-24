@@ -120,7 +120,7 @@ Below are the fields you can configure in the `bloggify.js` (or `bloggify.json`)
      ```
 
      If no models are used, you don't need to install
-     `bloggify-mongoose`. `connect-mongo` will be used for
+     `bloggify-sequelize`. `express-mysql-session` will be used for
      session management.
 
      The models will be created in the models folder (default: `app/models`).
@@ -142,6 +142,21 @@ Below are the fields you can configure in the `bloggify.js` (or `bloggify.json`)
 
      module.exports = Subject
      ```
+
+     **`postgres` / `postgresql`**
+
+     URI: `DB_URI=postgres://user:password@host:5432/your-database-name`
+
+     For sessions, install `connect-pg-simple` and `pg`. If the app has models,
+     also install `bloggify-sequelize` and `pg-hstore`:
+
+     ```sh
+     npm install connect-pg-simple pg bloggify-sequelize pg-hstore
+     ```
+
+     Bloggify uses the same PostgreSQL URI for the session store and Sequelize.
+     The session store creates its table if it is missing. Set
+     `server.session` to `false` if your app does not use sessions.
 
   -  `db_options` (Object): Additional options to be passed to the
      database plugin (`bloggify-sequelize` or `bloggify-mongoose`).
