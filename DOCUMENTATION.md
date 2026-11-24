@@ -6,7 +6,6 @@ You can see below the API reference of this module.
 Creates a new instance of `Bloggify`.
 
 #### Params
-
 - **object** `options`: An object containing the following fields:
   - `plugins` (Array): The plugins to load. A specific element should be
     either a string or an array of two values (the value name and the
@@ -98,11 +97,11 @@ Creates a new instance of `Bloggify`.
      You need to install these in your app folder:
 
      ```sh
-     npm install express-mysql-session bloggify-sequelize
+     npm install connect-mongo bloggify-mongoose
      ```
 
      If no models are used, you don't need to install
-     `bloggify-sequelize`. `express-mysql-session` will be used for
+     `bloggify-mongoose`. `connect-mongo` will be used for
      session management.
 
      The models will be created in the models folder (default: `app/models`).
@@ -129,8 +128,7 @@ Creates a new instance of `Bloggify`.
 
      URI: `DB_URI=postgres://user:password@host:5432/your-database-name`
      Install `connect-pg-simple` and `pg` for sessions. If models are used,
-     install `bloggify-sequelize` and `pg-hstore` as well. The session store
-     creates its table if it is missing.
+     install `bloggify-sequelize` and `pg-hstore` as well.
 
   -  `db_options` (Object): Additional options to be passed to the
      database plugin (`bloggify-sequelize` or `bloggify-mongoose`).
@@ -172,7 +170,6 @@ Creates a new instance of `Bloggify`.
 Checkes if the server is loaded.
 
 #### Params
-
 - **Function** `cb`: The callback function.
 
 #### Return
@@ -182,7 +179,6 @@ Checkes if the server is loaded.
 Renders a template.
 
 #### Params
-
 - **Lien** `lien`: The `lien` object.
 - **string** `templateName`: The template name or path.
 - **object** `data`: The template data.
@@ -199,7 +195,6 @@ The log levels are:
   - `4`: Everything
 
 #### Params
-
 - **string** `newLogLevel`: The instance of the log.
 
 #### Return
@@ -209,7 +204,6 @@ The log levels are:
 Considering the value of the module (`true`, `false`), it returns the raw module of the plugin or the instance of it.
 
 #### Params
-
 - **string** `name`: The plugin's name.
 - **boolean** `mod`: The plugin's module.
 - **Function** `cb`: The callback function.
@@ -221,7 +215,6 @@ Considering the value of the module (`true`, `false`), it returns the raw module
 Prints a log message in the output.
 
 #### Params
-
 - **Error|string** `msg`: The log message.
 - **string** `type`: The log type (error|info|warn|log).
 - **Stream** `stream`: The output stream (defaults to `process.stderr` for errors and `process.stdout` for other logs).
@@ -231,7 +224,6 @@ Prints a log message in the output.
 Closes the Bloggify app.
 
 #### Params
-
 - **number** `code`: The exit code.
 - **boolean** `force`: Force the closing of the process.
 - **number** `delay`: An optional delay.
@@ -240,7 +232,6 @@ Closes the Bloggify app.
 Extends the Bloggify instance with new methods.
 
 #### Params
-
 - **object** `methods`: An object containing functions you want to append to the `Bloggify` instance.
 
 #### Return
